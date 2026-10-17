@@ -1,0 +1,938 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>GID IT Transformation 2023–2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a control-room schematic — one long scroll of instrument panels, left-set editorial headlines, mono status labels, a living network as the opening. */
+:root {
+  --bg: #0A141D; --panel: #101E2A; --panel2: #152735; --line: #22394B; --fg: #E6EDF1; --muted: #8DA1B1;
+  --brass: #E3A64A; --signal: #46CDB0; --alert: #EF654E; --warn: #F2AE3D; --brass-soft: rgba(227,166,74,.14); --signal-soft: rgba(70,205,176,.13); --alert-soft: rgba(239,101,78,.14);
+  --shadow: 0 18px 50px rgba(0,0,0,.35);
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --arabic: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --mono: "IBM Plex Mono", Consolas, "Courier New", monospace;
+  --gut: clamp(16px, 4vw, 56px); --maxw: 1240px;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) {
+  --bg: #EEF2F1; --panel: #FFFFFF; --panel2: #F5F8F8; --line: #D3DDE1; --fg: #0F1F2B; --muted: #566876;
+  --brass: #A8701A; --signal: #17866F; --alert: #C2412D; --warn: #B07112; --brass-soft: rgba(168,112,26,.12); --signal-soft: rgba(23,134,111,.11); --alert-soft: rgba(194,65,45,.1);
+  --shadow: 0 14px 40px rgba(15,31,43,.10); color-scheme: light; } }
+:root[data-theme="light"] {
+  --bg: #EEF2F1; --panel: #FFFFFF; --panel2: #F5F8F8; --line: #D3DDE1; --fg: #0F1F2B; --muted: #566876;
+  --brass: #A8701A; --signal: #17866F; --alert: #C2412D; --warn: #B07112; --brass-soft: rgba(168,112,26,.12); --signal-soft: rgba(23,134,111,.11); --alert-soft: rgba(194,65,45,.1);
+  --shadow: 0 14px 40px rgba(15,31,43,.10); color-scheme: light; }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 400 16px/1.6 var(--body); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+[dir="rtl"] body, [dir="rtl"] { font-family: var(--arabic); }
+[hidden] { display: none !important; }
+button, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: var(--maxw); margin: 0 auto; padding-inline: var(--gut); }
+.mono { font-family: var(--mono); }
+.label { font: 500 12px/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+[dir="rtl"] .label { letter-spacing: 0; font-family: var(--arabic); font-size: 13px; }
+h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; letter-spacing: -.02em; }
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3 { font-family: var(--arabic); letter-spacing: 0; font-weight: 700; }
+h2 { font-size: clamp(32px, 4.6vw, 58px); line-height: 1.04; font-weight: 800; }
+h3 { font-size: 21px; line-height: 1.25; font-weight: 700; }
+p { margin: 0; }
+.lede { color: var(--muted); font-size: clamp(16px, 1.4vw, 19px); max-width: 62ch; }
+.num { font-variant-numeric: tabular-nums; }
+em.hl { font-style: normal; color: var(--brass); }
+
+/* ---------- top bar ---------- */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; backdrop-filter: blur(14px); background: color-mix(in srgb, var(--bg) 82%, transparent); border-bottom: 1px solid var(--line); }
+.bar-in { display: flex; align-items: center; gap: 18px; height: 62px; }
+.brand { display: flex; align-items: center; gap: 10px; font: 700 15px/1 var(--display); white-space: nowrap; text-decoration: none; color: var(--fg); }
+.brand i { width: 28px; height: 28px; border: 2px solid var(--brass); border-radius: 7px; display: grid; place-items: center; font: 800 14px var(--display); color: var(--brass); font-style: normal; }
+.nav { display: flex; gap: 2px; margin-inline-start: auto; overflow-x: auto; scrollbar-width: none; min-width: 0; }
+.nav::-webkit-scrollbar { display: none; }
+.nav a { font: 500 13px/1 var(--body); color: var(--muted); text-decoration: none; padding: 9px 11px; border-radius: 999px; white-space: nowrap; transition: color .2s, background .2s; }
+[dir="rtl"] .nav a { font-family: var(--arabic); }
+.nav a:hover { color: var(--fg); }
+.nav a.on { color: var(--fg); background: var(--panel2); }
+.tools { display: flex; gap: 6px; }
+.tbtn { height: 36px; min-width: 36px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); cursor: pointer; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 7px; transition: border-color .2s, transform .15s; }
+.tbtn:hover { border-color: var(--brass); }
+.tbtn:active { transform: scale(.96); }
+.tbtn svg { width: 16px; height: 16px; }
+.tbtn.primary { background: var(--brass); color: #10151A; border-color: var(--brass); }
+.progress { position: absolute; inset-inline: 0; bottom: -1px; height: 2px; background: linear-gradient(90deg, var(--brass), var(--signal)); transform-origin: left; transform: scaleX(0); }
+[dir="rtl"] .progress { transform-origin: right; }
+@media (max-width: 1360px) { .nav { display: none; } .tools { margin-inline-start: auto; } }
+@media (max-width: 460px) { .tbtn .tl { display: none; } .brand span { display: none; } }
+
+/* ---------- sections ---------- */
+section { padding-block: clamp(72px, 10vw, 128px); position: relative; scroll-margin-top: 62px; }
+section + section { border-top: 1px solid var(--line); }
+.shead { display: grid; gap: 18px; margin-bottom: clamp(36px, 5vw, 60px); max-width: 860px; }
+.shead .label b { color: var(--brass); font-weight: 500; }
+.ar-note { color: var(--brass); font-family: var(--arabic); font-size: 17px; direction: rtl; text-align: start; }
+[dir="rtl"] .ar-note { display: none; }
+
+/* reveal: content always visible; animates in when it enters view */
+.rv { transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+.rv.pend { opacity: .2; transform: translateY(26px); }
+
+/* ---------- hero ---------- */
+.hero { padding-block: clamp(40px, 6vw, 72px) clamp(56px, 7vw, 90px); overflow: hidden; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: center; }
+.hero h1 { font-size: clamp(42px, 6.4vw, 92px); line-height: .98; font-weight: 800; }
+[dir="rtl"] .hero h1 { line-height: 1.2; font-size: clamp(38px, 5.4vw, 76px); }
+.hero h1 .strike { color: var(--muted); text-decoration: line-through; text-decoration-thickness: .08em; text-decoration-color: var(--alert); animation: strike 1.2s .9s ease both; }
+@keyframes strike { from { text-decoration-color: transparent; color: var(--fg); } to { text-decoration-color: var(--alert); color: var(--muted); } }
+.hero .kick { display: flex; align-items: center; gap: 10px; margin-bottom: 26px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--signal); box-shadow: 0 0 0 0 var(--signal); animation: ping 2.2s infinite; flex: none; }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--signal) 60%, transparent); } 70%, 100% { box-shadow: 0 0 0 12px transparent; } }
+.hero .lede { margin-top: 26px; }
+.hero-meta { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 10px 22px; color: var(--muted); font-size: 14px; }
+.hero-meta b { color: var(--fg); font-weight: 600; }
+.netbox { position: relative; aspect-ratio: 1 / .92; max-width: 100%; border: 1px solid var(--line); border-radius: 22px; background: radial-gradient(120% 90% at 50% 40%, var(--panel2), var(--panel)); overflow: hidden; box-shadow: var(--shadow); }
+.netbox canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.netbox .state { position: absolute; inset-inline-start: 16px; top: 14px; display: flex; gap: 8px; align-items: center; }
+.pill { font: 500 11px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; padding: 7px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); color: var(--muted); transition: all .5s; white-space: nowrap; }
+[dir="rtl"] .pill { font-family: var(--arabic); letter-spacing: 0; font-size: 12px; }
+.pill.bad { color: var(--alert); border-color: color-mix(in srgb, var(--alert) 50%, transparent); background: var(--alert-soft); }
+.pill.good { color: var(--signal); border-color: color-mix(in srgb, var(--signal) 50%, transparent); background: var(--signal-soft); }
+.netbox .replay { position: absolute; inset-inline-end: 12px; top: 10px; }
+.netbox .cap { position: absolute; inset-inline: 16px; bottom: 14px; font-size: 13px; color: var(--muted); }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; margin-top: clamp(40px, 6vw, 72px); }
+.stat { background: var(--panel); padding: 24px 22px 22px; display: grid; gap: 6px; }
+.stat strong { font: 800 clamp(40px, 4.8vw, 62px)/1 var(--display); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.stat strong.zero { color: var(--signal); }
+.stat span { font-size: 14px; color: var(--muted); }
+@media (max-width: 900px) { .hero-grid { grid-template-columns: minmax(0, 1fr); } .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ---------- baseline ---------- */
+.domains { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.dom { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 20px; display: grid; gap: 12px; align-content: start; transition: transform .3s, border-color .3s; }
+.dom:hover { transform: translateY(-4px); border-color: var(--sev); }
+.dom .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.sev { font: 600 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 6px 9px; border-radius: 6px; color: var(--sev); background: color-mix(in srgb, var(--sev) 14%, transparent); }
+[dir="rtl"] .sev { font-family: var(--arabic); letter-spacing: 0; font-size: 12px; }
+.meter { height: 6px; border-radius: 6px; background: var(--panel2); overflow: hidden; }
+.meter i { display: block; height: 100%; width: var(--w); background: var(--sev); border-radius: 6px; transform-origin: left; }
+[dir="rtl"] .meter i { transform-origin: right; margin-inline-start: auto; }
+.go .meter i { animation: grow 1.1s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes grow { from { transform: scaleX(0); } }
+.dom p { color: var(--muted); font-size: 14px; }
+.dom .refs { font: 400 12px/1.4 var(--mono); color: var(--muted); opacity: .8; }
+.analogy { margin-top: 34px; padding: 26px 28px; border-radius: 16px; border: 1px dashed var(--line); font: 500 clamp(18px, 1.8vw, 23px)/1.45 var(--display); color: var(--fg); max-width: 900px; }
+[dir="rtl"] .analogy { font-family: var(--arabic); }
+.analogy small { display: block; margin-top: 10px; font: 400 14px var(--body); color: var(--muted); }
+@media (max-width: 1000px) { .domains { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .domains { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- before/after switch ---------- */
+.switch-row { display: flex; align-items: center; gap: 16px; margin-bottom: 26px; flex-wrap: wrap; }
+.seg { display: inline-flex; padding: 4px; border-radius: 999px; background: var(--panel); border: 1px solid var(--line); position: relative; }
+.seg button { position: relative; z-index: 1; border: 0; background: none; padding: 10px 22px; border-radius: 999px; cursor: pointer; font-weight: 600; font-size: 15px; color: var(--muted); transition: color .3s; }
+.seg button[aria-pressed="true"] { color: #10151A; }
+.seg .knob { position: absolute; top: 4px; bottom: 4px; border-radius: 999px; background: var(--brass); transition: all .45s cubic-bezier(.6,0,.2,1); }
+.ba { display: grid; gap: 10px; }
+.barow { display: grid; grid-template-columns: 170px minmax(0, 1fr) 120px; gap: 18px; align-items: center; padding: 16px 20px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+.barow h3 { font-size: 17px; }
+.barow .txt { position: relative; min-height: 26px; }
+.barow .txt span { display: block; transition: opacity .45s, transform .45s; }
+.barow .txt .b { position: absolute; inset: 0; }
+.ba.after .txt .b, .ba:not(.after) .txt .a { opacity: 0; transform: translateY(-8px); pointer-events: none; }
+.ba:not(.after) .txt .b { opacity: 1; transform: none; }
+.state-chip { justify-self: end; font: 600 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .08em; padding: 7px 10px; border-radius: 6px; transition: all .45s; color: var(--signal); background: var(--signal-soft); }
+[dir="rtl"] .state-chip { font-family: var(--arabic); letter-spacing: 0; font-size: 12px; }
+.ba:not(.after) .state-chip { color: var(--alert); background: var(--alert-soft); }
+.ba:not(.after) .barow { border-color: color-mix(in srgb, var(--alert) 30%, var(--line)); }
+@media (max-width: 680px) { .barow { grid-template-columns: minmax(0, 1fr); gap: 8px; } .state-chip { justify-self: start; } .barow .txt { min-height: 48px; } }
+
+/* ---------- delivery chart ---------- */
+.chart-card { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: clamp(18px, 3vw, 32px); }
+.chart-wrap { overflow-x: auto; }
+.chart-wrap svg { display: block; width: 100%; min-width: 620px; height: auto; }
+.bar-r { fill: var(--brass); transition: opacity .25s; }
+.bar-r.y23 { fill: var(--brass); } .bar-r.y24 { fill: color-mix(in srgb, var(--brass) 70%, var(--signal)); } .bar-r.y25 { fill: color-mix(in srgb, var(--brass) 35%, var(--signal)); } .bar-r.y26 { fill: var(--signal); }
+.bar-r.prog { fill: none; stroke: var(--signal); stroke-width: 2; stroke-dasharray: 5 4; }
+.go .bar-r { animation: rise 1s cubic-bezier(.2,.7,.2,1) both; transform-box: fill-box; transform-origin: bottom; }
+@keyframes rise { from { transform: scaleY(0); } }
+.chart-wrap text { fill: var(--muted); font: 500 12px var(--mono); }
+.chart-wrap .vlab { fill: var(--fg); font-weight: 600; }
+.chart-wrap .grid { stroke: var(--line); stroke-width: 1; }
+.chart-wrap .yr { fill: var(--fg); font: 700 14px var(--display); }
+.chart-wrap g.q:hover .bar-r { opacity: .75; }
+.years { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 22px; }
+.yr-card { padding: 18px; border-radius: 14px; background: var(--panel2); display: grid; gap: 4px; }
+.yr-card strong { font: 800 34px/1 var(--display); }
+.yr-card b { font-size: 14px; } .yr-card span { color: var(--muted); font-size: 13px; }
+.tip { position: fixed; z-index: 80; pointer-events: none; background: var(--fg); color: var(--bg); padding: 9px 12px; border-radius: 10px; font-size: 13px; max-width: 260px; opacity: 0; transform: translateY(6px); transition: opacity .15s, transform .15s; }
+.tip.on { opacity: 1; transform: none; }
+@media (max-width: 760px) { .years { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ---------- security ---------- */
+.zero-banner { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(20px, 4vw, 48px); align-items: center; margin-bottom: 46px; }
+.zero-banner .big { font: 800 clamp(120px, 18vw, 240px)/.8 var(--display); color: var(--signal); letter-spacing: -.06em; }
+.zero-banner h2 { font-size: clamp(28px, 3.6vw, 46px); }
+.zero-banner p { margin-top: 14px; color: var(--muted); max-width: 60ch; }
+.sec-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(20px, 4vw, 48px); align-items: center; }
+.rings { max-width: 520px; width: 100%; justify-self: center; }
+.rings svg { width: 100%; height: auto; display: block; overflow: visible; }
+.ring { fill: none; stroke: var(--line); stroke-width: 9; transition: stroke .3s, stroke-width .3s; cursor: pointer; }
+.ring.on, .ring:hover { stroke: var(--brass); stroke-width: 12; }
+.ring.lit { stroke: color-mix(in srgb, var(--signal) 55%, var(--line)); }
+.ring-n { fill: var(--muted); font: 600 11px var(--mono); pointer-events: none; }
+.core { fill: var(--signal-soft); stroke: var(--signal); stroke-width: 1.5; }
+.core-t { fill: var(--fg); font: 800 17px var(--display); }
+.core-s { fill: var(--muted); font: 500 10px var(--mono); letter-spacing: .1em; }
+.go .ring { animation: draw 1.4s cubic-bezier(.6,0,.2,1) both; }
+@keyframes draw { from { stroke-dashoffset: var(--len); } to { stroke-dashoffset: 0; } }
+.layers { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; counter-reset: l; }
+.layers li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; padding: 11px 14px; border-radius: 12px; border: 1px solid transparent; cursor: pointer; transition: background .25s, border-color .25s; }
+.layers li:hover, .layers li.on { background: var(--panel); border-color: var(--line); }
+.layers li .n { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font: 600 12px var(--mono); background: var(--panel2); color: var(--muted); transition: all .25s; }
+.layers li.on .n { background: var(--brass); color: #10151A; }
+.layers b { font-size: 15px; display: block; }
+.layers span { color: var(--muted); font-size: 13.5px; }
+.events { margin-top: 44px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.event { padding: 20px 22px; border-radius: 16px; background: var(--panel); border: 1px solid var(--line); display: grid; gap: 8px; }
+.event .label { color: var(--warn); }
+.event p { color: var(--muted); font-size: 14.5px; }
+.event p b { color: var(--signal); font-weight: 600; }
+.note { margin-top: 18px; font-size: 13.5px; color: var(--muted); }
+@media (max-width: 900px) { .sec-grid, .zero-banner, .events { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- flagships (tabs) ---------- */
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 26px; }
+.tab { border: 1px solid var(--line); background: var(--panel); padding: 11px 18px; border-radius: 999px; cursor: pointer; font-weight: 600; font-size: 14.5px; color: var(--muted); transition: all .25s; }
+.tab[aria-selected="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(20px, 4vw, 48px); align-items: start; animation: fadein .5s both; }
+@keyframes fadein { from { opacity: 0; transform: translateY(10px); } }
+.panel h3 { font-size: clamp(24px, 2.6vw, 32px); }
+.panel .lede { margin-top: 14px; }
+.facts { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 10px; }
+.facts li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; font-size: 15px; }
+.facts li::before { content: ""; width: 9px; height: 9px; margin-top: 8px; border-radius: 2px; background: var(--brass); transform: rotate(45deg); }
+.viz { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 20px; min-height: 340px; display: grid; }
+.viz svg { width: 100%; height: auto; display: block; }
+.viz text { fill: var(--fg); font: 600 13px var(--body); }
+.viz .sub { fill: var(--muted); font: 500 11px var(--mono); }
+.viz .box { fill: var(--panel2); stroke: var(--line); }
+.viz .box.hot { stroke: var(--brass); }
+.viz .wire { fill: none; stroke: var(--line); stroke-width: 2; }
+.viz .flow { fill: none; stroke: var(--signal); stroke-width: 2.5; stroke-dasharray: 6 10; animation: flow 1.2s linear infinite; }
+@keyframes flow { to { stroke-dashoffset: -32; } }
+.viz .pulse { fill: var(--brass); }
+.kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 22px; }
+.kpi { padding: 14px; border-radius: 12px; background: var(--panel2); }
+.kpi strong { font: 800 26px/1 var(--display); display: block; }
+.kpi span { font-size: 12.5px; color: var(--muted); }
+@media (max-width: 900px) { .panel { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- growth hub ---------- */
+.hub { background: var(--panel); border: 1px solid var(--line); border-radius: 22px; padding: 12px; overflow-x: auto; }
+.hub svg { display: block; width: 100%; min-width: 640px; height: auto; }
+.hub .lnk { stroke: var(--line); stroke-width: 1.5; fill: none; }
+.hub .lnk-f { stroke: var(--brass); stroke-width: 2; fill: none; stroke-dasharray: 3 9; animation: flow 1.6s linear infinite; opacity: .8; }
+.hub .node rect { fill: var(--panel2); stroke: var(--line); transition: all .25s; }
+.hub .node:hover rect { stroke: var(--brass); }
+.hub .node.star rect { fill: var(--brass-soft); stroke: var(--brass); }
+.hub .node text { fill: var(--fg); font: 700 14px var(--body); }
+.hub .node .s { fill: var(--muted); font: 500 11.5px var(--body); }
+.hub .center circle { fill: var(--bg); stroke: var(--brass); stroke-width: 2; }
+.hub .center .orb { fill: none; stroke: var(--brass); stroke-width: 1; opacity: .5; transform-origin: center; transform-box: fill-box; animation: orb 3s ease-out infinite; }
+@keyframes orb { from { transform: scale(1); opacity: .6; } to { transform: scale(1.7); opacity: 0; } }
+.hub .center text { fill: var(--fg); font: 800 22px var(--display); }
+.hub .center .s { fill: var(--muted); font: 500 11px var(--mono); letter-spacing: .1em; }
+
+/* ---------- team ---------- */
+.team { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(20px, 4vw, 48px); align-items: center; }
+.people { display: flex; gap: clamp(12px, 3vw, 28px); align-items: flex-end; justify-content: center; padding: 30px 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 22px; min-height: 300px; flex-wrap: wrap; }
+.person { display: grid; justify-items: center; gap: 10px; }
+.person svg { width: clamp(64px, 9vw, 100px); height: auto; }
+.person .body { fill: var(--panel2); stroke: var(--muted); stroke-width: 2; transition: all .6s; }
+.person.sen .body { stroke: var(--brass); fill: var(--brass-soft); }
+.person .tag { font: 600 11px var(--mono); text-transform: uppercase; letter-spacing: .1em; color: var(--muted); padding: 5px 8px; border-radius: 6px; background: var(--panel2); transition: all .6s; }
+[dir="rtl"] .person .tag { font-family: var(--arabic); letter-spacing: 0; }
+.person.sen .tag { color: #10151A; background: var(--brass); }
+.person.new { animation: none; }
+.go .person.new { animation: pop .8s 1s cubic-bezier(.3,1.6,.5,1) both; }
+@keyframes pop { from { transform: scale(.3); opacity: 0; } }
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.timeline li { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.timeline li:last-child { border-bottom: 0; }
+.timeline .when { font: 600 13px var(--mono); color: var(--brass); padding-top: 2px; }
+.timeline b { display: block; font-size: 16px; }
+.timeline span { color: var(--muted); font-size: 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.chip { padding: 7px 12px; border-radius: 999px; background: var(--panel); border: 1px solid var(--line); font-size: 13.5px; }
+.chip.t { color: var(--muted); border-style: dashed; }
+@media (max-width: 900px) { .team { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- value ---------- */
+.values { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.val { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 20px; display: grid; gap: 10px; align-content: start; }
+.val h3 { font-size: 18px; }
+.val p { font-size: 14px; color: var(--muted); }
+.val .st { margin-top: auto; font: 600 11px/1.3 var(--mono); text-transform: uppercase; letter-spacing: .06em; padding: 6px 9px; border-radius: 6px; justify-self: start; color: var(--c); background: color-mix(in srgb, var(--c) 14%, transparent); }
+[dir="rtl"] .val .st { font-family: var(--arabic); letter-spacing: 0; font-size: 12px; }
+.contracts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
+.ct { padding: 18px 20px; border-radius: 14px; background: var(--panel2); display: grid; gap: 4px; }
+.ct strong { font: 800 26px/1.1 var(--display); color: var(--brass); }
+.ct span { font-size: 14px; color: var(--muted); }
+@media (max-width: 1000px) { .values { grid-template-columns: repeat(2, minmax(0, 1fr)); } .contracts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .values, .contracts { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- register explorer ---------- */
+.explorer { background: var(--panel); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; }
+.ex-head { padding: 18px; display: grid; gap: 14px; border-bottom: 1px solid var(--line); background: var(--panel2); }
+.search { display: flex; align-items: center; gap: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 0 14px; }
+.search svg { width: 18px; height: 18px; color: var(--muted); flex: none; }
+.search input { border: 0; background: none; outline: none; padding: 13px 0; width: 100%; min-width: 0; font-size: 15px; }
+.filters { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.filters .label { margin-inline-end: 6px; }
+.fchip { border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: 6px 11px; font-size: 13px; cursor: pointer; color: var(--muted); transition: all .2s; }
+.fchip[aria-pressed="true"] { background: var(--brass); color: #10151A; border-color: var(--brass); font-weight: 600; }
+.ex-count { font: 500 13px var(--mono); color: var(--muted); }
+.ex-count b { color: var(--fg); }
+.rows { max-height: 640px; overflow-y: auto; }
+.row { border-bottom: 1px solid var(--line); }
+.row > button { width: 100%; text-align: start; display: grid; grid-template-columns: 92px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 13px 18px; background: none; border: 0; cursor: pointer; transition: background .2s; }
+.row > button:hover { background: var(--panel2); }
+.row .id { font: 500 13px var(--mono); color: var(--brass); }
+.row .ach { font-size: 15px; }
+.row .tg { font: 500 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; white-space: nowrap; }
+.row .tg.p { color: var(--signal); }
+.row .det { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 0 18px 16px calc(92px + 32px); }
+[dir="rtl"] .row .det { padding: 0 calc(92px + 32px) 16px 18px; }
+.row .det div { padding: 12px 14px; border-radius: 10px; background: var(--panel2); font-size: 14px; }
+.row .det .label { display: block; margin-bottom: 4px; font-size: 11px; }
+.row .det .imp .label { color: var(--signal); } .row .det .risk .label { color: var(--alert); }
+.empty { padding: 40px 18px; text-align: center; color: var(--muted); }
+mark { background: var(--brass-soft); color: var(--fg); border-radius: 3px; padding: 0 2px; }
+@media (max-width: 640px) { .row > button { grid-template-columns: 74px minmax(0, 1fr); } .row .tg { display: none; } .row .det { grid-template-columns: minmax(0, 1fr); padding: 0 14px 14px; } [dir="rtl"] .row .det { padding: 0 14px 14px; } }
+
+/* ---------- next & close ---------- */
+.next { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.nlist { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
+.nlist h3 { margin-bottom: 14px; display: flex; gap: 10px; align-items: center; }
+.nlist ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.nlist li { padding: 12px 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 10px; font-size: 15px; }
+.nlist li i { width: 10px; height: 10px; border-radius: 50%; margin-top: 7px; background: var(--c); box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 18%, transparent); }
+.close { text-align: start; padding-block: clamp(80px, 12vw, 150px); }
+.close h2 { font-size: clamp(40px, 7vw, 96px); max-width: 14ch; }
+.close .row3 { display: flex; flex-wrap: wrap; gap: clamp(20px, 5vw, 70px); margin-top: 44px; }
+.close .row3 div strong { display: block; font: 800 clamp(48px, 6vw, 80px)/1 var(--display); }
+.close .row3 div span { color: var(--muted); }
+.sig { margin-top: 56px; padding-top: 24px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 14px; }
+.sig b { color: var(--fg); }
+@media (max-width: 800px) { .next { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- present mode ---------- */
+html.present { scroll-snap-type: y mandatory; }
+html.present section { scroll-snap-align: start; min-height: calc(100vh - 62px); display: flex; flex-direction: column; justify-content: center; }
+html.present section > .wrap { width: 100%; }
+.pnav { position: fixed; z-index: 60; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); inset-inline-end: 18px; display: none; gap: 6px; background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: 6px; box-shadow: var(--shadow); align-items: center; }
+html.present .pnav { display: flex; }
+.pnav span { font: 500 12px var(--mono); color: var(--muted); padding: 0 8px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-delay: 0s !important; animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+  .rv.pend { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap bar-in">
+    <a class="brand" href="#top"><i>G</i><span data-t="brand">GID · IT &amp; Call Center</span></a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#baseline" data-t="n1">Baseline</a><a href="#shift" data-t="n2">Before / After</a><a href="#delivery" data-t="n3">Delivery</a><a href="#security" data-t="n4">Security</a><a href="#flagships" data-t="n5">Flagships</a><a href="#growth" data-t="n6">Growth</a><a href="#team" data-t="n7">Team</a><a href="#value" data-t="n8">Value</a><a href="#register" data-t="n9">Register</a><a href="#next" data-t="n10">Next</a>
+    </nav>
+    <div class="tools">
+      <button class="tbtn" id="langBtn" type="button" aria-label="Switch language"><span id="langLbl">العربية</span></button>
+      <button class="tbtn" id="themeBtn" type="button" aria-label="Switch light or dark theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <button class="tbtn primary" id="presentBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v12H4zM8 20h8M12 16v4"/></svg><span class="tl" data-t="present">Present</span></button>
+    </div>
+  </div>
+  <div class="progress" id="prog"></div>
+</header>
+
+<main id="top">
+<!-- ================= HERO ================= -->
+<section class="hero" id="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="kick"><span class="dot"></span><span class="label" data-t="h_kick">Four-year achievement report · Jan 2023 – Oct 2026</span></div>
+        <h1 data-t="h_title">From <span class="strike">one line, no backups</span> to a network that does not stop.</h1>
+        <p class="lede" data-t="h_lede">In January 2023 the company ran on one internet line, one flat network and no database backups. Four years and 279 documented deliverables later, it runs on a segmented, backed-up and virtualized platform, with zero ransomware or wiper incidents.</p>
+        <div class="hero-meta"><span data-t="h_m1"><b>Mohamed M. Nashaat</b> · IT &amp; Call Center Manager</span><span data-t="h_m2">Global Industrial &amp; Development</span><span data-t="h_m3">Confidential · management review</span></div>
+      </div>
+      <div class="netbox" id="netbox">
+        <canvas id="net" aria-label="Animated diagram: the 2023 flat network separating into protected zones"></canvas>
+        <div class="state"><span class="pill bad" id="netState" data-t="flat">2023 · Flat network</span></div>
+        <button class="tbtn replay" id="replay" type="button" aria-label="Replay animation"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg></button>
+        <div class="cap" data-t="h_cap">Every user, server and device on one network, then separated into protected zones.</div>
+      </div>
+    </div>
+    <div class="stats rv">
+      <div class="stat"><strong class="num" data-count="279">279</strong><span data-t="s1">documented deliverables</span></div>
+      <div class="stat"><strong class="num zero" data-count="0">0</strong><span data-t="s2">ransomware or wiper incidents</span></div>
+      <div class="stat"><strong class="num" data-count="38">38</strong><span data-t="s3">baseline risk findings in 2023</span></div>
+      <div class="stat"><strong class="num" data-count="32">32</strong><span data-t="s4">concurrent call-center channels</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BASELINE ================= -->
+<section id="baseline">
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="label"><b>01</b> · <span data-t="b_k">The 2023 baseline</span></span>
+      <h2 data-t="b_t">38 findings. Seven of eight domains Critical or High.</h2>
+      <p class="lede" data-t="b_l">The audit at the start of the period grouped every finding by the business risk it created. Several had no recovery path at all: with no backups, there was nothing to restore.</p>
+      <p class="ar-note">رصد التقييم الأولي 38 ملاحظة، وصُنِّفت سبعة مجالات من ثمانية بدرجة حرج أو مرتفع.</p>
+    </div>
+    <div class="domains rv" id="domains"></div>
+    <div class="analogy rv" data-t="b_an">“A factory building with one entrance, no walls between rooms, no fire alarm, and the only copy of the ledgers on the shelf next to the stove.”<small>How January 2023 looked from the server room.</small></div>
+  </div>
+</section>
+
+<!-- ================= BEFORE / AFTER ================= -->
+<section id="shift">
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="label"><b>02</b> · <span data-t="sh_k">Before and after</span></span>
+      <h2 data-t="sh_t">Flip the switch and see the company change.</h2>
+      <p class="ar-note">اضغط على المفتاح لترى الفرق بين 2023 و2026.</p>
+    </div>
+    <div class="switch-row">
+      <div class="seg" role="group" aria-label="Choose year">
+        <span class="knob" id="knob"></span>
+        <button type="button" id="y23" aria-pressed="false">Jan 2023</button>
+        <button type="button" id="y26" aria-pressed="true">Oct 2026</button>
+      </div>
+      <span class="label" data-t="sh_hint">Tap a year</span>
+    </div>
+    <div class="ba after rv" id="ba"></div>
+  </div>
+</section>
+
+<!-- ================= DELIVERY ================= -->
+<section id="delivery">
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="label"><b>03</b> · <span data-t="d_k">Delivery</span></span>
+      <h2 data-t="d_t">279 deliverables across 16 quarters.</h2>
+      <p class="lede" data-t="d_l">2023 built the foundation. After that, each quarter carried fewer but larger projects: manufacturing in the ERP, distributor servers, integration. Q4 2026 is still in progress.</p>
+      <p class="ar-note">279 إنجازاً على مدار 16 ربعاً — الأساس أولاً ثم مشروعات أكبر.</p>
+    </div>
+    <div class="chart-card rv">
+      <div class="chart-wrap" id="chart"></div>
+      <div class="years" id="years"></div>
+      <p class="note" data-t="d_n">Hover a bar for the quarter's theme. The dashed bar is Q4 2026, in progress. One 2025 item, the Odoo e-invoice system for Sadeq company, has no recorded quarter and appears in the 2025 total only.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SECURITY ================= -->
+<section id="security">
+  <div class="wrap">
+    <div class="zero-banner rv">
+      <div class="big num" aria-hidden="true">0</div>
+      <div>
+        <span class="label"><b style="color:var(--brass);font-weight:500">04</b> · <span data-t="sc_k">Security</span></span>
+        <h2 style="margin-top:12px" data-t="sc_t">Zero ransomware and zero wiper incidents in four years.</h2>
+        <p data-t="sc_l">Achieved by in-house design and daily discipline, with no outsourced SOC, no security consultancy and no advanced security-platform purchase. Baseline firewall and endpoint protection were in place. This counts incidents, not attempts.</p>
+        <p class="ar-note" style="margin-top:12px">صفر حوادث برمجيات فدية أو مسح بيانات خلال أربع سنوات، بتصميم وانضباط داخلي.</p>
+      </div>
+    </div>
+    <div class="sec-grid">
+      <div class="rings rv" id="rings"></div>
+      <ol class="layers rv" id="layers"></ol>
+    </div>
+    <div class="events rv">
+      <div class="event"><span class="label" data-t="e1k">Before 2023 · E-commerce</span><h3 data-t="e1t">Site attacked with fake orders</h3><p data-t="e1p"><b>Response:</b> SSL, hosting and cPanel hardening, order-pricing exposure addressed in 2023.</p></div>
+      <div class="event"><span class="label" data-t="e2k">2025 Q3 · Web</span><h3 data-t="e2t">Security incident from the Puvana website</h3><p data-t="e2p"><b>Response:</b> investigated with an impact report; the KSA site moved to a company server and mail ports were secured.</p></div>
+    </div>
+    <p class="note" data-t="sc_n">Neither event progressed to ransomware or wiper malware. Exposure avoided is a risk reduction, never a cash saving.</p>
+  </div>
+</section>
+
+<!-- ================= FLAGSHIPS ================= -->
+<section id="flagships">
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="label"><b>05</b> · <span data-t="f_k">Flagship results</span></span>
+      <h2 data-t="f_t">Four places where the business feels the difference.</h2>
+    </div>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div id="panel"></div>
+  </div>
+</section>
+
+<!-- ================= GROWTH ================= -->
+<section id="growth">
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="label"><b>06</b> · <span data-t="g_k">Group growth</span></span>
+      <h2 data-t="g_t">New businesses joined the platforms already built.</h2>
+      <p class="lede" data-t="g_l">Instead of a separate purchase for each company, new and related businesses were onboarded onto shared systems run by the same team.</p>
+      <p class="ar-note">تم ضم الشركات الجديدة إلى نفس المنصات بدلاً من شراء أنظمة منفصلة لكل منها.</p>
+    </div>
+    <div class="hub rv" id="hub"></div>
+  </div>
+</section>
+
+<!-- ================= TEAM ================= -->
+<section id="team">
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="label"><b>07</b> · <span data-t="t_k">The team</span></span>
+      <h2 data-t="t_t">Two people, then three. All of them senior today.</h2>
+      <p class="ar-note">فريق من شخصين ثم ثلاثة، وجميعهم اليوم بمستوى خبير.</p>
+    </div>
+    <div class="team">
+      <div class="people rv" id="people">
+        <div class="person sen"><svg viewBox="0 0 80 100"><circle class="body" cx="40" cy="26" r="17"/><path class="body" d="M8 98c0-22 14-38 32-38s32 16 32 38z"/></svg><span class="tag" data-t="p_sen">Senior</span></div>
+        <div class="person sen"><svg viewBox="0 0 80 100"><circle class="body" cx="40" cy="26" r="17"/><path class="body" d="M8 98c0-22 14-38 32-38s32 16 32 38z"/></svg><span class="tag" data-t="p_sen">Senior</span></div>
+        <div class="person sen new"><svg viewBox="0 0 80 100"><circle class="body" cx="40" cy="26" r="17"/><path class="body" d="M8 98c0-22 14-38 32-38s32 16 32 38z"/></svg><span class="tag" data-t="p_new">Senior · joined 2025</span></div>
+      </div>
+      <div class="rv">
+        <ol class="timeline">
+          <li><span class="when">2023 – 2024</span><div><b data-t="t1b">The manager and the two-person team from the audit</b><span data-t="t1s">Coached daily; took ownership of the service desk, device management and endpoint protection.</span></div></li>
+          <li><span class="when">2025 – 2026</span><div><b data-t="t2b">One more IT employee joined</b><span data-t="t2s">Brought up to speed through hands-on work on live projects.</span></div></li>
+          <li><span class="when" data-t="t3w">Today</span><div><b data-t="t3b">Every team member at senior level</b><span data-t="t3s">They run platforms and daily operations independently, so delivery no longer depends on one person.</span></div></li>
+        </ol>
+        <p class="label" style="margin-top:26px" data-t="t_c">Capability built beyond IT · 9 colleagues and 6 teams trained</p>
+        <div class="chips" id="names"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VALUE ================= -->
+<section id="value">
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="label"><b>08</b> · <span data-t="v_k">Value</span></span>
+      <h2 data-t="v_t">Five kinds of value, kept apart and never double-counted.</h2>
+      <p class="lede" data-t="v_l">EGP amounts appear only where they are documented. A 42-item Financial Data Request is with Finance, so every line can be valued from invoices and quotations.</p>
+      <p class="ar-note">خمسة أنواع من القيمة دون احتساب أي بند مرتين، ولا تُذكر مبالغ إلا الموثقة.</p>
+    </div>
+    <div class="values rv" id="values"></div>
+    <div class="contracts rv" id="contracts"></div>
+  </div>
+</section>
+
+<!-- ================= REGISTER ================= -->
+<section id="register">
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="label"><b>09</b> · <span data-t="r_k">Achievement register</span></span>
+      <h2 data-t="r_t">Every one of the 279, searchable.</h2>
+      <p class="lede" data-t="r_l">Search any system, site or colleague. Open a row to see its impact and what would have happened without it.</p>
+      <p class="ar-note">ابحث في جميع الإنجازات الـ 279، واضغط على أي إنجاز لرؤية أثره.</p>
+    </div>
+    <div class="explorer rv">
+      <div class="ex-head">
+        <label class="search" for="q"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" type="search" placeholder="Search: Issabel, factory, backup, Sadeq…" autocomplete="off"></label>
+        <div class="filters" id="fYear"><span class="label" data-t="r_y">Year</span></div>
+        <div class="filters" id="fCat"><span class="label" data-t="r_c">Area</span></div>
+        <div class="ex-count" id="count"></div>
+      </div>
+      <div class="rows" id="rows"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NEXT ================= -->
+<section id="next">
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="label"><b>10</b> · <span data-t="x_k">The next 12 months</span></span>
+      <h2 data-t="x_t">Finish what is in progress. Strengthen what is built.</h2>
+    </div>
+    <div class="next rv">
+      <div class="nlist" style="--c: var(--signal)"><h3 data-t="x_a">In progress</h3><ul id="nA"></ul></div>
+      <div class="nlist" style="--c: var(--brass)"><h3 data-t="x_b">Recommended, subject to approval</h3><ul id="nB"></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="close" id="close">
+  <div class="wrap">
+    <span class="label" data-t="c_k">Four years, built in-house</span>
+    <h2 style="margin-top:18px" data-t="c_t">From fragile to resilient.</h2>
+    <div class="row3">
+      <div><strong class="num" data-count="279">279</strong><span data-t="c1">deliverables</span></div>
+      <div><strong class="num" style="color:var(--signal)">0</strong><span data-t="c2">ransomware or wiper incidents</span></div>
+      <div><strong class="num">3</strong><span data-t="c3">senior IT professionals</span></div>
+    </div>
+    <div class="sig"><span data-t="c_sig"><b>Mohamed M. Nashaat</b> · IT &amp; Call Center Manager · Global Industrial &amp; Development</span><span data-t="c_conf">17 October 2026 · Confidential, for management review</span></div>
+  </div>
+</section>
+</main>
+
+<div class="pnav" id="pnav"><button class="tbtn" id="pPrev" type="button" aria-label="Previous section">←</button><span id="pPos">1 / 12</span><button class="tbtn" id="pNext" type="button" aria-label="Next section">→</button><button class="tbtn" id="pExit" type="button" data-t="exit">Exit</button></div>
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script>
+const REG = [{"id": "23Q1-01", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Coached the IT team on a new service strategy", "i": "Moved a two-person reactive team toward planned, owner-based delivery", "n": "Team stays reactive, firefighting without priorities", "p": false, "c": ["people"]}, {"id": "23Q1-02", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Coached the team on High-Availability design", "i": "Created the design mindset behind redundancy, virtualization and backups", "n": "Single points of failure keep being built into new projects", "p": false, "c": ["people"]}, {"id": "23Q1-03", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Subscribed to a second internet line and a 4G backup router", "i": "Removed the single-line dependency", "n": "One line fault stops invoicing, dispatch and the call center together", "p": false, "c": ["network", "sales", "data"]}, {"id": "23Q1-04", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Reconfigured idle servers to enable virtualization (Proxmox)", "i": "Idle hardware became a platform for several services and test systems, with no new server purchase and no hypervisor licence", "n": "Each new service needs new hardware; changes tested on live systems", "p": false, "c": ["data"]}, {"id": "23Q1-05", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Created, deployed and developed the Snipe-IT asset system", "i": "First central, auditable register of IT assets", "n": "Assets untraceable; losses cannot be proven; no basis for purchase planning", "p": false, "c": ["data"]}, {"id": "23Q1-06", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Reviewed all roles and privileges in SalesBuzz", "i": "Least-privilege access to the sales system", "n": "Over-privileged users could alter orders, prices or customers unnoticed", "p": false, "c": ["security", "sales"]}, {"id": "23Q1-07", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Reassigned roles and privileges in AX 2012", "i": "Ended \"everyone is administrator\"; segregation of duties", "n": "Any user could change financial data; audit failure", "p": false, "c": ["security", "erp"]}, {"id": "23Q1-08", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Created the fiscal year, journals and sequences in AX", "i": "Finance can post and close properly", "n": "Transactions cannot be posted or closed; reporting unreliable", "p": false, "c": ["erp"]}, {"id": "23Q1-09", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Secured the connection to Azure", "i": "Cloud servers no longer openly reachable", "n": "Cloud-hosted systems exposed to unauthorized access", "p": false, "c": ["security", "data"]}, {"id": "23Q1-10", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Backed up databases and stored them locally", "i": "First recoverable copy of business data", "n": "A disk failure or malware means permanent data loss", "p": false, "c": ["callcenter", "data"]}, {"id": "23Q1-11", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Generated asset codes for all IT assets", "i": "Every device uniquely identifiable", "n": "Devices cannot be tracked or reconciled", "p": false, "c": ["data"]}, {"id": "23Q1-12", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Assigned user custody in the system and reissued the asset form on a legal basis", "i": "Personal accountability for each device", "n": "Lost or damaged equipment cannot be enforced", "p": false, "c": ["data"]}, {"id": "23Q1-13", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Optimized home-delivery journey plans using GIS for the first time, with the logistics and delivery managers", "i": "Planned routes replaced ad-hoc delivery", "n": "Longer routes, higher cost, late deliveries", "p": false, "c": ["sales"]}, {"id": "23Q1-14", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Coached and trained Samar and the call center team on scripts and tools", "i": "Consistent, professional customer handling", "n": "Inconsistent service quality", "p": false, "c": ["callcenter", "people"]}, {"id": "23Q1-15", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Engaged BI Technology to review the contract and sign off the SalesBuzz project", "i": "Clear scope and formal closure with the vendor", "n": "Open-ended vendor obligations; undelivered scope unchallenged", "p": false, "c": ["sales"]}, {"id": "23Q1-16", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Reviewed and renegotiated the Etisalat contract (~24% discount)", "i": "Recurring telecom cost reduction", "n": "Standard rates paid for the whole contract term", "p": false, "c": ["data"]}, {"id": "23Q1-17", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Configured mail services to reject unwanted messages", "i": "Less spam and phishing reaching users", "n": "Mail remains the easiest route for malware", "p": false, "c": ["web"]}, {"id": "23Q1-18", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Secured the factory network: firewall deployed and VPN established with Sidel", "i": "Protected production network and safe vendor access", "n": "Production network exposed; vendor access over an insecure path", "p": false, "c": ["security", "network"]}, {"id": "23Q1-19", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Created an interim Google Sheet for home-delivery customer data pending the CRM", "i": "Structured customer data during the transition", "n": "Customer data scattered and lost before the CRM arrives", "p": false, "c": ["crm"]}, {"id": "23Q1-20", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Trained Ahmed Soufy on SalesBuzz daily operation", "i": "In-house operator for the sales system", "n": "Every issue escalated to the vendor", "p": false, "c": ["sales", "people"]}, {"id": "23Q1-21", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Obtained offers for a website and mobile app", "i": "Priced baseline for digital channel decisions", "n": "Decisions without market pricing", "p": false, "c": ["web"]}, {"id": "23Q1-22", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Surveyed the market for an HR system", "i": "Structured selection of the HR platform", "n": "HR system chosen without comparison", "p": false, "c": ["hr"]}, {"id": "23Q1-23", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Solved AX 2012 daily operational issues; created banks and accounts", "i": "Finance operations running without outside help", "n": "Finance blocked, waiting for a freelancer", "p": false, "c": ["erp"]}, {"id": "23Q1-24", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Trained call center agents on call etiquette", "i": "Professional customer interaction", "n": "Brand reputation damaged by uneven service", "p": false, "c": ["callcenter", "people"]}, {"id": "23Q1-25", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Reviewed all desktops and laptops; upgraded RAM and replaced disks with SSDs", "i": "Longer device life and faster work without new purchases", "n": "Slow machines, lost productivity or avoidable replacement spend", "p": false, "c": ["data"]}, {"id": "23Q1-26", "q": "2023 Q1", "th": "Stabilise and secure", "a": "Soft-launched the CRM and trained agents", "i": "First CRM in daily use", "n": "Customers continue to be tracked in sheets", "p": false, "c": ["callcenter", "crm", "people"]}, {"id": "23Q2-01", "q": "2023 Q2", "th": "Segment and digitise", "a": "Isolated the server network from the user network", "i": "Servers no longer directly reachable from user PCs", "n": "One infected PC could reach every server", "p": false, "c": ["security", "network", "data"]}, {"id": "23Q2-02", "q": "2023 Q2", "th": "Segment and digitise", "a": "Implemented Odoo CRM in a test environment", "i": "Safe evaluation before launch", "n": "Untested software rolled out on live customer data", "p": false, "c": ["crm"]}, {"id": "23Q2-03", "q": "2023 Q2", "th": "Segment and digitise", "a": "Developed custom Odoo add-ons for business requirements", "i": "CRM fits the process instead of the process bending to the software", "n": "Generic CRM that misses key requirements; low adoption", "p": false, "c": ["crm"]}, {"id": "23Q2-04", "q": "2023 Q2", "th": "Segment and digitise", "a": "Launched CRM v14 with customer definition", "i": "First structured customer database", "n": "Customer knowledge stays in spreadsheets and individual memory", "p": false, "c": ["crm"]}, {"id": "23Q2-05", "q": "2023 Q2", "th": "Segment and digitise", "a": "Completed the home-delivery customer sheets", "i": "Clean data ready for CRM", "n": "Migration of incomplete or duplicate records", "p": false, "c": ["data"]}, {"id": "23Q2-06", "q": "2023 Q2", "th": "Segment and digitise", "a": "Built inbound and outbound phone-call logging in the CRM", "i": "Every call tied to a customer record", "n": "No call history per customer", "p": false, "c": ["callcenter", "crm"]}, {"id": "23Q2-07", "q": "2023 Q2", "th": "Segment and digitise", "a": "Configured the phone system to record calls and give supervisors access", "i": "Quality control, coaching and dispute evidence", "n": "No proof of what was promised; no supervision", "p": false, "c": ["callcenter"]}, {"id": "23Q2-08", "q": "2023 Q2", "th": "Segment and digitise", "a": "Saved call records to external storage", "i": "Recordings preserved independently of the phone system", "n": "Recordings lost on a device failure", "p": false, "c": ["callcenter"]}, {"id": "23Q2-09", "q": "2023 Q2", "th": "Segment and digitise", "a": "Migrated the data center with ADSL backup lines; categorized users for web allow and deny", "i": "Resilient connectivity and controlled web use", "n": "Single-line dependency and unrestricted browsing", "p": false, "c": ["network", "data"]}, {"id": "23Q2-10", "q": "2023 Q2", "th": "Segment and digitise", "a": "Installed an SSL certificate on the website; closed the e-commerce order-pricing exposure", "i": "Encrypted customer traffic; sales channel protected from abuse", "n": "Customer data in clear text; site flagged unsafe; order abuse continues", "p": false, "c": ["security", "web"]}, {"id": "23Q2-11", "q": "2023 Q2", "th": "Segment and digitise", "a": "Scanned AX 2012 problems and presented a correction plan to management", "i": "Documented health status and remedial path for the ERP", "n": "Defects continue silently; ERP stays unreliable", "p": false, "c": ["erp"]}, {"id": "23Q2-12", "q": "2023 Q2", "th": "Segment and digitise", "a": "Registered all factory and warehouse IT assets in Snipe-IT", "i": "Site equipment fully inventoried", "n": "Site equipment unaccounted for", "p": false, "c": ["data"]}, {"id": "23Q2-13", "q": "2023 Q2", "th": "Segment and digitise", "a": "Received IT assets from a distributor (Elsalam Trade) with a full device report", "i": "Verified inventory at handover", "n": "Disputes over quantity and condition of devices", "p": false, "c": ["sales", "data"]}, {"id": "23Q2-14", "q": "2023 Q2", "th": "Segment and digitise", "a": "Solved SalesBuzz daily operational issues", "i": "Sales operations uninterrupted", "n": "Sales staff blocked; orders delayed", "p": false, "c": ["sales"]}, {"id": "23Q2-15", "q": "2023 Q2", "th": "Segment and digitise", "a": "Modified SalesBuzz reports to enable the invoice account", "i": "Finance can reconcile invoices from sales data", "n": "Manual reconciliation and errors", "p": false, "c": ["sales", "data"]}, {"id": "23Q2-16", "q": "2023 Q2", "th": "Segment and digitise", "a": "Created the SalesBuzz retail raw-data report", "i": "Management analysis of the retail channel", "n": "Retail performance unseen", "p": false, "c": ["sales", "data"]}, {"id": "23Q2-17", "q": "2023 Q2", "th": "Segment and digitise", "a": "Created the SalesBuzz MT raw-data report", "i": "Management analysis of the MT channel", "n": "MT performance unseen", "p": false, "c": ["sales", "data"]}, {"id": "23Q2-18", "q": "2023 Q2", "th": "Segment and digitise", "a": "Created the SalesBuzz HORECA raw-data report", "i": "Management analysis of the HORECA channel", "n": "HORECA performance unseen", "p": false, "c": ["sales", "data"]}, {"id": "23Q2-19", "q": "2023 Q2", "th": "Segment and digitise", "a": "Developed and implemented a complaints system in the CRM", "i": "Complaints captured, assigned and tracked", "n": "Complaints handled informally; repeat issues invisible", "p": false, "c": ["crm"]}, {"id": "23Q2-20", "q": "2023 Q2", "th": "Segment and digitise", "a": "Enhanced factory security: denied unwanted sites and limited user quotas except for managers", "i": "Reduced malware exposure and bandwidth waste", "n": "Open browsing on the production network", "p": false, "c": ["security"]}, {"id": "23Q2-21", "q": "2023 Q2", "th": "Segment and digitise", "a": "Built an automatic pivot-table report for the MT manager from the server", "i": "Report delivered with no manual effort", "n": "Hours of manual preparation and stale numbers", "p": false, "c": ["data"]}, {"id": "23Q2-22", "q": "2023 Q2", "th": "Segment and digitise", "a": "Added employee ID to the asset form to match HR documents", "i": "Asset custody tied to the HR record", "n": "Weak legal link between device and employee", "p": false, "c": ["hr", "data"]}, {"id": "23Q2-23", "q": "2023 Q2", "th": "Segment and digitise", "a": "Managed the ETIT system upgrade (SIM cards and devices)", "i": "SIMs and devices kept in service through the upgrade", "n": "Connectivity disruption for affected devices", "p": false, "c": ["data"]}, {"id": "23Q2-24", "q": "2023 Q2", "th": "Segment and digitise", "a": "Supervised maintenance of HQ surveillance cameras", "i": "Continuous camera coverage", "n": "Blind spots and no evidence", "p": false, "c": ["data"]}, {"id": "23Q2-25", "q": "2023 Q2", "th": "Segment and digitise", "a": "Modified the SalesBuzz visit-brief report", "i": "Supervisors receive a usable summary of field visits", "n": "Visit performance hard to review", "p": false, "c": ["sales", "data"]}, {"id": "23Q2-26", "q": "2023 Q2", "th": "Segment and digitise", "a": "Subscribed to the SOTI MDM system for handhelds", "i": "Central control of field devices", "n": "Handhelds unmanaged; data on lost devices exposed", "p": false, "c": ["sales", "data"]}, {"id": "23Q2-27", "q": "2023 Q2", "th": "Segment and digitise", "a": "Obtained the AX 2012 implementation proposal from the vendor", "i": "Priced option for completing the ERP", "n": "Decisions without a priced alternative", "p": false, "c": ["erp"]}, {"id": "23Q2-28", "q": "2023 Q2", "th": "Segment and digitise", "a": "Created and developed a print server on the domain controller", "i": "Central printing management", "n": "Printers managed device by device", "p": false, "c": ["data", "web"]}, {"id": "23Q2-29", "q": "2023 Q2", "th": "Segment and digitise", "a": "Network enhancement: VLANs, access assignment and segmentation", "i": "Traffic separated by function; less broadcast", "n": "Flat network with congestion and uncontrolled lateral movement", "p": false, "c": ["network"]}, {"id": "23Q3-01", "q": "2023 Q3", "th": "Protect and connect", "a": "Built the SalesBuzz on-premise test environment", "i": "Upgrades and changes tested before live", "n": "Every change risks live sales operations", "p": false, "c": ["sales"]}, {"id": "23Q3-02", "q": "2023 Q3", "th": "Protect and connect", "a": "Implemented the GoIP GSM-over-IP gateway and integrated it with the call center", "i": "Mobile-network calling controlled and recorded through the PBX", "n": "Call center stays dependent on handsets", "p": false, "c": ["network", "callcenter"]}, {"id": "23Q3-03", "q": "2023 Q3", "th": "Protect and connect", "a": "Created a cloud backup account for critical data", "i": "Off-site copy of critical files", "n": "A local disaster means total loss", "p": false, "c": ["data"]}, {"id": "23Q3-04", "q": "2023 Q3", "th": "Protect and connect", "a": "Configured port security for AX access to Azure", "i": "Only permitted access to the cloud ERP", "n": "Cloud ERP exposed", "p": false, "c": ["security", "erp", "data"]}, {"id": "23Q3-05", "q": "2023 Q3", "th": "Protect and connect", "a": "Trained the RTL team", "i": "Skills transfer to the team", "n": "Capability remains with IT only", "p": false, "c": ["people"]}, {"id": "23Q3-06", "q": "2023 Q3", "th": "Protect and connect", "a": "Deployed an SMS Misr account with the company brand as sender name", "i": "Customers receive brand-identified SMS", "n": "Unidentified messages; weaker customer trust", "p": false, "c": ["web"]}, {"id": "23Q3-07", "q": "2023 Q3", "th": "Protect and connect", "a": "Held the Mago HR kickoff and set requirements", "i": "HR system built on documented needs", "n": "Rework and mismatch with HR policy", "p": false, "c": ["hr"]}, {"id": "23Q3-08", "q": "2023 Q3", "th": "Protect and connect", "a": "Created ArcGIS maps to optimize routes for all channels", "i": "Efficient routes across sales and delivery", "n": "Longer routes, higher cost, late deliveries", "p": false, "c": ["sales"]}, {"id": "23Q3-09", "q": "2023 Q3", "th": "Protect and connect", "a": "Created, configured, developed and trained the GravityZone antivirus server", "i": "Central protection and visibility of endpoints", "n": "Infections unseen; protection inconsistent", "p": false, "c": ["security", "data", "people"]}, {"id": "23Q3-10", "q": "2023 Q3", "th": "Protect and connect", "a": "Upgraded the tax server", "i": "Tax processing stays supported", "n": "Statutory processing interruption", "p": false, "c": ["erp", "data"]}, {"id": "23Q3-11", "q": "2023 Q3", "th": "Protect and connect", "a": "Created the SalesBuzz confirmed-orders and delivery-data report", "i": "Order-to-delivery visibility", "n": "Orders not tracked through to delivery", "p": false, "c": ["sales", "data"]}, {"id": "23Q3-12", "q": "2023 Q3", "th": "Protect and connect", "a": "Automated daily SalesBuzz and AX database backups to the cloud account", "i": "Daily recoverable copies with no manual work", "n": "Backups forgotten; days of data lost", "p": false, "c": ["erp", "sales", "data"]}, {"id": "23Q3-13", "q": "2023 Q3", "th": "Protect and connect", "a": "Created call center KPIs", "i": "First performance framework for the call center", "n": "Service quality unmanaged", "p": false, "c": ["callcenter"]}, {"id": "23Q3-14", "q": "2023 Q3", "th": "Protect and connect", "a": "Drew the network topology and enhanced the mesh topology", "i": "Documented network and resilient design", "n": "Undocumented network; slow fault finding", "p": false, "c": ["network"]}, {"id": "23Q3-15", "q": "2023 Q3", "th": "Protect and connect", "a": "Configured and installed IP cameras in the factory", "i": "Factory visibility and evidence", "n": "No deterrence or evidence", "p": false, "c": ["network"]}, {"id": "23Q3-16", "q": "2023 Q3", "th": "Protect and connect", "a": "Created a customer-service report of daily visits, positive and lost, with productivity", "i": "Transparent field productivity", "n": "Lost visits invisible", "p": false, "c": ["data"]}, {"id": "23Q3-17", "q": "2023 Q3", "th": "Protect and connect", "a": "Published Odoo CRM to the cloud on a secured URL for access from home", "i": "Remote work without exposing the internal network", "n": "Office-only work or insecure exposure", "p": false, "c": ["security", "crm"]}, {"id": "23Q3-18", "q": "2023 Q3", "th": "Protect and connect", "a": "Generated barcodes for products", "i": "Faster, accurate stock and sales handling", "n": "Manual entry errors", "p": false, "c": ["sales"]}, {"id": "23Q3-19", "q": "2023 Q3", "th": "Protect and connect", "a": "Set up the Sidel network with all required routes", "i": "Production equipment connected correctly and securely", "n": "Line connectivity faults and downtime", "p": false, "c": ["network", "sales"]}, {"id": "23Q3-20", "q": "2023 Q3", "th": "Protect and connect", "a": "Maintained all company laptops and assets for reuse in operations", "i": "Existing equipment returned to service", "n": "New purchases for reusable devices", "p": false, "c": ["data"]}, {"id": "23Q3-21", "q": "2023 Q3", "th": "Protect and connect", "a": "Enabled call recording on all moderators' mobiles", "i": "Calls on mobile lines recorded", "n": "Unrecorded calls", "p": false, "c": ["callcenter"]}, {"id": "23Q3-22", "q": "2023 Q3", "th": "Protect and connect", "a": "Updated the factory network: subnetting and DMZ", "i": "Exposed services separated from production systems", "n": "Public-facing systems beside production systems", "p": false, "c": ["security", "network"]}, {"id": "23Q3-23", "q": "2023 Q3", "th": "Protect and connect", "a": "Completed and followed up customer contact data in SalesBuzz (HORECA)", "i": "Reliable HORECA contacts", "n": "Representatives cannot reach customers", "p": false, "c": ["sales"]}, {"id": "23Q3-24", "q": "2023 Q3", "th": "Protect and connect", "a": "Completed and followed up customer contact data in SalesBuzz (MT)", "i": "Reliable MT contacts", "n": "Representatives cannot reach customers", "p": false, "c": ["sales"]}, {"id": "23Q3-25", "q": "2023 Q3", "th": "Protect and connect", "a": "Updated cPanel on the hosting panel", "i": "Bugs fixed and security improved", "n": "Known vulnerabilities left in hosting", "p": false, "c": ["web"]}, {"id": "23Q3-26", "q": "2023 Q3", "th": "Protect and connect", "a": "Trained Ahmed Soufy in PHP coding and WordPress", "i": "In-house web capability", "n": "Outside help for small web changes", "p": false, "c": ["people"]}, {"id": "23Q3-27", "q": "2023 Q3", "th": "Protect and connect", "a": "Created the HR system scope document and roadmap", "i": "Clear path for the HR project", "n": "Unstructured project", "p": false, "c": ["hr"]}, {"id": "23Q3-28", "q": "2023 Q3", "th": "Protect and connect", "a": "Prepared the customer finance team for the SalesBuzz upgrade on the test environment before go-live", "i": "Users ready and defects found early", "n": "Surprises on go-live", "p": false, "c": ["sales"]}, {"id": "23Q4-01", "q": "2023 Q4", "th": "Platform build", "a": "Created the Azure machine for Mago", "i": "Cloud hosting for the HR system", "n": "HR system tied to on-premise hardware", "p": false, "c": ["hr", "data"]}, {"id": "23Q4-02", "q": "2023 Q4", "th": "Platform build", "a": "Secured the Azure machine with port security and published the application for mobile and online use", "i": "Secure remote HR access", "n": "Exposed service or office-only access", "p": false, "c": ["security", "network", "data"]}, {"id": "23Q4-03", "q": "2023 Q4", "th": "Platform build", "a": "Started Mago HR implementation", "i": "HR digitization begins", "n": "Manual HR continues", "p": false, "c": ["hr"]}, {"id": "23Q4-04", "q": "2023 Q4", "th": "Platform build", "a": "Uploaded master data to Mago", "i": "Employee records in the system", "n": "Empty system; delayed go-live", "p": false, "c": ["hr"]}, {"id": "23Q4-05", "q": "2023 Q4", "th": "Platform build", "a": "Created a LinkedIn account and integrated it with Mago", "i": "Recruitment channel linked to HR", "n": "Manual job-posting process", "p": false, "c": ["hr"]}, {"id": "23Q4-06", "q": "2023 Q4", "th": "Platform build", "a": "Worked with Ahmed Youssef to enhance the call center", "i": "Operational improvements agreed with the business owner", "n": "IT and operations drifting apart", "p": false, "c": ["callcenter"]}, {"id": "23Q4-07", "q": "2023 Q4", "th": "Platform build", "a": "Customized the Odoo partner form: route, region, compound, notes and categorization", "i": "Customer data structured for delivery planning", "n": "Free-text customer data", "p": false, "c": ["sales", "crm"]}, {"id": "23Q4-08", "q": "2023 Q4", "th": "Platform build", "a": "Completed Mago training for the HR team", "i": "Self-sufficient HR team", "n": "Dependence on IT for HR operations", "p": false, "c": ["hr", "people"]}, {"id": "23Q4-09", "q": "2023 Q4", "th": "Platform build", "a": "Implemented the dispatching and delivery module in SalesBuzz and trained the team", "i": "Dispatch controlled in the system", "n": "Dispatch managed by phone and paper", "p": false, "c": ["sales", "people"]}, {"id": "23Q4-10", "q": "2023 Q4", "th": "Platform build", "a": "Developed SalesBuzz print layouts for the Mylerz distributor business unit", "i": "Documents match the distributor's needs", "n": "Manual re-typing", "p": false, "c": ["sales"]}, {"id": "23Q4-11", "q": "2023 Q4", "th": "Platform build", "a": "Implemented the SalesBuzz upgrade to v4.58 and followed up user issues", "i": "Current version with fixes", "n": "Outdated, less supported version", "p": false, "c": ["sales"]}, {"id": "23Q4-12", "q": "2023 Q4", "th": "Platform build", "a": "Solved all post-upgrade issues", "i": "Smooth adoption of the new version", "n": "Operations disrupted after the upgrade", "p": false, "c": ["data"]}, {"id": "23Q4-13", "q": "2023 Q4", "th": "Platform build", "a": "Re-implemented and developed the GID SalesBuzz reports to work after the upgrade", "i": "Reporting continuity", "n": "Reports broken after the upgrade", "p": false, "c": ["sales", "data"]}, {"id": "23Q4-14", "q": "2023 Q4", "th": "Platform build", "a": "Researched complete home-delivery systems and obtained offers", "i": "Informed system decision", "n": "Choosing without comparison", "p": false, "c": ["data"]}, {"id": "23Q4-15", "q": "2023 Q4", "th": "Platform build", "a": "Implemented No-IP on routers while static public IPs were unavailable", "i": "Remote access and publishing without static IPs", "n": "Services unreachable", "p": false, "c": ["network", "sales"]}, {"id": "23Q4-16", "q": "2023 Q4", "th": "Platform build", "a": "Trained Soufy on database work and report creation in SalesBuzz", "i": "Self-service reporting", "n": "Every report request goes to the vendor", "p": false, "c": ["sales", "data", "people"]}, {"id": "23Q4-17", "q": "2023 Q4", "th": "Platform build", "a": "Developed and designed Power BI dashboard reports", "i": "First BI layer for management", "n": "Decisions on manual spreadsheets", "p": false, "c": ["data"]}, {"id": "23Q4-18", "q": "2023 Q4", "th": "Platform build", "a": "Analyzed the Roadnet route-optimization project", "i": "Option evaluated before commitment", "n": "Spend without analysis", "p": false, "c": ["sales"]}, {"id": "23Q4-19", "q": "2023 Q4", "th": "Platform build", "a": "Modified vacation rules in Mago to meet HR requirements", "i": "System matches company policy", "n": "Policy enforced by hand", "p": false, "c": ["hr"]}, {"id": "23Q4-20", "q": "2023 Q4", "th": "Platform build", "a": "Obtained a call-center system offer from BI", "i": "Priced alternative for decision", "n": "No benchmark for the in-house build", "p": false, "c": ["callcenter"]}, {"id": "23Q4-21", "q": "2023 Q4", "th": "Platform build", "a": "Developed, implemented and customized the Issabel call center system", "i": "Company-owned call-center platform", "n": "Call center stays on mobile phones", "p": false, "c": ["callcenter"]}, {"id": "23Q4-22", "q": "2023 Q4", "th": "Platform build", "a": "Configured inbound and outbound calls over SIP trunks for 32 channels", "i": "Up to 32 simultaneous calls", "n": "Busy tones whenever one line is in use", "p": false, "c": ["callcenter"]}, {"id": "23Q4-23", "q": "2023 Q4", "th": "Platform build", "a": "Enhanced call operations to avoid busy tones and agent bottlenecks", "i": "Customers reach agents", "n": "Calls abandoned and orders lost", "p": false, "c": ["callcenter"]}, {"id": "23Q4-24", "q": "2023 Q4", "th": "Platform build", "a": "Implemented SOTI MDM on all mobility", "i": "Handhelds centrally managed", "n": "Uncontrolled field devices", "p": false, "c": ["data"]}, {"id": "23Q4-25", "q": "2023 Q4", "th": "Platform build", "a": "Trained Esraa to take responsibility for SOTI", "i": "Platform owner in the team", "n": "Single point of knowledge", "p": false, "c": ["data", "people"]}, {"id": "23Q4-26", "q": "2023 Q4", "th": "Platform build", "a": "Trained Esraa on the ManageEngine service desk to track every IT issue", "i": "Every request tracked", "n": "Requests lost or forgotten", "p": false, "c": ["data", "people"]}, {"id": "23Q4-27", "q": "2023 Q4", "th": "Platform build", "a": "Worked on Landbot to enable WhatsApp bots", "i": "Automated first response on WhatsApp", "n": "All WhatsApp queries handled manually", "p": false, "c": ["web"]}, {"id": "24Q1-01", "q": "2024 Q1", "th": "Go-live", "a": "Went live with Mago HR on the production server and administered attendance-machine access", "i": "Live HR system with attendance capture", "n": "Manual attendance and leave", "p": false, "c": ["hr", "data"]}, {"id": "24Q1-02", "q": "2024 Q1", "th": "Go-live", "a": "Enabled tags in the CRM", "i": "Customer segmentation", "n": "Flat, unsegmented customer list", "p": false, "c": ["crm"]}, {"id": "24Q1-03", "q": "2024 Q1", "th": "Go-live", "a": "Replaced the HQ surveillance cameras", "i": "Renewed coverage and recording quality", "n": "Failing cameras; blind spots", "p": false, "c": ["data"]}, {"id": "24Q1-04", "q": "2024 Q1", "th": "Go-live", "a": "SIP trunk live with all calling features through GoIP and landlines", "i": "Production-grade calling on the new platform", "n": "Call center platform stuck in test", "p": false, "c": ["network", "callcenter"]}, {"id": "24Q1-05", "q": "2024 Q1", "th": "Go-live", "a": "Enhanced the call center with in, out and recording reports and recording backup", "i": "Management visibility and protected recordings", "n": "No reporting; recordings at risk", "p": false, "c": ["callcenter", "data"]}, {"id": "24Q1-06", "q": "2024 Q1", "th": "Go-live", "a": "Supported the Mylerz team in SalesBuzz code; created salesmen and users with the daily process (with Soufy and Sayed)", "i": "Distributor team operational quickly", "n": "Distributor onboarding delayed", "p": false, "c": ["sales"]}, {"id": "24Q1-07", "q": "2024 Q1", "th": "Go-live", "a": "Trained Ahmed Youssef on OptimoRoute to optimize routes", "i": "Business owner optimizes routes himself", "n": "Routes planned by hand", "p": false, "c": ["sales", "people"]}, {"id": "24Q1-08", "q": "2024 Q1", "th": "Go-live", "a": "Followed up BI development issues after the upgrade", "i": "Vendor held accountable for defects", "n": "Defects linger", "p": false, "c": ["data"]}, {"id": "24Q1-09", "q": "2024 Q1", "th": "Go-live", "a": "Created the fiscal year, journals and sequences in AX", "i": "New year opened correctly for posting", "n": "Posting blocked in the new year", "p": false, "c": ["erp"]}, {"id": "24Q1-10", "q": "2024 Q1", "th": "Go-live", "a": "Obtained 4G routers with static IPs for the factory, HQ and warehouse", "i": "Resilient links with fixed addressing", "n": "Single-line, dynamic addressing", "p": false, "c": ["network", "sales"]}, {"id": "24Q1-11", "q": "2024 Q1", "th": "Go-live", "a": "Configured firewalls to publish all services through a single IP", "i": "Controlled, simple publishing", "n": "Multiple exposed addresses; harder to secure", "p": false, "c": ["security", "network"]}, {"id": "24Q1-12", "q": "2024 Q1", "th": "Go-live", "a": "Created domain names for puvanawater.com, alrayen and alrayenasg.com and assigned hosting", "i": "Brand domains controlled by the company", "n": "Domains unmanaged or unpointed", "p": false, "c": ["crm", "web"]}, {"id": "24Q1-13", "q": "2024 Q1", "th": "Go-live", "a": "Created and designed the open-orders and confirmed-orders report in SalesBuzz", "i": "Order pipeline visible", "n": "Pending orders unseen", "p": false, "c": ["sales", "data"]}, {"id": "24Q1-14", "q": "2024 Q1", "th": "Go-live", "a": "Created the SalesBuzz credit-limit change-log report", "i": "Audit trail for credit changes", "n": "Credit limits changed without trace", "p": false, "c": ["sales", "data"]}, {"id": "24Q1-15", "q": "2024 Q1", "th": "Go-live", "a": "Went live with the ManageEngine ticketing system", "i": "Every IT request tracked", "n": "Requests lost; no service levels", "p": false, "c": ["data"]}, {"id": "24Q1-16", "q": "2024 Q1", "th": "Go-live", "a": "Handled the Azure Basic public-IP SKU retirement and replacement", "i": "Cloud endpoints preserved", "n": "Cloud endpoints lost at retirement", "p": false, "c": ["network", "data"]}, {"id": "24Q1-17", "q": "2024 Q1", "th": "Go-live", "a": "Built the warehouse infrastructure for the managerial building: network and access in Mansouria", "i": "Site brought onto the company network", "n": "Site isolated and unmanaged", "p": false, "c": ["network"]}, {"id": "24Q1-18", "q": "2024 Q1", "th": "Go-live", "a": "Trained Esraa on security aspects and GravityZone management", "i": "Security administration shared", "n": "Single point of knowledge", "p": false, "c": ["security", "people"]}, {"id": "24Q1-19", "q": "2024 Q1", "th": "Go-live", "a": "Disabled cash payment for credit customers in SalesBuzz", "i": "Credit rules enforced at entry", "n": "Credit rules bypassed", "p": false, "c": ["sales"]}, {"id": "24Q1-20", "q": "2024 Q1", "th": "Go-live", "a": "Resolved call-routing issues from the telecom provider (WE)", "i": "Inbound calls reach the call center", "n": "Calls misrouted or lost", "p": false, "c": ["callcenter"]}, {"id": "24Q1-21", "q": "2024 Q1", "th": "Go-live", "a": "Licensed all 8 servers with valid licenses without the Microsoft partnership purchase route", "i": "Licensing compliance with purchase cost avoided", "n": "Licensing exposure or a large purchase", "p": false, "c": ["erp", "sales", "data"]}, {"id": "24Q1-22", "q": "2024 Q1", "th": "Go-live", "a": "Added skip-visit reasons to SalesBuzz", "i": "Failed visits explained", "n": "Causes of failed visits unknown", "p": false, "c": ["sales"]}, {"id": "24Q1-23", "q": "2024 Q1", "th": "Go-live", "a": "Reconfigured home-delivery routes with Ahmed Abdelsattar using maps", "i": "More efficient delivery routes", "n": "Inefficient routes persist", "p": false, "c": ["sales"]}, {"id": "24Q1-24", "q": "2024 Q1", "th": "Go-live", "a": "Applied a firewall on the SmarterMail server", "i": "Fewer spam and attack attempts on the mail server", "n": "Mail server exposed", "p": false, "c": ["security", "data", "web"]}, {"id": "24Q2-01", "q": "2024 Q2", "th": "Resilience", "a": "Developed and modified the SalesBuzz warehouse-balance report", "i": "Stock visible per warehouse", "n": "Stock unknown without manual counts", "p": false, "c": ["sales", "data"]}, {"id": "24Q2-02", "q": "2024 Q2", "th": "Resilience", "a": "Re-implemented the power structure with a generator attached to the UPS", "i": "UPS-protected systems ride through extended outages", "n": "Power cuts shut down servers abruptly", "p": false, "c": ["data"]}, {"id": "24Q2-03", "q": "2024 Q2", "th": "Resilience", "a": "Solved the BI Report Manager critical issue", "i": "Management reporting restored", "n": "Reports unavailable", "p": false, "c": ["data"]}, {"id": "24Q2-04", "q": "2024 Q2", "th": "Resilience", "a": "Investigated the reported CRM slowness", "i": "Root cause established", "n": "Agents keep working on a slow system", "p": false, "c": ["crm", "data"]}, {"id": "24Q2-05", "q": "2024 Q2", "th": "Resilience", "a": "Rebuilt the CRM server from scratch and upgraded to v15", "i": "Faster, supported platform", "n": "Aging, slow CRM", "p": false, "c": ["crm", "data"]}, {"id": "24Q2-06", "q": "2024 Q2", "th": "Resilience", "a": "Completed the Issabel upgrade and implementation and went live", "i": "Current call-center platform in production", "n": "Older, less supported version", "p": false, "c": ["callcenter"]}, {"id": "24Q2-07", "q": "2024 Q2", "th": "Resilience", "a": "Implemented Mago self-service and went live", "i": "Employees self-serve leave and records", "n": "HR handles every request manually", "p": false, "c": ["hr"]}, {"id": "24Q2-08", "q": "2024 Q2", "th": "Resilience", "a": "Developed a new item-balance report for the factory, Mansouria and ELA warehouses", "i": "One stock view across three locations", "n": "Stock reconciled manually", "p": false, "c": ["sales", "data"]}, {"id": "24Q3-01", "q": "2024 Q3", "th": "Extend", "a": "Created the Odoo DevOps account", "i": "Managed development pipeline", "n": "Ad-hoc deployments", "p": false, "c": ["crm"]}, {"id": "24Q3-02", "q": "2024 Q3", "th": "Extend", "a": "Created the Odoo.sh account for Alrayen", "i": "Hosted platform for the new business", "n": "No platform for Alrayen", "p": false, "c": ["crm"]}, {"id": "24Q3-03", "q": "2024 Q3", "th": "Extend", "a": "Created the staging database for Alrayen", "i": "Changes tested before production", "n": "Changes tested on live data", "p": false, "c": ["crm", "data"]}, {"id": "24Q3-04", "q": "2024 Q3", "th": "Extend", "a": "Implemented and customized Odoo for Alrayen", "i": "Alrayen processes on Odoo", "n": "Manual operations at Alrayen", "p": false, "c": ["crm"]}, {"id": "24Q3-05", "q": "2024 Q3", "th": "Extend", "a": "Modified the CRM calls cycle so in-calls become the standard process", "i": "Consistent call handling in the CRM", "n": "Agents follow different practices", "p": false, "c": ["callcenter", "crm"]}, {"id": "24Q3-06", "q": "2024 Q3", "th": "Extend", "a": "Managed the Raya outsourced call-center project", "i": "Outsourced capacity governed and aligned", "n": "Outsourcing without control", "p": false, "c": ["callcenter"]}, {"id": "24Q3-07", "q": "2024 Q3", "th": "Extend", "a": "Upgraded the factory IP pool and configured the firewall and Cisco router with no downtime", "i": "Production uninterrupted during the change", "n": "Planned downtime on the factory link", "p": false, "c": ["security", "network", "sales"]}, {"id": "24Q3-08", "q": "2024 Q3", "th": "Extend", "a": "Added 4G router backup service in the factory", "i": "Factory survives a line failure", "n": "Factory offline when the line fails", "p": false, "c": ["network", "sales", "data"]}, {"id": "24Q3-09", "q": "2024 Q3", "th": "Extend", "a": "Added time conditions to the call center", "i": "Calls routed by working hours", "n": "Calls routed incorrectly after hours", "p": false, "c": ["callcenter"]}, {"id": "24Q3-10", "q": "2024 Q3", "th": "Extend", "a": "Modified the CRM complaint system to turn recorded issues into reports", "i": "Complaints reportable to management", "n": "Complaint trends invisible", "p": false, "c": ["callcenter", "crm", "data"]}, {"id": "24Q3-11", "q": "2024 Q3", "th": "Extend", "a": "Managed company social-media accounts and removed unnecessary access", "i": "Account-takeover risk reduced", "n": "Former or unauthorized users keep access", "p": false, "c": ["web"]}, {"id": "24Q3-12", "q": "2024 Q3", "th": "Extend", "a": "Created financial dimensions, banks and chart of accounts in AX", "i": "Financial structure complete", "n": "Reporting by dimension impossible", "p": false, "c": ["erp"]}, {"id": "24Q3-13", "q": "2024 Q3", "th": "Extend", "a": "Uploaded bulk data to SalesBuzz", "i": "Fast, controlled data loading", "n": "Slow, error-prone manual entry", "p": false, "c": ["sales"]}, {"id": "24Q3-14", "q": "2024 Q3", "th": "Extend", "a": "Modified the call-center queue strategy to business requirements", "i": "Better distribution of calls", "n": "Uneven agent load; longer waits", "p": false, "c": ["callcenter"]}, {"id": "24Q3-15", "q": "2024 Q3", "th": "Extend", "a": "Generated a SalesBuzz report of blocked sales orders and reasons", "i": "Management sees why orders are blocked", "n": "Blocked orders unexplained", "p": false, "c": ["sales", "data"]}, {"id": "24Q3-16", "q": "2024 Q3", "th": "Extend", "a": "Generated a SalesBuzz report of ceiling orders", "i": "Credit-ceiling visibility", "n": "Ceiling breaches unnoticed", "p": false, "c": ["sales", "data"]}, {"id": "24Q3-17", "q": "2024 Q3", "th": "Extend", "a": "Delivered Saudi Arabia website hosting, design, implementation and DNS", "i": "Online presence for the KSA business", "n": "No digital presence in KSA", "p": false, "c": ["web"]}, {"id": "24Q4-01", "q": "2024 Q4", "th": "Manufacturing and control", "a": "Implemented mesh wireless topology with Ubiquiti", "i": "Seamless Wi-Fi coverage", "n": "Dead zones and weak signal", "p": false, "c": ["network"]}, {"id": "24Q4-02", "q": "2024 Q4", "th": "Manufacturing and control", "a": "Implemented SalesBuzz target upload to handhelds and a monthly upload template", "i": "Salesmen see targets on their devices", "n": "Targets communicated manually", "p": false, "c": ["sales"]}, {"id": "24Q4-03", "q": "2024 Q4", "th": "Manufacturing and control", "a": "Generated barcodes for new products", "i": "New products scannable from launch", "n": "Manual entry for new products", "p": false, "c": ["sales"]}, {"id": "24Q4-04", "q": "2024 Q4", "th": "Manufacturing and control", "a": "Created new product definitions in SalesBuzz", "i": "New products sellable in the field", "n": "Launch delayed", "p": false, "c": ["sales"]}, {"id": "24Q4-05", "q": "2024 Q4", "th": "Manufacturing and control", "a": "Trained Eslam in the factory to run the full manufacturing cycle in AX", "i": "Factory runs production transactions itself", "n": "Production records outside the ERP", "p": false, "c": ["erp", "people"]}, {"id": "24Q4-06", "q": "2024 Q4", "th": "Manufacturing and control", "a": "Created the BOM version in AX for the process", "i": "Standard recipes drive production", "n": "Material usage unmanaged", "p": false, "c": ["erp"]}, {"id": "24Q4-07", "q": "2024 Q4", "th": "Manufacturing and control", "a": "Implemented the quality module", "i": "Quality checks inside the process", "n": "Quality tracked on paper", "p": false, "c": ["data"]}, {"id": "24Q4-08", "q": "2024 Q4", "th": "Manufacturing and control", "a": "Trained Hossam Hassanen on indirect-cost calculation and implemented cost management", "i": "Product cost includes overheads", "n": "Product cost understated or unknown", "p": false, "c": ["erp", "people"]}, {"id": "24Q4-09", "q": "2024 Q4", "th": "Manufacturing and control", "a": "Redesigned the AX workflow so only named approvers confirm orders", "i": "Approval control", "n": "Anyone can confirm orders", "p": false, "c": ["erp"]}, {"id": "24Q4-10", "q": "2024 Q4", "th": "Manufacturing and control", "a": "Added register quantity to purchase orders and receipts", "i": "Receipts checked against orders", "n": "Over- or under-receipt unnoticed", "p": false, "c": ["erp"]}, {"id": "24Q4-11", "q": "2024 Q4", "th": "Manufacturing and control", "a": "Changed the work cycle to match receipts with the vendor bill", "i": "Three-way matching", "n": "Paying for goods not received", "p": false, "c": ["erp"]}, {"id": "24Q4-12", "q": "2024 Q4", "th": "Manufacturing and control", "a": "Enhanced CRM database performance", "i": "Faster response for agents", "n": "Slowness returns as data grows", "p": false, "c": ["crm", "data"]}, {"id": "24Q4-13", "q": "2024 Q4", "th": "Manufacturing and control", "a": "Created and managed the GoDaddy account and registered all available Puvana domains", "i": "Brand domains protected", "n": "Domains lost to third parties", "p": false, "c": ["web"]}, {"id": "24Q4-14", "q": "2024 Q4", "th": "Manufacturing and control", "a": "Created a trigger to prevent modification of coordinates", "i": "Delivery coordinates protected", "n": "Delivery data altered by mistake", "p": false, "c": ["data"]}, {"id": "24Q4-15", "q": "2024 Q4", "th": "Manufacturing and control", "a": "Created a custom Odoo module for Alrayen to display dues on invoices", "i": "Customers see balances on invoices", "n": "Dues communicated separately", "p": false, "c": ["crm"]}, {"id": "24Q4-16", "q": "2024 Q4", "th": "Manufacturing and control", "a": "Created a workflow with Sayed to track pallet movement in the system", "i": "Pallet quantities traceable", "n": "Pallet losses undetected", "p": false, "c": ["sales"]}, {"id": "25Q1-01", "q": "2025 Q1", "th": "Growth", "a": "Added a routing map to publish port security for the attendance machines to the HCM system", "i": "Attendance devices reach the HR system securely", "n": "Devices cannot sync, or are exposed", "p": false, "c": ["security", "hr"]}, {"id": "25Q1-02", "q": "2025 Q1", "th": "Growth", "a": "Reviewed the Mria scope and involved GID IT in the Almina Trading consultation", "i": "IT involved from the start of the related-business project", "n": "Cost and technical risks discovered late", "p": false, "c": ["crm"]}, {"id": "25Q1-03", "q": "2025 Q1", "th": "Growth", "a": "Uploaded master data to the Alrayen system", "i": "Alrayen ready for go-live", "n": "Go-live delayed", "p": false, "c": ["crm"]}, {"id": "25Q1-04", "q": "2025 Q1", "th": "Growth", "a": "Alrayen went live", "i": "New business running on the platform", "n": "Manual operations at Alrayen", "p": false, "c": ["crm"]}, {"id": "25Q1-05", "q": "2025 Q1", "th": "Growth", "a": "Created the fiscal year, journals and sequences in AX", "i": "New year opened correctly for posting", "n": "Posting blocked in the new year", "p": false, "c": ["erp"]}, {"id": "25Q1-06", "q": "2025 Q1", "th": "Growth", "a": "Followed up Almina project analysis kickoff meetings", "i": "Project aligned with IT standards", "n": "Project drifts from company standards", "p": false, "c": ["crm"]}, {"id": "25Q1-07", "q": "2025 Q1", "th": "Growth", "a": "Interviewed candidates to recruit an IT administrator for Almina Trading", "i": "Qualified IT resource secured", "n": "Understaffed or poorly matched IT hire", "p": false, "c": ["crm", "people"]}, {"id": "25Q1-08", "q": "2025 Q1", "th": "Growth", "a": "Implemented a file server with backup for all departments", "i": "Central, protected document storage", "n": "Files live on individual PCs and vanish with them", "p": false, "c": ["data"]}, {"id": "25Q1-09", "q": "2025 Q1", "th": "Growth", "a": "Sent the annual subscriptions budget sheet to Finance", "i": "Predictable IT spend", "n": "Renewal surprises", "p": false, "c": ["data"]}, {"id": "25Q1-10", "q": "2025 Q1", "th": "Growth", "a": "Solved mail issues to prevent catch-all email for Fourseason", "i": "Mail delivered to the right mailboxes", "n": "Mail misdelivered", "p": false, "c": ["web"]}, {"id": "25Q1-11", "q": "2025 Q1", "th": "Growth", "a": "Trained Yassen on SOTI, SalesBuzz and Snipe-IT", "i": "Second operator across three platforms", "n": "Knowledge concentrated in one person", "p": false, "c": ["sales", "data", "people"]}, {"id": "25Q1-12", "q": "2025 Q1", "th": "Growth", "a": "Planned and structured the Mira–Odoo integration", "i": "Clear integration roadmap", "n": "Integration built without design", "p": false, "c": ["crm"]}, {"id": "25Q1-13", "q": "2025 Q1", "th": "Growth", "a": "Created the ELA business unit and configured the full distributor cycle", "i": "New distributor channel in the system", "n": "Distributor sales outside the system", "p": false, "c": ["sales"]}, {"id": "25Q1-14", "q": "2025 Q1", "th": "Growth", "a": "Updated the SalesBuzz license", "i": "Continued vendor support and lawful use", "n": "License lapse", "p": false, "c": ["sales"]}, {"id": "25Q2-01", "q": "2025 Q2", "th": "Modernise", "a": "Solved the CRM critical memory issue", "i": "CRM outage prevented", "n": "Agents without a CRM", "p": false, "c": ["crm"]}, {"id": "25Q2-02", "q": "2025 Q2", "th": "Modernise", "a": "Configured Power BI reports and added about 15 reports to the dashboard", "i": "Management dashboards on live data", "n": "Manual reporting", "p": false, "c": ["data"]}, {"id": "25Q2-03", "q": "2025 Q2", "th": "Modernise", "a": "Published the Power BI reports", "i": "Dashboards available to management", "n": "Reports remain with IT", "p": false, "c": ["data"]}, {"id": "25Q2-04", "q": "2025 Q2", "th": "Modernise", "a": "Published the new NVR in the factory", "i": "Central recording for factory cameras", "n": "Recording fragmented or absent", "p": false, "c": ["data"]}, {"id": "25Q2-05", "q": "2025 Q2", "th": "Modernise", "a": "Reviewed the ELA contract and added IT responsibilities and cost", "i": "IT obligations and costs defined in the contract", "n": "IT absorbs undefined cost and responsibility", "p": false, "c": ["erp", "sales"]}, {"id": "25Q2-06", "q": "2025 Q2", "th": "Modernise", "a": "Uploaded customers to the ELA business unit", "i": "ELA selling on real customer data", "n": "Distributor unable to trade", "p": false, "c": ["sales"]}, {"id": "25Q2-07", "q": "2025 Q2", "th": "Modernise", "a": "Installed and implemented 32 new cameras in the factory", "i": "Extensive coverage of the production site", "n": "Blind spots across the factory", "p": false, "c": ["data"]}, {"id": "25Q2-08", "q": "2025 Q2", "th": "Modernise", "a": "Contracted Docucom for new printers at the best price", "i": "Printing equipment at lower cost", "n": "Higher price or ageing printers", "p": false, "c": ["data"]}, {"id": "25Q2-09", "q": "2025 Q2", "th": "Modernise", "a": "Solved the NTRA marketing-call blocking issue (*very critical*)", "i": "Outbound calling issue closed", "n": "Outbound calling stays disrupted", "p": false, "c": ["callcenter"]}, {"id": "25Q2-10", "q": "2025 Q2", "th": "Modernise", "a": "Replaced the old firewall with Fortigate", "i": "Modern, supported perimeter", "n": "Ageing, unsupported firewall at the edge", "p": false, "c": ["security"]}, {"id": "25Q2-11", "q": "2025 Q2", "th": "Modernise", "a": "Supported the ELA team and trained sales supervisors and salesmen", "i": "Distributor staff adopt the system", "n": "Poor adoption; data quality problems", "p": false, "c": ["sales", "people"]}, {"id": "25Q2-12", "q": "2025 Q2", "th": "Modernise", "a": "Contracted GPS trackers for new vehicles", "i": "Vehicle visibility", "n": "New vehicles untracked", "p": false, "c": ["data"]}, {"id": "25Q3-01", "q": "2025 Q3", "th": "Control and incident response", "a": "Supported Almina in its Odoo implementation", "i": "Implementation guided by experience", "n": "Project delays and rework", "p": false, "c": ["crm"]}, {"id": "25Q3-02", "q": "2025 Q3", "th": "Control and incident response", "a": "Received full control of the Saudi website", "i": "Company owns the asset", "n": "Asset controlled by third parties", "p": false, "c": ["web"]}, {"id": "25Q3-03", "q": "2025 Q3", "th": "Control and incident response", "a": "Transferred the Puvana Saudi website to the company server", "i": "Hosting under company control", "n": "Dependence on external hosting", "p": false, "c": ["data", "web"]}, {"id": "25Q3-04", "q": "2025 Q3", "th": "Control and incident response", "a": "Obtained offers for a factory WiMax or fiber project", "i": "Informed connectivity decision", "n": "Decision without pricing", "p": false, "c": ["data"]}, {"id": "25Q3-05", "q": "2025 Q3", "th": "Control and incident response", "a": "Reported on the security incident from the Puvana website and its impact on all systems", "i": "Management informed of exposure and lessons", "n": "Exposure unknown; lessons lost", "p": false, "c": ["security", "data", "web"]}, {"id": "25Q3-06", "q": "2025 Q3", "th": "Control and incident response", "a": "Upgraded factory internet bandwidth to 100 Mbps", "i": "Capacity for factory systems and cameras", "n": "Congested link", "p": false, "c": ["network"]}, {"id": "25Q3-07", "q": "2025 Q3", "th": "Control and incident response", "a": "Created the ELA dashboard for daily tracking of salesmen visits, warehouse quantities and sales", "i": "Live distributor control", "n": "Distributor performance unknown", "p": false, "c": ["sales", "data"]}, {"id": "25Q3-08", "q": "2025 Q3", "th": "Control and incident response", "a": "Transferred and secured iby-bank hosting and secured the SMTP, IMAP and POP3 ports", "i": "Mail hosting protected", "n": "Open mail ports; spam relay risk", "p": false, "c": ["security", "web"]}, {"id": "25Q4-01", "q": "2025 Q4", "th": "Expand", "a": "Built the Shpramont warehouse network infrastructure and backups", "i": "Warehouse connected and protected", "n": "Unmanaged site; no backup", "p": false, "c": ["network", "data"]}, {"id": "25Q4-02", "q": "2025 Q4", "th": "Expand", "a": "Deployed external access to the warehouse", "i": "Controlled remote access", "n": "Site unreachable or insecure access", "p": false, "c": ["data"]}, {"id": "25Q4-03", "q": "2025 Q4", "th": "Expand", "a": "Prepared a surveillance-camera installation plan", "i": "Structured CCTV roll-out", "n": "Piecemeal camera purchases", "p": false, "c": ["data"]}, {"id": "25Q4-04", "q": "2025 Q4", "th": "Expand", "a": "Backed up all digital-marketing design sources", "i": "Creative assets protected", "n": "Design files lost with a device", "p": false, "c": ["data"]}, {"id": "25Q4-05", "q": "2025 Q4", "th": "Expand", "a": "Delivered the Riyadh travel project", "i": "KSA-related project delivered", "n": "KSA initiative delayed", "p": false, "c": ["data"]}, {"id": "25Q4-06", "q": "2025 Q4", "th": "Expand", "a": "Obtained full access to Almina's source code and enhanced system performance", "i": "Independence and faster system", "n": "Dependence on the original developer", "p": false, "c": ["crm"]}, {"id": "25Q4-07", "q": "2025 Q4", "th": "Expand", "a": "Contracted SalesBuzz to solve Almina's sales issues", "i": "Vendor engaged on defined scope", "n": "Issues unresolved", "p": false, "c": ["sales", "crm"]}, {"id": "25Q4-08", "q": "2025 Q4", "th": "Expand", "a": "Trained Abdelrahman Adam on Odoo development and Azure services", "i": "In-house Odoo developer", "n": "External developer needed for every change", "p": false, "c": ["crm", "data", "people"]}, {"id": "25Q4-09", "q": "2025 Q4", "th": "Expand", "a": "Obtained database access to monitor Puvana sales at Almina on the spot", "i": "Live view of sales", "n": "Sales visible only after reports arrive", "p": false, "c": ["crm", "data"]}, {"id": "25Q4-10", "q": "2025 Q4", "th": "Expand", "a": "Wrote a memo, signed by Almina's board, with visit findings and recommendations", "i": "Board-level agreement on actions", "n": "Recommendations not formalised", "p": false, "c": ["crm"]}, {"id": "25Q4-11", "q": "2025 Q4", "th": "Expand", "a": "Registered the .eg domains puvana.com.eg and puvanawater.com.eg with the registry", "i": "Local domains secured", "n": "Local domains available to others", "p": false, "c": ["web"]}, {"id": "25Q4-12", "q": "2025 Q4", "th": "Expand", "a": "Registered Mobinil IVR for the Lumea and Abrar brands", "i": "Dedicated customer lines for new brands", "n": "Brands without a customer line", "p": false, "c": ["callcenter"]}, {"id": "25Q4-13", "q": "2025 Q4", "th": "Expand", "a": "Delivered the Fawry and Paymob contracts project", "i": "Payment channels contracted", "n": "No electronic payment channel", "p": false, "c": ["web"]}, {"id": "25Q4-14", "q": "2025 Q4", "th": "Expand", "a": "Reimplemented the SalesBuzz visit-detail report to restrict view by business unit", "i": "Each unit sees only its own data", "n": "Cross-unit data exposure", "p": false, "c": ["sales", "data"]}, {"id": "25Q4-15", "q": "2025 Q4", "th": "Expand", "a": "Configured and developed call coding from Mobinil call center into Issabel", "i": "Brand calls handled in one platform", "n": "Separate, unmanaged call streams", "p": false, "c": ["callcenter"]}, {"id": "25Q4-16", "q": "2025 Q4", "th": "Expand", "a": "Configured and set up cheque-printing software with treasury access", "i": "Controlled cheque printing", "n": "Manual cheque writing", "p": false, "c": ["erp"]}, {"id": "25Q4-17", "q": "2025 Q4", "th": "Expand", "a": "Delivered barcodes, websites and SalesBuzz codes for Abrar and Lumea", "i": "New brands ready to sell", "n": "Launch delays", "p": false, "c": ["sales", "web"]}, {"id": "25Q4-18", "q": "2025 Q4", "th": "Expand", "a": "Obtained static IPs from TE Data for both internet lines", "i": "Stable addressing on both lines", "n": "Dynamic addresses break publishing and VPNs", "p": false, "c": ["network"]}, {"id": "25Q4-19", "q": "2025 Q4", "th": "Expand", "a": "Published the SalesBuzz test environment and shared it with the PS, QC and development teams ready for update v5.15", "i": "Upgrade rehearsed across all teams", "n": "Upgrade surprises on live", "p": false, "c": ["sales"]}, {"id": "25-A01", "q": "2025", "th": "Additional item, quarter not recorded", "a": "Implemented the Odoo e-invoice system for Sadeq company", "i": "Invoices issued electronically from Odoo", "n": "Manual invoicing and exposure under electronic-invoicing requirements", "p": false, "c": ["crm"]}, {"id": "26Q1-01", "q": "2026 Q1", "th": "Harden sites", "a": "Installed and configured a firewall in the warehouse", "i": "Warehouse perimeter protected", "n": "Warehouse network open to the internet side", "p": false, "c": ["security"]}, {"id": "26Q1-02", "q": "2026 Q1", "th": "Harden sites", "a": "Published the fingerprint attendance device in the warehouse", "i": "Warehouse attendance captured in Mago", "n": "Paper attendance at the warehouse", "p": false, "c": ["hr"]}, {"id": "26Q1-03", "q": "2026 Q1", "th": "Harden sites", "a": "Implemented a web filter in the warehouse", "i": "Controlled web use at the site", "n": "Unrestricted browsing; malware exposure", "p": false, "c": ["security"]}, {"id": "26Q1-04", "q": "2026 Q1", "th": "Harden sites", "a": "Installed cameras in the warehouse", "i": "Visibility and evidence at the warehouse", "n": "Stock and security incidents without evidence", "p": false, "c": ["data"]}, {"id": "26Q1-05", "q": "2026 Q1", "th": "Harden sites", "a": "Installed additional cameras in the factory", "i": "Wider factory coverage", "n": "Coverage gaps", "p": false, "c": ["data"]}, {"id": "26Q1-06", "q": "2026 Q1", "th": "Harden sites", "a": "Added users to Mago for the factory and warehouse", "i": "Factory and warehouse staff inside the HR system", "n": "Two sites outside the HR process", "p": false, "c": ["hr"]}, {"id": "26Q1-07", "q": "2026 Q1", "th": "Harden sites", "a": "Solved the critical database disk failure that stopped the machine automatically", "i": "Sales database service restored", "n": "Prolonged sales outage", "p": false, "c": ["callcenter", "data"]}, {"id": "26Q1-08", "q": "2026 Q1", "th": "Harden sites", "a": "Upgraded the SalesBuzz database server RAM, CPU and disks", "i": "Performance and headroom for growth", "n": "Repeat of the slowdown and failure", "p": false, "c": ["sales", "data"]}, {"id": "26Q1-09", "q": "2026 Q1", "th": "Harden sites", "a": "Configured a new fingerprint device in the factory with a static IP and a new firewall rule", "i": "Factory attendance captured securely", "n": "Unsecured or manual attendance", "p": false, "c": ["security", "network", "hr"]}, {"id": "26Q1-10", "q": "2026 Q1", "th": "Harden sites", "a": "Prepared a new test environment for the SalesBuzz upgrade", "i": "Upgrade rehearsed before live", "n": "Upgrade tested on live", "p": false, "c": ["sales"]}, {"id": "26Q1-11", "q": "2026 Q1", "th": "Harden sites", "a": "Configured a relay mail server to protect the domain from blacklisting", "i": "Company mail stays deliverable", "n": "Mail rejected by recipients", "p": false, "c": ["security", "data", "web"]}, {"id": "26Q1-12", "q": "2026 Q1", "th": "Harden sites", "a": "Reported the SOTI control issue with new devices", "i": "Issue escalated and later resolved by replacement", "n": "New devices unmanaged", "p": false, "c": ["data"]}, {"id": "26Q1-13", "q": "2026 Q1", "th": "Harden sites", "a": "Received authorization from the KSA marketing team to take over the Instagram, TikTok, Google, Facebook and Snapchat accounts", "i": "Social assets under company control", "n": "Brand accounts held by outsiders", "p": false, "c": ["web"]}, {"id": "26Q1-14", "q": "2026 Q1", "th": "Harden sites", "a": "Created and managed the Fawry integration account", "i": "Payment integration ready", "n": "No payment-channel integration", "p": false, "c": ["web"]}, {"id": "26Q1-15", "q": "2026 Q1", "th": "Harden sites", "a": "Modified the KSA website per the marketing agency's changes and management approval", "i": "Website reflects approved content", "n": "Outdated or unapproved content online", "p": false, "c": ["web"]}, {"id": "26Q1-16", "q": "2026 Q1", "th": "Harden sites", "a": "Reported issues found in the SalesBuzz upgrade", "i": "Defects returned to the vendor for correction", "n": "Defects carried into production", "p": false, "c": ["sales", "data"]}, {"id": "26Q2-01", "q": "2026 Q2", "th": "Protect and isolate", "a": "Deployed and set up the Kaspersky server protecting clients and servers", "i": "Central protection of all endpoints and servers", "n": "Uneven, unmonitored endpoint protection", "p": false, "c": ["security", "data"]}, {"id": "26Q2-02", "q": "2026 Q2", "th": "Protect and isolate", "a": "Trained the IT team on the Kaspersky management portal", "i": "Team can operate the security console", "n": "Console knowledge held by one person", "p": false, "c": ["security", "people"]}, {"id": "26Q2-03", "q": "2026 Q2", "th": "Protect and isolate", "a": "Upgraded the mail service license", "i": "Supported mail platform", "n": "Mail service unsupported", "p": false, "c": ["web"]}, {"id": "26Q2-04", "q": "2026 Q2", "th": "Protect and isolate", "a": "Created and set up two new DMS servers for distributors on Azure", "i": "Distributors on dedicated servers", "n": "Distributors share or depend on corporate servers", "p": false, "c": ["sales", "data"]}, {"id": "26Q2-05", "q": "2026 Q2", "th": "Protect and isolate", "a": "Managed the SalesBuzz upgrade on the DMS servers and deployed public access", "i": "Distributors reach their system online", "n": "Distributors cannot work remotely", "p": false, "c": ["sales", "data"]}, {"id": "26Q2-06", "q": "2026 Q2", "th": "Protect and isolate", "a": "Secured the servers from unauthorized access", "i": "Reduced exposure of cloud servers", "n": "Public servers open to attack", "p": false, "c": ["security", "data"]}, {"id": "26Q2-07", "q": "2026 Q2", "th": "Protect and isolate", "a": "Assigned licenses to the DMS servers", "i": "Lawful, supported servers", "n": "Licensing exposure", "p": false, "c": ["sales", "data"]}, {"id": "26Q2-08", "q": "2026 Q2", "th": "Protect and isolate", "a": "Upgraded SalesBuzz v5.15 on the DMS servers before applying it to the DS servers", "i": "Issues found on the lower-risk environment first", "n": "Issues discovered on the main sales servers", "p": false, "c": ["sales", "data"]}, {"id": "26Q2-09", "q": "2026 Q2", "th": "Protect and isolate", "a": "Isolated the distributors' systems from the company's", "i": "Reliability and security of both sides", "n": "A distributor incident could reach corporate systems", "p": false, "c": ["security", "sales"]}, {"id": "26Q2-10", "q": "2026 Q2", "th": "Protect and isolate", "a": "Solved the customer-ID generation issue", "i": "Unique, reliable customer identifiers", "n": "Duplicate or failed customer IDs", "p": false, "c": ["data"]}, {"id": "26Q2-11", "q": "2026 Q2", "th": "Protect and isolate", "a": "Created reports for the DMS servers", "i": "Distributor visibility", "n": "Distributor data unreported", "p": false, "c": ["sales", "data"]}, {"id": "26Q2-12", "q": "2026 Q2", "th": "Protect and isolate", "a": "Created Power BI dashboard reports on the DMS server", "i": "Distributor dashboards", "n": "Manual distributor reporting", "p": false, "c": ["sales", "data"]}, {"id": "26Q2-13", "q": "2026 Q2", "th": "Protect and isolate", "a": "Created a detailed distributors' target report", "i": "Target tracking per distributor", "n": "Targets unmonitored", "p": false, "c": ["sales", "data"]}, {"id": "26Q2-14", "q": "2026 Q2", "th": "Protect and isolate", "a": "Deployed, developed and configured new handheld printers supporting Arabic", "i": "Arabic invoices and receipts in the field", "n": "Printed documents in the wrong language or unreadable", "p": false, "c": ["sales"]}, {"id": "26Q2-15", "q": "2026 Q2", "th": "Protect and isolate", "a": "Set a scope plan for website development with integrations to company systems", "i": "Website project defined before spend", "n": "Scope creep and rework", "p": false, "c": ["web"]}, {"id": "26Q2-16", "q": "2026 Q2", "th": "Protect and isolate", "a": "Set a full-cycle scope for a mobile app with website and WhatsApp, backend and dashboards", "i": "Digital sales channel defined end to end", "n": "App built without design", "p": false, "c": ["data", "web"]}, {"id": "26Q3-01", "q": "2026 Q3", "th": "Integrate and optimise", "a": "Obtained the Dynamics 365 offer and held the plan kickoff meeting", "i": "Next-generation ERP option defined", "n": "ERP future undecided", "p": false, "c": ["data"]}, {"id": "26Q3-02", "q": "2026 Q3", "th": "Integrate and optimise", "a": "Planned SMS integration with SalesBuzz to send invoices to customers", "i": "Invoice delivery by SMS", "n": "Invoices delivered manually", "p": false, "c": ["sales", "web"]}, {"id": "26Q3-03", "q": "2026 Q3", "th": "Integrate and optimise", "a": "Created the API key for the SMS integration", "i": "Integration ready to connect", "n": "Integration blocked", "p": false, "c": ["web"]}, {"id": "26Q3-04", "q": "2026 Q3", "th": "Integrate and optimise", "a": "Enabled the Swagger API platform on Odoo development", "i": "Documented, testable APIs", "n": "Undocumented integrations", "p": false, "c": ["crm"]}, {"id": "26Q3-05", "q": "2026 Q3", "th": "Integrate and optimise", "a": "Enabled RESTful API keys on Odoo", "i": "Systems can integrate securely", "n": "Integrations through shared logins", "p": false, "c": ["crm"]}, {"id": "26Q3-06", "q": "2026 Q3", "th": "Integrate and optimise", "a": "Created a customization to write invoice amounts in words", "i": "Invoices meet the required format", "n": "Manual amount-in-words entry", "p": false, "c": ["data"]}, {"id": "26Q3-07", "q": "2026 Q3", "th": "Integrate and optimise", "a": "Upgraded SalesBuzz for DS to v5.15", "i": "Current version in the main sales environment", "n": "Older version in production", "p": false, "c": ["sales"]}, {"id": "26Q3-08", "q": "2026 Q3", "th": "Integrate and optimise", "a": "Created new DS servers for SalesBuzz on Azure, secured them and created a backup plan", "i": "Secured, recoverable sales servers", "n": "Unprotected and unrecoverable servers", "p": false, "c": ["security", "sales", "data"]}, {"id": "26Q3-09", "q": "2026 Q3", "th": "Integrate and optimise", "a": "Configured automatic backup on both the DMS and DS servers", "i": "Daily recoverable copies", "n": "Manual backups; data loss", "p": false, "c": ["sales", "data"]}, {"id": "26Q3-10", "q": "2026 Q3", "th": "Integrate and optimise", "a": "Solved email issues for rayenasg, al-rayen and iby-bank", "i": "Reliable email for three domains", "n": "Lost or delayed business mail", "p": false, "c": ["crm", "web"]}, {"id": "26Q3-11", "q": "2026 Q3", "th": "Integrate and optimise", "a": "Replaced SOTI with Scalefusion as the MDM solution on best value and cost", "i": "Device control at lower cost", "n": "Higher MDM cost or unmanaged devices", "p": false, "c": ["erp", "data"]}, {"id": "26Q3-12", "q": "2026 Q3", "th": "Integrate and optimise", "a": "Created the aging report in Power BI", "i": "Receivables visible to management", "n": "Collection risk unseen", "p": false, "c": ["data"]}, {"id": "26Q3-13", "q": "2026 Q3", "th": "Integrate and optimise", "a": "Deployed a new tax server integrated with the new SalesBuzz version", "i": "Tax processing aligned with the new version", "n": "Tax integration breaks on upgrade", "p": false, "c": ["erp", "sales", "data"]}, {"id": "26Q4-01", "q": "2026 Q4", "th": "Next generation", "a": "Designed the 5th-floor network with the team", "i": "New floor built to company standards", "n": "Ad-hoc network on the new floor", "p": true, "c": ["network"]}, {"id": "26Q4-02", "q": "2026 Q4", "th": "Next generation", "a": "Planned surveillance for the 5th-floor office", "i": "Coverage designed before installation", "n": "Gaps in camera coverage", "p": true, "c": ["data"]}, {"id": "26Q4-03", "q": "2026 Q4", "th": "Next generation", "a": "Integrated Issabel with Odoo 19 CRM, to go live next quarter", "i": "Call history and CRM unified on the newest platform", "n": "Calls and CRM remain separate", "p": true, "c": ["callcenter", "crm"]}, {"id": "26Q4-04", "q": "2026 Q4", "th": "Next generation", "a": "Trained Ahmed Mogawer on Issabel", "i": "Second operator for the call center platform", "n": "Knowledge held by one person", "p": true, "c": ["callcenter", "people"]}, {"id": "26Q4-05", "q": "2026 Q4", "th": "Next generation", "a": "Created a smart dashboard for the call center and sales with the CRM to monitor home-delivery performance", "i": "Live view of delivery performance", "n": "Performance reviewed after the fact", "p": true, "c": ["callcenter", "crm", "data"]}];
+(function () {
+"use strict";
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let lang = "en";
+const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+/* ===================== Arabic dictionary ===================== */
+const AR = {
+  brand: "GID · تقنية المعلومات ومركز الاتصال", n1: "نقطة البداية", n2: "قبل / بعد", n3: "الإنجاز", n4: "الأمن", n5: "النتائج الرئيسية", n6: "النمو", n7: "الفريق", n8: "القيمة", n9: "السجل", n10: "القادم", present: "عرض", exit: "خروج",
+  h_kick: "تقرير إنجازات أربع سنوات · يناير 2023 – أكتوبر 2026",
+  h_title: 'من <span class="strike">خط واحد وبدون نسخ احتياطية</span> إلى شبكة لا تتوقف.',
+  h_lede: "في يناير 2023 كانت الشركة تعمل بخط إنترنت واحد وشبكة واحدة غير مقسمة وبدون نسخ احتياطية لقواعد البيانات. وبعد أربع سنوات و279 إنجازاً موثقاً، أصبحت تعمل على منصة مقسمة ومحمية ومدعومة بالنسخ الاحتياطي والخوادم الافتراضية، مع صفر حوادث فدية أو مسح بيانات.",
+  h_m1: "<b>Mohamed M. Nashaat</b> · مدير تقنية المعلومات ومركز الاتصال", h_m2: "Global Industrial &amp; Development", h_m3: "سري · للمراجعة الإدارية",
+  flat: "2023 · شبكة واحدة مسطحة", seg: "2026 · شبكة مقسمة ومحمية", h_cap: "جميع المستخدمين والخوادم والأجهزة على شبكة واحدة، ثم فصلها إلى مناطق محمية.",
+  s1: "إنجازاً موثقاً", s2: "حوادث فدية أو مسح بيانات", s3: "ملاحظة في التقييم الأولي 2023", s4: "قناة اتصال متزامنة في مركز الاتصال",
+  b_k: "نقطة البداية 2023", b_t: "38 ملاحظة. سبعة مجالات من ثمانية بدرجة حرج أو مرتفع.", b_l: "جمع التقييم في بداية الفترة كل ملاحظة حسب الخطر الذي تسببه على الأعمال. وبعضها لم يكن له أي طريق للتعافي: فبدون نسخ احتياطية لم يكن هناك ما يمكن استعادته.",
+  b_an: "«مبنى مصنع له مدخل واحد، بلا جدران بين الغرف، وبلا جهاز إنذار للحريق، والنسخة الوحيدة من الدفاتر على رف بجوار الموقد.»<small>هكذا كان الوضع في يناير 2023.</small>",
+  sh_k: "قبل وبعد", sh_t: "اضغط على المفتاح وشاهد كيف تغيرت الشركة.", sh_hint: "اختر السنة",
+  d_k: "الإنجاز", d_t: "279 إنجازاً على مدار 16 ربعاً.", d_l: "عام 2023 بنى الأساس. وبعده أصبح كل ربع يحمل مشروعات أقل عدداً وأكبر حجماً: التصنيع في نظام ERP، وخوادم الموزعين، والتكامل. الربع الرابع 2026 لا يزال قيد التنفيذ.",
+  d_n: "مرّر المؤشر على أي عمود لرؤية محور الربع. العمود المنقط هو الربع الرابع 2026 قيد التنفيذ. وإنجاز واحد في 2025 (نظام الفاتورة الإلكترونية على Odoo لشركة Sadeq) لم يُسجَّل ربعه ويظهر في إجمالي 2025 فقط.",
+  sc_k: "الأمن السيبراني", sc_t: "صفر حوادث فدية وصفر حوادث مسح بيانات خلال أربع سنوات.", sc_l: "تحقق ذلك بالتصميم الداخلي والانضباط اليومي، دون مركز عمليات أمنية خارجي، ودون شركة استشارات أمنية، ودون شراء منصات أمنية متقدمة. وكانت الحماية الأساسية (جدار ناري وحماية الأجهزة) موجودة. والمقصود الحوادث الفعلية وليس محاولات الهجوم.",
+  e1k: "قبل 2023 · المتجر الإلكتروني", e1t: "هجوم بطلبات وهمية على الموقع", e1p: "<b>الاستجابة:</b> شهادة SSL وتحصين الاستضافة وcPanel ومعالجة ثغرة تسعير الطلبات في 2023.",
+  e2k: "الربع الثالث 2025 · المواقع", e2t: "حادثة أمنية مصدرها موقع Puvana", e2p: "<b>الاستجابة:</b> تحقيق وتقرير بالأثر، ونقل الموقع السعودي إلى خادم الشركة، وتأمين منافذ البريد.",
+  sc_n: "لم يتطور أي منهما إلى برمجيات فدية أو مسح بيانات. والمخاطر التي تم تجنبها تقليل للمخاطر وليست وفراً نقدياً.",
+  f_k: "النتائج الرئيسية", f_t: "أربعة مواقع يشعر فيها العمل بالفرق.",
+  g_k: "نمو المجموعة", g_t: "الشركات الجديدة انضمت إلى المنصات القائمة.", g_l: "بدلاً من شراء أنظمة منفصلة لكل شركة، تم ضم الشركات الجديدة والتابعة إلى أنظمة مشتركة يديرها نفس الفريق.",
+  t_k: "الفريق", t_t: "شخصان ثم ثلاثة، وجميعهم اليوم بمستوى خبير.", p_sen: "خبير", p_new: "خبير · انضم 2025",
+  t1b: "المدير مع الفريق المكوَّن من شخصين كما ورد في التقييم", t1s: "تدريب يومي، وتسلّم مسؤولية مكتب الدعم الفني وإدارة الأجهزة وحماية الأجهزة.",
+  t2b: "انضمام موظف ثالث لتقنية المعلومات", t2s: "اكتسب الخبرة من خلال العمل المباشر على المشروعات.",
+  t3w: "اليوم", t3b: "جميع أعضاء الفريق بمستوى خبير", t3s: "يديرون الأنظمة والعمل اليومي باستقلالية، فلم يعد الإنجاز يعتمد على شخص واحد.",
+  t_c: "قدرات تم بناؤها خارج تقنية المعلومات · تدريب 9 زملاء و6 فرق",
+  v_k: "القيمة", v_t: "خمسة أنواع من القيمة، منفصلة ودون احتساب أي بند مرتين.", v_l: "لا تظهر مبالغ بالجنيه إلا إذا كانت موثقة. ونموذج طلب البيانات المالية (42 بنداً) لدى الإدارة المالية لتقييم كل بند من الفواتير وعروض الأسعار.",
+  r_k: "سجل الإنجازات", r_t: "جميع الإنجازات الـ 279، قابلة للبحث.", r_l: "ابحث عن أي نظام أو موقع أو زميل. افتح أي إنجاز لرؤية أثره وما كان سيحدث بدونه. (نص السجل باللغة الإنجليزية كما ورد في التقرير.)", r_y: "السنة", r_c: "المجال",
+  x_k: "الاثنا عشر شهراً القادمة", x_t: "استكمال ما بدأ، وتعزيز ما تم بناؤه.", x_a: "قيد التنفيذ", x_b: "توصيات بعد موافقة الإدارة",
+  c_k: "أربع سنوات، بُنيت داخلياً", c_t: "من الهشاشة إلى المرونة.", c1: "إنجازاً", c2: "حوادث فدية أو مسح بيانات", c3: "متخصصين بمستوى خبير",
+  c_sig: "<b>Mohamed M. Nashaat</b> · مدير تقنية المعلومات ومركز الاتصال · Global Industrial &amp; Development", c_conf: "17 أكتوبر 2026 · سري، للمراجعة الإدارية",
+};
+const EN = {};
+$$("[data-t]").forEach((el) => { if (!(el.dataset.t in EN)) EN[el.dataset.t] = el.innerHTML; });
+EN.seg = "2026 · Segmented network";
+const T = (k) => (lang === "ar" ? AR[k] : EN[k]) ?? EN[k] ?? k;
+const L = (en, ar) => (lang === "ar" && ar ? ar : en);
+
+/* ===================== data ===================== */
+const DOMAINS = [
+  ["Business continuity", "استمرارية الأعمال", "Critical", 100, "One cable, router or server fault stops invoicing, dispatch and the call center at once.", "عطل واحد في كابل أو راوتر أو خادم يوقف الفوترة والتوزيع ومركز الاتصال معاً.", "1 · 6 · 7 · 9 · 36 · 37"],
+  ["Data protection", "حماية البيانات", "Critical", 100, "No database backups and no Azure backups: any failure means permanent loss.", "لا نسخ احتياطية لقواعد البيانات ولا لخوادم Azure: أي عطل يعني فقداناً دائماً.", "8 · 15"],
+  ["Network architecture", "بنية الشبكة", "High", 76, "One flat network, layer-2 switches, no core switch: an infected PC reaches everything.", "شبكة واحدة مسطحة بدون سويتش رئيسي: جهاز مصاب يصل إلى كل شيء.", "16 · 17 · 33 · 34"],
+  ["Cyber security", "الأمن السيبراني", "Critical", 100, "Misconfigured firewall, every AX user an administrator, no SSL, e-commerce attacked.", "جدار ناري غير مضبوط، وجميع مستخدمي AX بصلاحية مدير، وبدون SSL، والمتجر الإلكتروني تحت الهجوم.", "10 · 18 · 22–25 · 27 · 29"],
+  ["ERP and sales", "ERP والمبيعات", "High", 76, "AX 2012 run by a freelancer, modules inactive, sales data errors, no test server.", "نظام AX يديره مستقل خارجي، ووحدات غير مفعلة، وأخطاء في بيانات المبيعات، وبدون خادم اختبار.", "4 · 5 · 30 · 31 · 35"],
+  ["Customer service", "خدمة العملاء", "High", 76, "Personal mobiles, no queues, no recording, customers in Excel. A busy tone was the usual answer.", "هواتف شخصية، بلا قوائم انتظار ولا تسجيل، والعملاء في ملفات Excel. نغمة الانشغال كانت الرد المعتاد.", "12 · 13 · 14 · 19 · 32"],
+  ["Back-office governance", "الحوكمة الإدارية", "Medium", 48, "No HR system, IT assets on paper, legacy devices, no device management.", "لا نظام للموارد البشرية، والأصول على الورق، وأجهزة قديمة، وبدون إدارة للأجهزة المحمولة.", "2 · 3 · 11 · 26 · 38 · 39"],
+  ["People and capability", "الأفراد والقدرات", "High", 76, "Two people. No one for applications, development, security or ERP functional work.", "شخصان فقط، ولا أحد للتطبيقات أو التطوير أو الأمن أو تشغيل ERP.", "20 · 21"],
+];
+const SEVC = { Critical: "--alert", High: "--warn", Medium: "--brass" };
+const SEVA = { Critical: "حرج", High: "مرتفع", Medium: "متوسط" };
+const BA = [
+  ["Internet", "الإنترنت", "One line, no failover", "خط واحد بدون بديل", "Dual lines, 4G backup at main sites, static IPs, factory at 100 Mbps", "خطان، و4G احتياطي في المواقع الرئيسية، وعناوين ثابتة، والمصنع بسرعة 100 ميجابت"],
+  ["Network", "الشبكة", "One flat network for every user, server and device", "شبكة واحدة لكل المستخدمين والخوادم والأجهزة", "Isolated server network, VLANs, factory DMZ, distributors isolated", "شبكة خوادم معزولة، وVLANs، ومنطقة DMZ في المصنع، وعزل الموزعين"],
+  ["Servers", "الخوادم", "Idle hardware, no virtualization, no test server", "أجهزة خاملة بدون خوادم افتراضية أو اختبار", "Proxmox virtualization with test and staging environments", "خوادم افتراضية على Proxmox مع بيئات اختبار"],
+  ["Backups", "النسخ الاحتياطي", "None", "لا يوجد", "Daily automated backups, local and cloud", "نسخ احتياطي يومي آلي محلياً وسحابياً"],
+  ["Security", "الأمن", "Misconfigured firewall, everyone an administrator", "جدار ناري غير مضبوط والجميع بصلاحية مدير", "Fortigate, segmentation, least privilege, central endpoint protection", "Fortigate وتقسيم الشبكة والصلاحيات بقدر الحاجة وحماية مركزية"],
+  ["Call center", "مركز الاتصال", "Personal mobiles and a busy tone", "هواتف شخصية ونغمة انشغال", "Issabel, 32 SIP channels, queues, recording, CRM logging", "Issabel و32 قناة وقوائم انتظار وتسجيل وربط مع CRM"],
+  ["Business systems", "أنظمة الأعمال", "No CRM, no HR system, freelancer-run ERP", "بدون CRM أو نظام موارد بشرية، وERP يديره مستقل", "Odoo CRM, Mago HR, in-house AX, SalesBuzz 5.15", "Odoo CRM وMago HR وAX داخلياً وSalesBuzz 5.15"],
+  ["Team", "الفريق", "Two people, limited experience", "شخصان بخبرة محدودة", "Three people, all at senior level", "ثلاثة أشخاص جميعهم بمستوى خبير"],
+];
+const Q = [26, 29, 28, 27, 24, 8, 17, 16, 14, 12, 8, 19, 16, 16, 13, 5];
+const QTH = ["Stabilise and secure", "Segment and digitise", "Protect and connect", "Platform build", "Go-live", "Resilience", "Extend", "Manufacturing and control", "Growth", "Modernise", "Control and incident response", "Expand", "Harden sites", "Protect and isolate", "Integrate and optimise", "Next generation (in progress)"];
+const QTHA = ["تثبيت الاستقرار والتأمين", "تقسيم الشبكة والتحول الرقمي", "الحماية والربط", "بناء المنصات", "التشغيل الفعلي", "المرونة", "التوسع", "التصنيع والرقابة", "النمو", "التحديث", "الرقابة والاستجابة", "التوسع في الأعمال", "تحصين المواقع", "الحماية والعزل", "التكامل والتحسين", "الجيل التالي (قيد التنفيذ)"];
+const YEARS = [["2023", 110, "Foundations", "بناء الأساس"], ["2024", 65, "Go-live", "التشغيل الفعلي"], ["2025", 54, "Growth", "النمو"], ["2026", 50, "Hardening · to Oct", "التحصين · حتى أكتوبر"]];
+const LAYERS = [
+  ["Perimeter", "الحماية الخارجية", "Site firewalls, Fortigate, single-IP publishing", "جدران نارية للمواقع وFortigate ونشر الخدمات عبر عنوان واحد"],
+  ["Segmentation", "تقسيم الشبكة", "VLANs, factory DMZ, distributor isolation", "VLANs ومنطقة DMZ للمصنع وعزل الموزعين"],
+  ["Identity and access", "الهوية والصلاحيات", "Least privilege in AX and SalesBuzz, port security", "الصلاحيات بقدر الحاجة في AX وSalesBuzz وتأمين المنافذ"],
+  ["Endpoints", "حماية الأجهزة", "GravityZone, then Kaspersky, centrally managed", "GravityZone ثم Kaspersky بإدارة مركزية"],
+  ["Email and web", "البريد والمواقع", "Spam rejection, mail firewall and relay, SSL, filtering", "رفض الرسائل المزعجة وجدار ناري للبريد وSSL وفلترة"],
+  ["Backup and recovery", "النسخ والاستعادة", "Daily automated backups, file server, cloud copies", "نسخ يومي آلي وخادم ملفات ونسخ سحابية"],
+  ["Secure remote access", "الوصول الآمن عن بعد", "Vendor VPN, secured CRM URL, Azure port security", "VPN للمورد ورابط CRM آمن وتأمين منافذ Azure"],
+  ["Physical security", "الأمن المادي", "CCTV at HQ, the factory and warehouses", "كاميرات في المقر والمصنع والمستودعات"],
+  ["Devices and assets", "الأجهزة والأصول", "Snipe-IT custody, device management on all handhelds", "عهدة Snipe-IT وإدارة جميع الأجهزة المحمولة"],
+  ["Skills", "المهارات", "Team trained on the security consoles", "تدريب الفريق على أنظمة الحماية"],
+];
+const FLAG = [
+  { k: "Infrastructure", ka: "البنية التحتية", t: "A single fault no longer stops the company.", ta: "عطل واحد لم يعد يوقف الشركة.",
+    l: "Idle servers were reconfigured on the open-source Proxmox platform with no hypervisor licence. A second line, 4G failover and static IPs keep the business online, and a generator attached to the UPS keeps it running through long power cuts.",
+    la: "أُعيد تشغيل الخوادم الخاملة على منصة Proxmox مفتوحة المصدر بدون رسوم ترخيص. ويحافظ الخط الثاني و4G الاحتياطي والعناوين الثابتة على اتصال الشركة، ويحافظ المولد المربوط بأجهزة UPS على التشغيل أثناء انقطاع الكهرباء الطويل.",
+    f: [["Proxmox virtualization on existing hardware (2023 Q1)", "خوادم افتراضية على Proxmox بنفس الأجهزة (2023)"], ["Dual lines and 4G backup; factory upgraded to 100 Mbps", "خطان و4G احتياطي؛ ورفع سرعة المصنع إلى 100 ميجابت"], ["Generator attached to the UPS (2024 Q2)", "مولد مربوط بأجهزة UPS (2024)"], ["CRM rebuild, database disk failure and NTRA call blocking resolved in-house", "إعادة بناء CRM وحل عطل القرص ومشكلة حظر NTRA داخلياً"]], viz: "infra" },
+  { k: "Call center", ka: "مركز الاتصال", t: "Every call is queued, recorded and logged.", ta: "كل مكالمة تمر بقائمة انتظار وتُسجَّل وتُوثَّق.",
+    l: "Calls moved from personal mobiles to an Issabel platform with 32 SIP channels and GoIP gateways, with queues, time conditions, recording and CRM logging. Before 2023 calls were not logged, so there is no historical KPI baseline; today the baseline exists.",
+    la: "انتقلت المكالمات من الهواتف الشخصية إلى منصة Issabel بسعة 32 قناة وبوابات GoIP، مع قوائم انتظار وتسجيل وتوثيق في CRM. قبل 2023 لم تكن المكالمات تُسجَّل، لذلك لا توجد أرقام تاريخية؛ واليوم أصبح خط الأساس موجوداً.",
+    f: [["32 concurrent SIP channels, GoIP and landlines", "32 قناة متزامنة وGoIP وخطوط أرضية"], ["Queues, strategies and time conditions", "قوائم انتظار واستراتيجيات وتوقيتات"], ["Mobinil IVR for Lumea and Abrar", "رد صوتي تفاعلي لعلامتي Lumea وAbrar"], ["Issabel–Odoo 19 integration going live next quarter", "ربط Issabel مع Odoo 19 في الربع القادم"]], viz: "call" },
+  { k: "Factory", ka: "المصنع", t: "Production protected and visible.", ta: "حماية الإنتاج ورؤية كاملة.",
+    l: "The factory is where IT failure becomes production failure. Its network was secured with a firewall, a VPN for the line-equipment vendor and a DMZ; 32 new cameras and an NVR went in; and the full manufacturing cycle now runs in AX with BOM, quality and cost.",
+    la: "المصنع هو المكان الذي يتحول فيه العطل التقني إلى توقف للإنتاج. تم تأمين شبكته بجدار ناري واتصال VPN لمورد المعدات ومنطقة DMZ، وتركيب 32 كاميرا وجهاز NVR، وتشغيل دورة التصنيع الكاملة على AX بقوائم المواد والجودة والتكاليف.",
+    f: [["Firewall, Sidel VPN, subnets and DMZ", "جدار ناري وVPN لشركة Sidel وشبكات فرعية وDMZ"], ["32 cameras and a new NVR (2025)", "32 كاميرا وجهاز NVR جديد (2025)"], ["AX manufacturing: BOM, quality, indirect cost", "التصنيع على AX: قوائم المواد والجودة والتكاليف"], ["Mansouria and Shpramont warehouses brought to standard", "تجهيز مستودعي Mansouria وShpramont بنفس المعايير"]], viz: "factory" },
+  { k: "Business systems", ka: "أنظمة الأعمال", t: "Core systems the company owns and runs.", ta: "أنظمة أساسية تملكها الشركة وتديرها.",
+    l: "The ERP moved from freelancer support to in-house operation. SalesBuzz was upgraded from v4.58 to 5.15, each time rehearsed on a test copy, and distributors now run on their own isolated, backed-up servers on Azure.",
+    la: "انتقل نظام ERP من دعم مستقل خارجي إلى تشغيل داخلي. وتمت ترقية SalesBuzz من 4.58 إلى 5.15 مع تجربة كل ترقية على نسخة اختبار، وأصبح للموزعين خوادم مستقلة ومعزولة ومحمية على Azure.",
+    f: [["Odoo CRM v14 → v15; REST and Swagger APIs", "Odoo CRM من 14 إلى 15 مع واجهات API"], ["Mago HR live with self-service and attendance", "Mago HR مع الخدمة الذاتية والحضور"], ["15+ SalesBuzz reports and about 15 Power BI reports", "أكثر من 15 تقريراً في SalesBuzz وحوالي 15 في Power BI"], ["Service desk, Snipe-IT custody, device management", "مكتب دعم فني وعهدة Snipe-IT وإدارة الأجهزة"]], viz: "systems" },
+];
+const HUB = [["Alrayen", "Odoo live 2025 Q1"], ["Sadeq company", "Odoo e-invoice · 2025", 1], ["Almina Trading", "Odoo support · IT hiring"], ["ELA business unit", "Full distributor cycle"], ["Distributors", "Isolated DMS and DS servers"], ["Lumea and Abrar", "IVR · barcodes · websites"], ["KSA web presence", "Site and social accounts"], ["Raya", "Outsourced call center"]];
+const HUBA = [["Alrayen", "تشغيل Odoo · 2025"], ["شركة Sadeq", "الفاتورة الإلكترونية على Odoo · 2025"], ["Almina Trading", "دعم Odoo وتوظيف IT"], ["وحدة ELA", "دورة توزيع كاملة"], ["الموزعون", "خوادم DMS وDS معزولة"], ["Lumea وAbrar", "IVR وباركود ومواقع"], ["الموقع السعودي", "الموقع والحسابات"], ["Raya", "مركز اتصال خارجي"]];
+const NAMES = ["Samar", "Ahmed Soufy", "Esraa", "Ahmed Youssef", "Yassen", "Eslam", "Hossam Hassanen", "Abdelrahman Adam", "Ahmed Mogawer"];
+const TEAMS = [["Call center", "مركز الاتصال"], ["HR", "الموارد البشرية"], ["IT", "تقنية المعلومات"], ["RTL", "RTL"], ["ELA sales", "مبيعات ELA"], ["Customer finance", "مالية العملاء"]];
+const VALUES = [
+  ["Direct saving", "وفر مباشر", "Etisalat contract (~24%), Scalefusion replacing SOTI, printer and GPS contracts", "عقد Etisalat (حوالي 24%) وScalefusion والطابعات وGPS", "% documented", "النسبة موثقة", "--signal"],
+  ["Cost avoidance", "تجنب تكاليف", "8 servers licensed without the partnership route; open source; AX in-house; no security consultancy", "ترخيص 8 خوادم، ومصادر مفتوحة، وAX داخلياً، وبدون استشارات أمنية", "Basis documented", "الأساس موثق", "--signal"],
+  ["Revenue protection", "حماية الإيرادات", "Credit controls at order entry, fake orders closed, calls reach an agent", "ضوابط ائتمان، وإغلاق الطلبات الوهمية، والرد على المكالمات", "Qualitative", "نوعي", "--brass"],
+  ["Productivity", "الإنتاجية", "HR self-service, automated reports, service desk, CRM history", "خدمة ذاتية، وتقارير آلية، ومكتب دعم، وسجل العملاء", "Capacity, not cash", "وقت وليس نقداً", "--brass"],
+  ["Risk reduction", "تقليل المخاطر", "Ransomware, permanent data loss, single points of failure", "الفدية، وفقدان البيانات، ونقاط العطل الواحدة", "Never cash", "ليس نقداً أبداً", "--warn"],
+];
+const CONTRACTS = [["~24%", "Etisalat contract renegotiated", "إعادة التفاوض على عقد Etisalat"], ["8 / 8", "Servers validly licensed", "خوادم مرخصة"], ["SOTI → Scalefusion", "Device management at better value", "إدارة الأجهزة بقيمة أفضل"], ["Best price", "Docucom printers contract", "عقد طابعات Docucom"], ["Static IPs", "Obtained from TE Data for both lines", "من TE Data للخطين"], ["IT cost", "Written into the ELA contract", "مضافة إلى عقد ELA"]];
+const NEXTA = [["Issabel–Odoo 19 integration, live next quarter", "ربط Issabel مع Odoo 19، التشغيل في الربع القادم"], ["5th-floor network and surveillance", "شبكة وكاميرات الدور الخامس"], ["Home-delivery smart dashboard", "لوحة متابعة التوصيل المنزلي"], ["Dynamics 365 plan (kickoff held)", "خطة Dynamics 365 (تم الاجتماع الأول)"], ["SMS invoicing; website and mobile app", "إرسال الفواتير عبر SMS؛ الموقع وتطبيق الجوال"]];
+const NEXTB = [["Scheduled disaster-recovery restore tests", "اختبارات دورية للاستعادة من النسخ الاحتياطية"], ["Multi-factor authentication on critical systems", "التحقق متعدد العوامل للأنظمة الحرجة"], ["Central logging and alerting", "تسجيل مركزي للأحداث والتنبيهات"], ["Written security policy and annual access review", "سياسة أمن مكتوبة ومراجعة سنوية للصلاحيات"], ["Runbooks so every platform owner has a trained backup", "أدلة تشغيل ليكون لكل مسؤول بديل مُدرَّب"]];
+const CATS = [["all", "All", "الكل"], ["security", "Security", "الأمن"], ["network", "Network", "الشبكة"], ["callcenter", "Call center", "مركز الاتصال"], ["erp", "ERP / AX", "ERP"], ["sales", "Sales / SalesBuzz", "المبيعات"], ["crm", "Odoo / CRM", "Odoo"], ["hr", "HR", "الموارد البشرية"], ["data", "Servers / data", "الخوادم والبيانات"], ["web", "Web / mail", "المواقع والبريد"], ["people", "People", "الأفراد"]];
+
+/* ===================== renderers ===================== */
+function renderDomains() {
+  $("#domains").innerHTML = DOMAINS.map(([n, na, s, w, d, da, refs]) => `<article class="dom" style="--sev:var(${SEVC[s]})"><div class="top"><h3>${L(n, na)}</h3><span class="sev">${L(s, SEVA[s])}</span></div><div class="meter"><i style="--w:${w}%"></i></div><p>${L(d, da)}</p><span class="refs">${lang === "ar" ? "المراجع" : "Audit refs"} ${refs}</span></article>`).join("");
+}
+function renderBA() {
+  $("#ba").innerHTML = BA.map(([a, aa, b, ba, n, na]) => `<div class="barow"><h3>${L(a, aa)}</h3><div class="txt"><span class="a">${L(n, na)}</span><span class="b">${L(b, ba)}</span></div><span class="state-chip">${$("#ba").classList.contains("after") ? L("Protected", "محمي") : L("At risk", "معرّض للخطر")}</span></div>`).join("");
+  $("#y23").textContent = L("Jan 2023", "يناير 2023"); $("#y26").textContent = L("Oct 2026", "أكتوبر 2026");
+  placeKnob();
+}
+function placeKnob() {
+  const on = $("#ba").classList.contains("after") ? $("#y26") : $("#y23"), k = $("#knob");
+  k.style.width = on.offsetWidth + "px"; k.style.left = on.offsetLeft + "px";
+}
+function setYear(after) {
+  $("#ba").classList.toggle("after", after);
+  $("#y23").setAttribute("aria-pressed", String(!after)); $("#y26").setAttribute("aria-pressed", String(after));
+  $$(".state-chip").forEach((c) => (c.textContent = after ? L("Protected", "محمي") : L("At risk", "معرّض للخطر")));
+  placeKnob();
+}
+function renderChart() {
+  const W = 960, H = 330, pl = 34, pr = 10, pt = 26, pb = 64, max = 30, n = 16, cw = (W - pl - pr) / n, bw = cw * 0.58;
+  const y = (v) => pt + (H - pt - pb) * (1 - v / max);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Deliverables per quarter, 2023 to 2026">`;
+  for (const t of [0, 10, 20, 30]) s += `<line class="grid" x1="${pl}" x2="${W - pr}" y1="${y(t)}" y2="${y(t)}"/><text x="${pl - 8}" y="${y(t) + 4}" text-anchor="end">${t}</text>`;
+  Q.forEach((v, i) => {
+    const x = pl + i * cw + (cw - bw) / 2, yr = ["y23", "y24", "y25", "y26"][Math.floor(i / 4)], prog = i === 15;
+    s += `<g class="q" data-i="${i}"><rect x="${pl + i * cw}" y="${pt}" width="${cw}" height="${H - pt - pb}" fill="transparent"/><rect class="bar-r ${yr}${prog ? " prog" : ""}" x="${x}" y="${y(v)}" width="${bw}" height="${y(0) - y(v)}" rx="4" style="animation-delay:${i * 45}ms"/><text class="vlab" x="${x + bw / 2}" y="${y(v) - 7}" text-anchor="middle">${v}</text><text x="${x + bw / 2}" y="${H - pb + 18}" text-anchor="middle">Q${(i % 4) + 1}</text></g>`;
+  });
+  ["2023", "2024", "2025", "2026"].forEach((yy, k) => (s += `<text class="yr" x="${pl + (k * 4 + 2) * cw}" y="${H - 16}" text-anchor="middle">${yy}</text><line class="grid" x1="${pl + k * 4 * cw + 6}" x2="${pl + (k + 1) * 4 * cw - 6}" y1="${H - pb + 30}" y2="${H - pb + 30}"/>`));
+  $("#chart").innerHTML = s + "</svg>";
+  $("#years").innerHTML = YEARS.map(([yy, nn, th, tha]) => `<div class="yr-card"><span class="label">${yy}</span><strong class="num">${nn}</strong><b>${L(th, tha)}</b></div>`).join("");
+  $$("#chart g.q").forEach((g) => {
+    const i = +g.dataset.i;
+    g.addEventListener("pointermove", (e) => tip(e, `<b>${2023 + Math.floor(i / 4)} Q${(i % 4) + 1} · ${Q[i]}</b><br>${L(QTH[i], QTHA[i])}`));
+    g.addEventListener("pointerleave", () => $("#tip").classList.remove("on"));
+  });
+}
+function tip(e, html) { const t = $("#tip"); t.innerHTML = html; t.classList.add("on"); const x = Math.min(innerWidth - t.offsetWidth - 10, e.clientX + 14); t.style.left = x + "px"; t.style.top = e.clientY - t.offsetHeight - 14 + "px"; }
+function renderRings() {
+  const c = 250; let s = `<svg viewBox="0 0 500 500" role="img" aria-label="Ten layers of defence around company data">`;
+  LAYERS.forEach((_, i) => {
+    const r = 232 - i * 19, len = (2 * Math.PI * r).toFixed(1), a = -Math.PI / 2 + 0.32, nx = c + r * Math.cos(a), ny = c + r * Math.sin(a);
+    s += `<circle class="ring" data-i="${i}" cx="${c}" cy="${c}" r="${r}" stroke-dasharray="${len}" style="--len:${len};animation-delay:${(9 - i) * 110}ms"/><text class="ring-n" x="${nx}" y="${ny + 4}" text-anchor="middle">${i + 1}</text>`;
+  });
+  s += `<circle class="core" cx="${c}" cy="${c}" r="52"/><text class="core-t" x="${c}" y="${c + 2}" text-anchor="middle">${L("GID data", "بيانات GID")}</text><text class="core-s" x="${c}" y="${c + 20}" text-anchor="middle">${lang === "ar" ? "" : "PROTECTED"}</text></svg>`;
+  $("#rings").innerHTML = s;
+  $("#layers").innerHTML = LAYERS.map(([t, ta, d, da], i) => `<li data-i="${i}" tabindex="0"><span class="n">${i + 1}</span><div><b>${L(t, ta)}</b><span>${L(d, da)}</span></div></li>`).join("");
+  const hi = (i) => { $$(".ring").forEach((r) => r.classList.toggle("on", +r.dataset.i === i)); $$("#layers li").forEach((l) => l.classList.toggle("on", +l.dataset.i === i)); };
+  $$(".ring, #layers li").forEach((el) => { el.addEventListener("pointerenter", () => hi(+el.dataset.i)); el.addEventListener("focus", () => hi(+el.dataset.i)); el.addEventListener("click", () => hi(+el.dataset.i)); });
+  hi(5);
+}
+let flagIdx = 0, flagTimer;
+function renderFlags() {
+  $("#tabs").innerHTML = FLAG.map((f, i) => `<button class="tab" role="tab" type="button" aria-selected="${i === flagIdx}" data-i="${i}">${L(f.k, f.ka)}</button>`).join("");
+  $$("#tabs .tab").forEach((b) => b.addEventListener("click", () => { flagIdx = +b.dataset.i; clearInterval(flagTimer); renderFlags(); }));
+  const f = FLAG[flagIdx];
+  $("#panel").innerHTML = `<div class="panel" role="tabpanel"><div><h3>${L(f.t, f.ta)}</h3><p class="lede">${L(f.l, f.la)}</p><ul class="facts">${f.f.map(([e, a]) => `<li><span>${L(e, a)}</span></li>`).join("")}</ul></div><div class="viz">${VIZ[f.viz]()}</div></div>`;
+}
+const VIZ = {
+  call() {
+    const steps = [["Incoming call", "مكالمة واردة", "GoIP · SIP · landline"], ["Queue", "قائمة الانتظار", "strategy · time rules"], ["Agent + recording", "الموظف + التسجيل", "supervisor access"], ["CRM log", "سجل CRM", "Odoo · complaints"], ["Reports", "التقارير", "in / out · KPIs"]];
+    let s = `<svg viewBox="0 0 560 360" role="img" aria-label="Call flow from incoming call to reports"><path id="cpath" class="wire" d="M70 60 H490 V180 H70 V300 H490"/><path class="flow" d="M70 60 H490 V180 H70 V300 H490"/>`;
+    const pos = [[70, 60], [490, 60], [490, 180], [70, 180], [70, 300]];
+    steps.forEach(([e, a, sub], i) => { const [x, y] = pos[i]; s += `<g><rect class="box${i === 2 ? " hot" : ""}" x="${x - 62}" y="${y - 30}" width="124" height="60" rx="12"/><text x="${x}" y="${y - 3}" text-anchor="middle">${L(e, a)}</text><text class="sub" x="${x}" y="${y + 16}" text-anchor="middle">${sub}</text></g>`; });
+    for (let k = 0; k < 3; k++) s += `<circle class="pulse" r="6"><animateMotion dur="5s" begin="${k * 1.66}s" repeatCount="indefinite" rotate="auto"><mpath href="#cpath"/></animateMotion></circle>`;
+    s += `<g transform="translate(400 300)"><rect class="box hot" x="-62" y="-30" width="124" height="60" rx="12"/><text x="0" y="-2" text-anchor="middle" style="font:800 24px var(--display);fill:var(--brass)">32</text><text class="sub" x="0" y="17" text-anchor="middle">SIP CHANNELS</text></g></svg>`;
+    return s + `<div class="kpis"><div class="kpi"><strong>32</strong><span>${L("concurrent channels", "قناة متزامنة")}</span></div><div class="kpi"><strong>100%</strong><span>${L("calls logged today", "من المكالمات تُوثَّق اليوم")}</span></div><div class="kpi"><strong>2</strong><span>${L("brands added on IVR", "علامتان على IVR")}</span></div></div>`;
+  },
+  infra() {
+    let s = `<svg viewBox="0 0 560 360" role="img" aria-label="Connectivity and power redundancy"><g><rect class="box hot" x="215" y="140" width="130" height="80" rx="14"/><text x="280" y="176" text-anchor="middle">${L("GID sites", "مواقع GID")}</text><text class="sub" x="280" y="196" text-anchor="middle">Proxmox · VMs</text></g>`;
+    const links = [["Line 1", "ISP", 60, 60], ["Line 2", "ISP", 60, 180], ["4G backup", "LTE", 60, 300], ["Generator", "UPS", 500, 90], ["Azure", "cloud", 500, 270]];
+    links.forEach(([a, b, x, y], i) => { const ex = x < 280 ? 215 : 345, ey = 180; s += `<path class="wire" d="M${x < 280 ? x + 60 : x - 60} ${y} C ${(x + ex) / 2} ${y}, ${(x + ex) / 2} ${ey}, ${ex} ${ey}"/><path class="flow" style="animation-delay:${i * 0.2}s" d="M${x < 280 ? x + 60 : x - 60} ${y} C ${(x + ex) / 2} ${y}, ${(x + ex) / 2} ${ey}, ${ex} ${ey}"/><rect class="box" x="${x - 60}" y="${y - 26}" width="120" height="52" rx="12"/><text x="${x}" y="${y - 2}" text-anchor="middle">${a}</text><text class="sub" x="${x}" y="${y + 15}" text-anchor="middle">${b}</text>`; });
+    return s + `</svg><div class="kpis"><div class="kpi"><strong>2 + 4G</strong><span>${L("internet paths", "مسارات إنترنت")}</span></div><div class="kpi"><strong>100</strong><span>${L("Mbps at the factory", "ميجابت في المصنع")}</span></div><div class="kpi"><strong>0</strong><span>${L("hypervisor licences", "رسوم ترخيص افتراضية")}</span></div></div>`;
+  },
+  factory() {
+    let s = `<svg viewBox="0 0 560 360" role="img" aria-label="Factory network zones"><rect class="box" x="20" y="20" width="520" height="320" rx="18"/><text class="sub" x="40" y="46">${L("FACTORY NETWORK", "شبكة المصنع")}</text>`;
+    const z = [["Firewall", "Fortigate", 100, 110], ["DMZ", "published services", 280, 110], ["Production", "Sidel VPN", 460, 110], ["Users", "filtered · quotas", 100, 250], ["CCTV", "32 cams · NVR", 280, 250], ["AX", "BOM · quality · cost", 460, 250]];
+    z.forEach(([a, b, x, y], i) => { s += `<rect class="box${i === 0 ? " hot" : ""}" x="${x - 72}" y="${y - 34}" width="144" height="68" rx="12"/><text x="${x}" y="${y - 4}" text-anchor="middle">${a}</text><text class="sub" x="${x}" y="${y + 16}" text-anchor="middle">${b}</text>`; });
+    s += `<path class="flow" d="M172 110 H208 M352 110 H388 M100 144 V216 M280 144 V216 M460 144 V216"/>`;
+    return s + `</svg><div class="kpis"><div class="kpi"><strong>32</strong><span>${L("new cameras", "كاميرا جديدة")}</span></div><div class="kpi"><strong>100</strong><span>${L("Mbps link", "ميجابت")}</span></div><div class="kpi"><strong>2</strong><span>${L("warehouses to standard", "مستودعان بنفس المعايير")}</span></div></div>`;
+  },
+  systems() {
+    const sys = [["AX 2012", "ERP · in-house"], ["SalesBuzz 5.15", "DMS · DS · Azure"], ["Odoo CRM", "v15 · APIs"], ["Mago HR", "self-service"], ["Power BI", "~15 reports"], ["ManageEngine", "service desk"]];
+    let s = `<svg viewBox="0 0 560 360" role="img" aria-label="Core business systems"><circle cx="280" cy="180" r="58" class="box hot"/><text x="280" y="176" text-anchor="middle" style="font:800 18px var(--display)">GID</text><text class="sub" x="280" y="196" text-anchor="middle">${L("owned in-house", "تُدار داخلياً")}</text>`;
+    sys.forEach(([a, b], i) => { const ang = -Math.PI / 2 + i * (Math.PI / 3), x = 280 + 190 * Math.cos(ang), y = 180 + 128 * Math.sin(ang); s += `<path class="flow" style="animation-delay:${i * 0.15}s" d="M${280 + 58 * Math.cos(ang)} ${180 + 58 * Math.sin(ang)} L${x - 30 * Math.cos(ang)} ${y - 18 * Math.sin(ang)}"/><rect class="box" x="${x - 66}" y="${y - 26}" width="132" height="52" rx="12"/><text x="${x}" y="${y - 2}" text-anchor="middle">${a}</text><text class="sub" x="${x}" y="${y + 15}" text-anchor="middle">${b}</text>`; });
+    return s + `</svg><div class="kpis"><div class="kpi"><strong>4.58 → 5.15</strong><span>SalesBuzz</span></div><div class="kpi"><strong>v14 → v15</strong><span>Odoo CRM</span></div><div class="kpi"><strong>15+</strong><span>${L("sales reports", "تقرير مبيعات")}</span></div></div>`;
+  },
+};
+function renderHub() {
+  const W = 1000, H = 520, cx = 500, cy = 260, data = lang === "ar" ? HUBA : HUB;
+  const pos = [[150, 70], [500, 60], [850, 70], [865, 260], [850, 450], [500, 460], [150, 450], [135, 260]];
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Businesses supported on shared platforms">`;
+  pos.forEach(([x, y]) => (s += `<path class="lnk" d="M${cx} ${cy} L${x} ${y}"/><path class="lnk-f" d="M${cx} ${cy} L${x} ${y}"/>`));
+  s += `<g class="center"><circle class="orb" cx="${cx}" cy="${cy}" r="78"/><circle cx="${cx}" cy="${cy}" r="78"/><text x="${cx}" y="${cy + 4}" text-anchor="middle">GID IT</text><text class="s" x="${cx}" y="${cy + 26}" text-anchor="middle">${L("SHARED PLATFORMS", "منصات مشتركة")}</text></g>`;
+  data.forEach(([a, b], i) => { const [x, y] = pos[i]; s += `<g class="node${HUB[i][2] ? " star" : ""}"><rect x="${x - 112}" y="${y - 32}" width="224" height="64" rx="14"/><text x="${x}" y="${y - 4}" text-anchor="middle">${a}</text><text class="s" x="${x}" y="${y + 17}" text-anchor="middle">${b}</text></g>`; });
+  $("#hub").innerHTML = s + "</svg>";
+}
+function renderTeam() {
+  $("#names").innerHTML = NAMES.map((n) => `<span class="chip">${n}</span>`).join("") + TEAMS.map(([e, a]) => `<span class="chip t">${L(e, a)} ${L("team", "")}</span>`).join("");
+}
+function renderValues() {
+  $("#values").innerHTML = VALUES.map(([t, ta, d, da, st, sta, c]) => `<article class="val" style="--c:var(${c})"><h3>${L(t, ta)}</h3><p>${L(d, da)}</p><span class="st">${L(st, sta)}</span></article>`).join("");
+  $("#contracts").innerHTML = CONTRACTS.map(([v, e, a]) => `<div class="ct"><strong>${v}</strong><span>${L(e, a)}</span></div>`).join("");
+}
+function renderNext() {
+  $("#nA").innerHTML = NEXTA.map(([e, a]) => `<li><i></i><span>${L(e, a)}</span></li>`).join("");
+  $("#nB").innerHTML = NEXTB.map(([e, a]) => `<li><i></i><span>${L(e, a)}</span></li>`).join("");
+}
+
+/* ===================== register explorer ===================== */
+const F = { y: "all", c: "all", q: "" };
+function renderFilters() {
+  const ys = [["all", L("All", "الكل")], ["2023", "2023"], ["2024", "2024"], ["2025", "2025"], ["2026", "2026"]];
+  $("#fYear").innerHTML = `<span class="label">${T("r_y")}</span>` + ys.map(([k, l]) => `<button class="fchip" type="button" data-y="${k}" aria-pressed="${F.y === k}">${l}</button>`).join("");
+  $("#fCat").innerHTML = `<span class="label">${T("r_c")}</span>` + CATS.map(([k, e, a]) => `<button class="fchip" type="button" data-c="${k}" aria-pressed="${F.c === k}">${L(e, a)}</button>`).join("");
+  $$("#fYear .fchip").forEach((b) => b.addEventListener("click", () => { F.y = b.dataset.y; renderFilters(); renderRows(); }));
+  $$("#fCat .fchip").forEach((b) => b.addEventListener("click", () => { F.c = b.dataset.c; renderFilters(); renderRows(); }));
+  $("#q").placeholder = L("Search: Issabel, factory, backup, Sadeq…", "ابحث: Issabel، المصنع، backup، Sadeq…");
+}
+function hl(s) { const t = esc(s); if (!F.q) return t; const i = t.toLowerCase().indexOf(F.q.toLowerCase()); return i < 0 ? t : t.slice(0, i) + "<mark>" + t.slice(i, i + F.q.length) + "</mark>" + t.slice(i + F.q.length); }
+function renderRows() {
+  const q = F.q.toLowerCase();
+  const list = REG.filter((r) => (F.y === "all" || r.q.startsWith(F.y)) && (F.c === "all" || r.c.includes(F.c)) && (!q || (r.id + " " + r.a + " " + r.i + " " + r.n + " " + r.th).toLowerCase().includes(q)));
+  const catName = (k) => { const c = CATS.find((x) => x[0] === k); return c ? L(c[1], c[2]) : k; };
+  $("#count").innerHTML = lang === "ar" ? `عرض <b>${list.length}</b> من ${REG.length}` : `Showing <b>${list.length}</b> of ${REG.length} deliverables`;
+  $("#rows").innerHTML = list.length ? list.map((r) => `<div class="row"><button type="button" aria-expanded="false"><span class="id">${r.id}</span><span class="ach">${hl(r.a)}</span><span class="tg${r.p ? " p" : ""}">${r.p ? L("In progress", "قيد التنفيذ") : r.q + " · " + catName(r.c[0])}</span></button><div class="det" hidden><div class="imp"><span class="label">${L("Impact", "الأثر")}</span>${hl(r.i)}</div><div class="risk"><span class="label">${L("If not delivered", "في حال عدم التنفيذ")}</span>${hl(r.n)}</div></div></div>`).join("") : `<div class="empty">${L("No deliverables match. Clear the search or pick another area.", "لا توجد نتائج. امسح البحث أو اختر مجالاً آخر.")}</div>`;
+}
+$("#rows").addEventListener("click", (e) => { const b = e.target.closest(".row > button"); if (!b) return; const d = b.nextElementSibling, open = d.hidden; d.hidden = !open; b.setAttribute("aria-expanded", String(open)); });
+$("#q").addEventListener("input", (e) => { F.q = e.target.value.trim(); renderRows(); });
+
+/* ===================== hero network canvas ===================== */
+const net = (() => {
+  const cv = $("#net"), ctx = cv.getContext("2d"); let w = 0, h = 0, t0 = performance.now(), nodes = [], raf;
+  const ZONES = [["Servers", "الخوادم", .27, .3], ["Users", "المستخدمون", .73, .3], ["Factory DMZ", "DMZ المصنع", .27, .72], ["Cloud and distributors", "السحابة والموزعون", .73, .72]];
+  function build() {
+    nodes = []; let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+    ZONES.forEach((z, zi) => { const count = [6, 9, 7, 6][zi]; for (let i = 0; i < count; i++) { const a = (i / count) * Math.PI * 2 + zi, rr = .07 + rnd() * .06; nodes.push({ z: zi, sx: .5 + (rnd() - .5) * .62, sy: .52 + (rnd() - .5) * .56, tx: z[2] + Math.cos(a) * rr, ty: z[3] + Math.sin(a) * rr * .9, hub: i === 0 }); } });
+  }
+  function size() { const r = cv.getBoundingClientRect(), d = Math.min(devicePixelRatio || 1, 2); w = r.width; h = r.height; cv.width = w * d; cv.height = h * d; ctx.setTransform(d, 0, 0, d, 0, 0); }
+  const ease = (x) => (x < 0 ? 0 : x > 1 ? 1 : x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+  function frame(now) {
+    const el = (now - t0) / 1000, p = reduce ? 1 : ease((el - 1.4) / 2.2);
+    const C = { alert: css("--alert"), sig: css("--signal"), line: css("--line"), fg: css("--fg"), mut: css("--muted"), brass: css("--brass") };
+    ctx.clearRect(0, 0, w, h);
+    const P = nodes.map((n) => ({ x: (n.sx + (n.tx - n.sx) * p) * w, y: (n.sy + (n.ty - n.sy) * p) * h, n }));
+    if (p > .05) ZONES.forEach((z, zi) => { ctx.globalAlpha = p * .9; ctx.strokeStyle = C.line; ctx.setLineDash([4, 6]); ctx.lineWidth = 1.2; ctx.beginPath(); ctx.ellipse(z[2] * w, z[3] * h, .17 * w, .17 * h, 0, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = C.mut; ctx.font = `500 ${Math.max(10, w * .022)}px ${lang === "ar" ? "IBM Plex Sans Arabic" : "IBM Plex Mono"}`; ctx.textAlign = "center"; ctx.fillText(lang === "ar" ? z[1] : z[0].toUpperCase(), z[2] * w, z[3] * h - .19 * h); });
+    ctx.globalAlpha = 1;
+    for (let i = 0; i < P.length; i++) for (let j = i + 1; j < P.length; j++) {
+      const a = P[i], b = P[j], same = a.n.z === b.n.z, d = Math.hypot(a.x - b.x, a.y - b.y);
+      let alpha = 0;
+      if (!same) alpha = (1 - p) * Math.max(0, 1 - d / (w * .38)) * .55;
+      else alpha = (1 - p) * Math.max(0, 1 - d / (w * .38)) * .55 + p * ((a.n.hub || b.n.hub) ? .7 : 0);
+      if (alpha < .02) continue;
+      ctx.strokeStyle = same && p > .5 ? C.sig : C.alert; ctx.globalAlpha = alpha; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+    }
+    if (p > .6) { const hubs = P.filter((q) => q.n.hub); ctx.globalAlpha = (p - .6) * 2.2; ctx.strokeStyle = C.brass; ctx.lineWidth = 1.6; ctx.setLineDash([2, 5]); for (let k = 1; k < hubs.length; k++) { ctx.beginPath(); ctx.moveTo(hubs[0].x, hubs[0].y); ctx.lineTo(hubs[k].x, hubs[k].y); ctx.stroke(); } ctx.setLineDash([]);
+      const tt = (el * .35) % 1; hubs.slice(1).forEach((hb, k) => { const q = (tt + k * .33) % 1; ctx.globalAlpha = 1; ctx.fillStyle = C.brass; ctx.beginPath(); ctx.arc(hubs[0].x + (hb.x - hubs[0].x) * q, hubs[0].y + (hb.y - hubs[0].y) * q, 3, 0, Math.PI * 2); ctx.fill(); }); }
+    ctx.globalAlpha = 1;
+    P.forEach((q, i) => { const pulse = 1 + (reduce ? 0 : Math.sin(el * 2 + i) * .15); ctx.fillStyle = p > .5 ? (q.n.hub ? C.brass : C.sig) : C.alert; ctx.beginPath(); ctx.arc(q.x, q.y, (q.n.hub ? 5.5 : 3.6) * pulse, 0, Math.PI * 2); ctx.fill(); });
+    const st = $("#netState"), segd = p > .5;
+    if (st.dataset.s !== String(segd)) { st.dataset.s = String(segd); st.className = "pill " + (segd ? "good" : "bad"); st.innerHTML = T(segd ? "seg" : "flat"); }
+    raf = requestAnimationFrame(frame);
+  }
+  function start() { cancelAnimationFrame(raf); size(); t0 = performance.now(); raf = requestAnimationFrame(frame); }
+  build(); start(); addEventListener("resize", () => size());
+  return { replay: start };
+})();
+$("#replay").addEventListener("click", () => net.replay());
+
+/* ===================== counters + reveals ===================== */
+function countUp(el) { const end = +el.dataset.count; if (!end || reduce) return; const t0 = performance.now(), d = 1400; const step = (n) => { const k = Math.min(1, (n - t0) / d), e = 1 - Math.pow(1 - k, 3); el.textContent = Math.round(end * e); if (k < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); }
+const io = "IntersectionObserver" in window ? new IntersectionObserver((ents) => ents.forEach((en) => {
+  if (!en.isIntersecting) return; const el = en.target; el.classList.remove("pend"); el.classList.add("go");
+  $$("[data-count]", el).forEach(countUp); if (el.matches("[data-count]")) countUp(el); io.unobserve(el);
+}), { threshold: .14 }) : null;
+function arm() {
+  $$(".rv, .close .row3").forEach((el) => { if (!io) return; const r = el.getBoundingClientRect(); if (r.top > innerHeight * .92 && !reduce) el.classList.add("pend"); io.observe(el); });
+}
+
+/* ===================== nav, progress, theme, language, present ===================== */
+const secs = $$("main section");
+addEventListener("scroll", () => {
+  const max = document.documentElement.scrollHeight - innerHeight; $("#prog").style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+  let cur = secs[0]; secs.forEach((s) => { if (s.getBoundingClientRect().top < innerHeight * .4) cur = s; });
+  $$(".nav a").forEach((a) => a.classList.toggle("on", a.getAttribute("href") === "#" + cur.id));
+  $("#pPos").textContent = `${secs.indexOf(cur) + 1} / ${secs.length}`;
+}, { passive: true });
+function curIndex() { let k = 0; secs.forEach((s, i) => { if (s.getBoundingClientRect().top < innerHeight * .4) k = i; }); return k; }
+function goSec(d) { const k = Math.max(0, Math.min(secs.length - 1, curIndex() + d)); secs[k].scrollIntoView({ behavior: reduce ? "auto" : "smooth" }); }
+function setPresent(on) {
+  document.documentElement.classList.toggle("present", on);
+  if (on) { document.documentElement.requestFullscreen?.().catch(() => {}); } else if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+}
+$("#presentBtn").addEventListener("click", () => setPresent(!document.documentElement.classList.contains("present")));
+$("#pExit").addEventListener("click", () => setPresent(false));
+$("#pPrev").addEventListener("click", () => goSec(-1)); $("#pNext").addEventListener("click", () => goSec(1));
+document.addEventListener("fullscreenchange", () => { if (!document.fullscreenElement) document.documentElement.classList.remove("present"); });
+addEventListener("keydown", (e) => {
+  if (e.target.matches("input")) return;
+  const pres = document.documentElement.classList.contains("present"), rtl = lang === "ar";
+  if (pres && (e.key === "ArrowDown" || e.key === "PageDown" || e.key === " " || e.key === (rtl ? "ArrowLeft" : "ArrowRight"))) { e.preventDefault(); goSec(1); }
+  if (pres && (e.key === "ArrowUp" || e.key === "PageUp" || e.key === (rtl ? "ArrowRight" : "ArrowLeft"))) { e.preventDefault(); goSec(-1); }
+  if (e.key.toLowerCase() === "p" && !e.ctrlKey && !e.metaKey) setPresent(!pres);
+  if (e.key === "Escape" && pres) setPresent(false);
+});
+$("#themeBtn").addEventListener("click", () => {
+  const root = document.documentElement, dark = root.dataset.theme ? root.dataset.theme === "dark" : !matchMedia("(prefers-color-scheme: light)").matches;
+  root.dataset.theme = dark ? "light" : "dark"; try { localStorage.setItem("gid-theme", root.dataset.theme); } catch (_) {}
+});
+try { const th = localStorage.getItem("gid-theme"); if (th) document.documentElement.dataset.theme = th; } catch (_) {}
+function applyLang(l) {
+  lang = l; const root = document.documentElement; root.lang = l; root.dir = l === "ar" ? "rtl" : "ltr";
+  $$("[data-t]").forEach((el) => { const v = T(el.dataset.t); if (v != null) el.innerHTML = v; });
+  $("#langLbl").textContent = l === "ar" ? "English" : "العربية";
+  renderAll(); try { localStorage.setItem("gid-lang", l); } catch (_) {}
+}
+$("#langBtn").addEventListener("click", () => applyLang(lang === "en" ? "ar" : "en"));
+function renderAll() { renderDomains(); renderBA(); renderChart(); renderRings(); renderFlags(); renderHub(); renderTeam(); renderValues(); renderNext(); renderFilters(); renderRows(); }
+$("#y23").addEventListener("click", () => setYear(false)); $("#y26").addEventListener("click", () => setYear(true));
+addEventListener("resize", placeKnob);
+
+renderAll();
+try { const lg = localStorage.getItem("gid-lang"); if (lg === "ar") applyLang("ar"); } catch (_) {}
+arm();
+// before/after: play once from 2023 to 2026 when first seen
+const baIo = "IntersectionObserver" in window && !reduce ? new IntersectionObserver((ents) => { if (ents[0].isIntersecting) { baIo.disconnect(); setYear(false); setTimeout(() => setYear(true), 1500); } }, { threshold: .4 }) : null;
+if (baIo) baIo.observe($("#ba"));
+document.fonts?.ready.then(placeKnob);
+})();
+</script>
+</body>
+</html>

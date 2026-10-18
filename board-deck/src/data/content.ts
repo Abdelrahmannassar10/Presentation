@@ -1,8 +1,18 @@
-// All figures come from IT_Call_Center_4-Year_Achievement_Report.md (data folder). Nothing here is invented.
+// All figures come from the data folder: IT_Call_Center_4-Year_Achievement_Report.md, achievement2.xlsx,
+// readme.md and Financial_Data_Request_EN-AR.docx (amounts filled in by the IT & Call Center Manager). Nothing here is invented.
 import regJson from "./register.json";
 
 export type Reg = { id: string; q: string; th: string; a: string; i: string; n: string; p: boolean; c: string[] };
 export const REG = regJson as Reg[];
+
+// every count in the deck is derived from the register, so slides and notes can never disagree
+export const TOTAL = REG.length;
+export const PROG = REG.filter((r) => r.p).length;
+export const DONE = TOTAL - PROG;
+const QS = ["2023", "2024", "2025", "2026"].flatMap((y) => [1, 2, 3, 4].map((q) => `${y} Q${q}`));
+export const Q = QS.map((q) => REG.filter((r) => r.q === q).length);
+export const QP = QS.map((q) => REG.filter((r) => r.q === q && r.p).length);
+const yearTotal = (y: string) => REG.filter((r) => r.q.startsWith(y)).length;
 
 export type Sev = "Critical" | "High" | "Medium";
 export const SEV_AR: Record<Sev, string> = { Critical: "حرج", High: "مرتفع", Medium: "متوسط" };
@@ -27,15 +37,14 @@ export const BA: [string, string, string, string, string, string][] = [
   ["Network", "الشبكة", "One flat network for every user, server and device", "شبكة واحدة لكل المستخدمين والخوادم والأجهزة", "Isolated server network, VLANs, factory DMZ, distributors isolated", "شبكة خوادم معزولة، وVLANs، وDMZ للمصنع، وعزل الموزعين"],
   ["Servers", "الخوادم", "Idle hardware, no virtualization, no test server", "أجهزة خاملة بلا خوادم افتراضية أو اختبار", "Proxmox virtualization with test and staging environments", "خوادم افتراضية على Proxmox مع بيئات اختبار"],
   ["Backups", "النسخ الاحتياطي", "None", "لا يوجد", "Daily automated backups, local and cloud", "نسخ احتياطي يومي آلي محلياً وسحابياً"],
-  ["Security", "الأمن", "Misconfigured firewall, everyone an administrator", "جدار ناري غير مضبوط والجميع بصلاحية مدير", "Fortigate, segmentation, least privilege, central endpoint protection", "Fortigate وتقسيم الشبكة وأقل صلاحيات وحماية مركزية للأجهزة"],
+  ["Security", "الأمن", "Misconfigured firewall, everyone an administrator", "جدار ناري غير مضبوط والجميع بصلاحية مدير", "Fortigate, VLANs, web filtering, central antivirus, 196 IP cameras", "Fortigate وVLANs وفلترة الويب ومضاد فيروسات مركزي و196 كاميرا IP"],
   ["Call center", "مركز الاتصال", "Personal mobiles and a busy tone", "هواتف شخصية ونغمة انشغال", "Issabel, 32 SIP channels, queues, recording, CRM logging", "Issabel و32 قناة وقوائم انتظار وتسجيل وربط مع CRM"],
   ["Business systems", "أنظمة الأعمال", "No CRM, no HR system, freelancer-run ERP", "بدون CRM أو نظام موارد بشرية، وERP يديره مستقل", "Odoo CRM, Mago HR, in-house AX, SalesBuzz 5.15", "Odoo CRM وMago HR وتشغيل AX داخلياً وSalesBuzz 5.15"],
-  ["Reporting", "التقارير", "Manual spreadsheets", "جداول يدوية", "15+ SalesBuzz reports, ~15 Power BI reports, live dashboards", "أكثر من 15 تقرير SalesBuzz وحوالي 15 تقرير Power BI ولوحات مباشرة"],
+  ["Reporting", "التقارير", "Manual spreadsheets", "جداول يدوية", "72 Power BI reports · 45 SalesBuzz reports built or reworked · ~30 views", "72 تقرير Power BI · 45 تقرير SalesBuzz جديد أو مطوَّر · حوالي 30 عرض بيانات"],
   ["IT assets and devices", "الأصول والأجهزة", "Paper records, unmanaged handhelds", "سجلات ورقية وأجهزة محمولة بلا إدارة", "Snipe-IT custody, MDM on every handheld, service desk", "عهدة Snipe-IT وإدارة كل الأجهزة المحمولة ومكتب دعم فني"],
   ["Team", "الفريق", "Two people, limited experience", "شخصان بخبرة محدودة", "Three people, all at senior level", "ثلاثة أشخاص جميعهم بمستوى خبير"],
 ];
 
-export const Q = [26, 29, 28, 27, 24, 8, 17, 16, 14, 12, 8, 19, 16, 16, 13, 5];
 export const QTH: [string, string][] = [
   ["Stabilise and secure", "تثبيت الاستقرار والتأمين"], ["Segment and digitise", "تقسيم الشبكة والتحول الرقمي"], ["Protect and connect", "الحماية والربط"], ["Platform build", "بناء المنصات"],
   ["Go-live", "التشغيل الفعلي"], ["Resilience", "المرونة"], ["Extend", "التوسع"], ["Manufacturing and control", "التصنيع والرقابة"],
@@ -51,27 +60,27 @@ export const QHEAD: [string, string][] = [
   ["Generator on UPS · CRM rebuilt to v15 · Issabel upgrade live · Mago self-service", "مولد على UPS · إعادة بناء CRM إلى 15 · ترقية Issabel · الخدمة الذاتية في Mago"],
   ["Alrayen on Odoo.sh · queues and time conditions · Raya project · factory IP upgrade, zero downtime · KSA website", "Alrayen على Odoo.sh · قوائم الانتظار والتوقيتات · مشروع Raya · ترقية عناوين المصنع دون توقف · الموقع السعودي"],
   ["AX manufacturing cycle, BOM, quality, cost · pallet tracking · mesh Wi-Fi · domain portfolio", "دورة التصنيع في AX والجودة والتكاليف · تتبع الطبليات · شبكة لاسلكية · محفظة النطاقات"],
-  ["Alrayen live · ELA business unit · Almina engagement · file server with backup", "تشغيل Alrayen · وحدة ELA · دعم Almina · خادم ملفات بنسخ احتياطي"],
-  ["Fortigate firewall · NVR and 32 cameras · ~15 Power BI reports · NTRA issue solved", "جدار Fortigate · NVR و32 كاميرا · حوالي 15 تقرير Power BI · حل مشكلة NTRA"],
-  ["Factory to 100 Mbps · KSA site under company control · web-incident report · ELA dashboard", "المصنع 100 ميجابت · الموقع السعودي تحت سيطرة الشركة · تقرير الحادثة · لوحة ELA"],
-  ["Shpramont warehouse · Mobinil IVR · Fawry and Paymob · .eg domains · static IPs on both lines", "مستودع Shpramont · IVR موبينيل · Fawry وPaymob · نطاقات ‎.eg · عناوين ثابتة للخطين"],
-  ["Warehouse firewall, filter, cameras · DB disk failure resolved · mail relay · social accounts taken over", "جدار ناري وفلترة وكاميرات للمستودع · حل عطل القرص · خادم ترحيل البريد · استلام حسابات التواصل"],
-  ["Kaspersky · DMS servers on Azure · distributors isolated · SalesBuzz v5.15 · Arabic handheld printers", "Kaspersky · خوادم DMS على Azure · عزل الموزعين · SalesBuzz 5.15 · طابعات عربية"],
-  ["DS servers with backups · new tax server · Scalefusion · Odoo REST APIs · Dynamics 365 kickoff", "خوادم DS بنسخ احتياطي · خادم ضرائب جديد · Scalefusion · واجهات Odoo · بدء Dynamics 365"],
-  ["5th-floor network and surveillance · Issabel–Odoo 19 · home-delivery smart dashboard", "شبكة وكاميرات الدور الخامس · ربط Issabel مع Odoo 19 · لوحة التوصيل المنزلي"],
+  ["Alrayen live · ELA business unit · Almina engagement · file server · factory CCTV (~64 cameras)", "تشغيل Alrayen · وحدة ELA · دعم Almina · خادم ملفات · كاميرات المصنع (حوالي 64)"],
+  ["Fortigate firewall · NVR and 32 cameras · Power BI live · NTRA issue solved · fingerprint devices · mesh Wi-Fi", "جدار Fortigate · NVR و32 كاميرا · تشغيل Power BI · حل مشكلة NTRA · أجهزة البصمة · شبكة لاسلكية"],
+  ["Factory to 100 Mbps · KSA site · Sadeq e-invoicing · Odoo server replaced · firewall user policies", "المصنع 100 ميجابت · الموقع السعودي · فاتورة Sadeq الإلكترونية · خادم Odoo جديد · سياسات المستخدمين"],
+  ["Shpramont warehouse · Mobinil IVR · Fawry and Paymob · .eg domains · static IPs · faster microwave WAN", "مستودع Shpramont · IVR موبينيل · Fawry وPaymob · نطاقات ‎.eg · عناوين ثابتة · ميكروويف أسرع"],
+  ["Warehouse firewall, filter, cameras · HQ CCTV (~32) · DB disk failure resolved · new laptops and printers", "جدار ناري وفلترة وكاميرات للمستودع · كاميرات المقر (حوالي 32) · حل عطل القرص · أجهزة وطابعات جديدة"],
+  ["Kaspersky · DMS servers · distributors isolated · SalesBuzz 5.15 · Proxmox + Hyper-V · HQ switches · ~200 devices", "Kaspersky · خوادم DMS · عزل الموزعين · SalesBuzz 5.15 · Proxmox وHyper-V · سويتشات المقر · 200 جهاز"],
+  ["DS servers · new tax server · Scalefusion · SD-WAN at HQ · AX test server · warehouse UPS · Dynamics 365 kickoff", "خوادم DS · خادم ضرائب · Scalefusion · SD-WAN للمقر · خادم اختبار AX · UPS للمستودع · بدء Dynamics 365"],
+  ["5th floor built · Issabel–Odoo 19 · delivery dashboard · six projects in flight: D365, MPLS, live factory", "الدور الخامس · ربط Issabel مع Odoo 19 · لوحة التوصيل · ستة مشروعات جارية: D365 وMPLS والمصنع المباشر"],
 ];
-export const YEARS: [string, number, string, string][] = [["2023", 110, "Foundations", "بناء الأساس"], ["2024", 65, "Go-live and industrialisation", "التشغيل والتصنيع"], ["2025", 54, "Growth and modernisation", "النمو والتحديث"], ["2026", 50, "Hardening · to October", "التحصين · حتى أكتوبر"]];
+export const YEARS: [string, number, string, string][] = [["2023", yearTotal("2023"), "Foundations", "بناء الأساس"], ["2024", yearTotal("2024"), "Go-live and industrialisation", "التشغيل والتصنيع"], ["2025", yearTotal("2025"), "Growth and modernisation", "النمو والتحديث"], ["2026", yearTotal("2026"), "Hardening · to October", "التحصين · حتى أكتوبر"]];
 
 // [en, ar, detail en, detail ar, delivered]
 export const LAYERS: [string, string, string, string, string][] = [
   ["Perimeter", "الحماية الخارجية", "Site firewalls, Fortigate, single-IP publishing", "جدران نارية للمواقع وFortigate ونشر عبر عنوان واحد", "2023 → 2026"],
-  ["Segmentation", "تقسيم الشبكة", "VLANs, factory DMZ, distributor isolation", "VLANs وDMZ للمصنع وعزل الموزعين", "2023 · 2026"],
+  ["Segmentation", "تقسيم الشبكة", "VLANs, broadcast storms stopped, factory DMZ, distributors isolated", "VLANs وإيقاف البث العشوائي وDMZ للمصنع وعزل الموزعين", "2023 · 2026"],
   ["Identity and access", "الهوية والصلاحيات", "Least privilege in AX and SalesBuzz, port security", "أقل صلاحيات في AX وSalesBuzz وتأمين المنافذ", "2023 → 2026"],
-  ["Endpoints", "حماية الأجهزة", "GravityZone, then Kaspersky, centrally managed", "GravityZone ثم Kaspersky بإدارة مركزية", "2023 · 2026"],
-  ["Email and web", "البريد والمواقع", "Spam rejection, mail firewall and relay, SSL, filtering", "رفض الرسائل المزعجة وجدار للبريد وSSL وفلترة", "2023 → 2026"],
-  ["Backup and recovery", "النسخ والاستعادة", "Daily automated backups, file server, cloud copies", "نسخ يومي آلي وخادم ملفات ونسخ سحابية", "2023 → 2026"],
+  ["Endpoints", "حماية الأجهزة", "Antivirus system: GravityZone, then Kaspersky, centrally managed", "نظام مضاد فيروسات: GravityZone ثم Kaspersky بإدارة مركزية", "2023 · 2026"],
+  ["Email and web", "البريد والمواقع", "Web filtering at every site, mail firewall and relay, SSL", "فلترة الويب في كل موقع وجدار وترحيل للبريد وSSL", "2023 → 2026"],
+  ["Backup and recovery", "النسخ والاستعادة", "Backup plan for failures, daily automated backups, data secured in the cloud", "خطة نسخ للأعطال ونسخ يومي آلي وبيانات مؤمنة على السحابة", "2023 → 2026"],
   ["Secure remote access", "الوصول الآمن عن بعد", "Vendor VPN, secured CRM URL, Azure port security", "VPN للمورد ورابط CRM آمن وتأمين منافذ Azure", "2023 → 2025"],
-  ["Physical security", "الأمن المادي", "CCTV at HQ, the factory and warehouses", "كاميرات في المقر والمصنع والمستودعات", "2023 → 2026"],
+  ["Physical security", "الأمن المادي", "196 IP cameras: factory, warehouse, management building", "196 كاميرا IP: المصنع والمستودع والمبنى الإداري", "2023 → 2026"],
   ["Devices and assets", "الأجهزة والأصول", "Snipe-IT custody, MDM on every handheld", "عهدة Snipe-IT وإدارة كل الأجهزة المحمولة", "2023 → 2026"],
   ["Skills", "المهارات", "Team trained on the security consoles", "تدريب الفريق على أنظمة الحماية", "2024 · 2026"],
 ];
@@ -91,8 +100,8 @@ export const CRISES: [string, string, string, string, string, string][] = [
 
 export const HUB: [string, string, string, string][] = [
   ["Alrayen", "Alrayen", "Odoo live · 2025 Q1", "تشغيل Odoo · 2025 ر1"],
-  ["Sadeq company", "شركة Sadeq", "Odoo e-invoicing · 2025", "الفاتورة الإلكترونية على Odoo · 2025"],
-  ["Almina Trading", "Almina Trading", "Odoo support · IT hiring · board memo", "دعم Odoo · توظيف IT · مذكرة لمجلس الإدارة"],
+  ["Sadeq · sister company", "Sadeq · شركة شقيقة", "Odoo e-invoicing · 2025 Q3", "الفاتورة الإلكترونية على Odoo · 2025 ر3"],
+  ["Almina Trading", "Almina Trading", "Mria sales-force automation · Odoo · board memo", "نظام Mria لأتمتة المبيعات · Odoo · مذكرة المجلس"],
   ["ELA business unit", "وحدة ELA", "Full distributor cycle · daily dashboard", "دورة توزيع كاملة · لوحة يومية"],
   ["Distributors", "الموزعون", "Isolated DMS and DS servers on Azure", "خوادم DMS وDS معزولة على Azure"],
   ["Lumea and Abrar", "Lumea وAbrar", "IVR · barcodes · websites", "IVR · باركود · مواقع"],
@@ -114,29 +123,138 @@ export const PEOPLE: [string, string, string, string][] = [
 ];
 export const TEAMS: [string, string][] = [["Call center", "مركز الاتصال"], ["HR", "الموارد البشرية"], ["IT", "تقنية المعلومات"], ["RTL", "RTL"], ["ELA sales", "مبيعات ELA"], ["Customer finance", "مالية العملاء"]];
 
-// [type en, type ar, items en, items ar, basis en, basis ar, color]
-export const VALUES: [string, string, string, string, string, string, string][] = [
-  ["Direct saving", "وفر مباشر", "Etisalat contract (~24%) · Scalefusion replacing SOTI · printer and GPS contracts at best price", "عقد Etisalat (حوالي 24%) · Scalefusion بدل SOTI · عقود الطابعات وGPS بأفضل سعر", "Signed contracts", "عقود موقعة", "var(--teal)"],
-  ["Cost avoidance", "تجنب تكاليف", "8 servers licensed without the partnership route · open-source platforms · AX in-house · no security consultancy", "ترخيص 8 خوادم دون مسار الشراكة · منصات مفتوحة المصدر · AX داخلياً · بدون استشارات أمنية", "Offers on file", "عروض موثقة", "var(--teal)"],
-  ["Revenue protection", "حماية الإيرادات", "Credit controls at order entry · fake-order exposure closed · calls reach an agent", "ضوابط الائتمان عند إدخال الطلب · إغلاق الطلبات الوهمية · المكالمات تصل للموظف", "Qualitative", "نوعي", "var(--gold)"],
-  ["Productivity", "الإنتاجية", "HR self-service · automated and Power BI reports · service desk · CRM history", "الخدمة الذاتية · التقارير الآلية وPower BI · مكتب الدعم · سجل العملاء", "Capacity, not cash", "وقت وليس نقداً", "var(--gold)"],
-  ["Risk reduction", "تقليل المخاطر", "Ransomware and wiper loss · permanent data loss · single points of failure · unauthorized financial changes", "الفدية ومسح البيانات · فقدان البيانات الدائم · نقاط العطل الواحدة · التعديلات المالية غير المصرح بها", "Never counted as cash", "لا يُحتسب نقداً أبداً", "var(--amber)"],
+/* ---------- the money · Financial_Data_Request_EN-AR.docx, sections A and B, plus readme.md ---------- */
+/** EGP per USD used to show one total. Every USD line keeps its own amount; change this once Finance confirms the rate. */
+export const FX = 50;
+export type Money = {
+  en: string; ar: string; when: string; cur: "EGP" | "USD";
+  /** the alternative price per year (or once): the old contract, the vendor offer, the quote not bought */
+  was: number;
+  /** what the company pays now, per year (or once) */
+  now: number;
+  kind: "save" | "avoid";
+  once?: boolean;
+  ben: string; bar: string;
+};
+export const MONEY: Money[] = [
+  { en: "Mail service licence", ar: "ترخيص خدمة البريد", when: "2026 Q2", cur: "USD", was: 54720, now: 4000, kind: "save", ben: "500 users × $8 a month + 14% tax → $4,000 a year", bar: "500 مستخدم × 8 دولار شهرياً + 14% ضريبة ← 4,000 دولار سنوياً" },
+  { en: "Device management: SOTI → Scalefusion", ar: "إدارة الأجهزة: من SOTI إلى Scalefusion", when: "2026 Q3", cur: "USD", was: 43200, now: 25200, kind: "save", ben: "300 devices · $12 → $7 per device a month", bar: "300 جهاز · من 12 إلى 7 دولار للجهاز شهرياً" },
+  { en: "Etisalat telecom contract", ar: "عقد اتصالات Etisalat", when: "2023 Q1", cur: "EGP", was: 300000, now: 228000, kind: "save", ben: "EGP 25,000 a month · up to 24% discount", bar: "25,000 جنيه شهرياً · خصم حتى 24%" },
+  { en: "Printing: Docucom contract", ar: "الطباعة: عقد Docucom", when: "2025 Q2", cur: "EGP", was: 20000, now: 8000, kind: "save", ben: "EGP 20,000 → 8,000 a year", bar: "من 20,000 إلى 8,000 جنيه سنوياً" },
+  { en: "Home-delivery system", ar: "نظام التوصيل المنزلي", when: "2023 Q4", cur: "USD", was: 28800, now: 0, kind: "avoid", ben: "Vendor offer $2,400 a month · delivered in-house", bar: "عرض المورد 2,400 دولار شهرياً · تم داخلياً" },
+  { en: "AX 2012 implementation (BI proposal)", ar: "تنفيذ AX 2012 (عرض BI)", when: "2023 Q2", cur: "USD", was: 12000, now: 0, kind: "avoid", ben: "$12,000 a year proposal · done in-house", bar: "عرض 12,000 دولار سنوياً · تم داخلياً" },
+  { en: "Microsoft licensing · 8 servers", ar: "تراخيص Microsoft · 8 خوادم", when: "2024 Q1", cur: "USD", was: 10500, now: 0, kind: "avoid", ben: "Partnership quote $10,500 a year · paid $0", bar: "عرض الشراكة 10,500 دولار سنوياً · المدفوع 0" },
+  { en: "AX 2012 freelancer support", ar: "دعم AX 2012 عبر مستقل", when: "2023 →", cur: "USD", was: 7000, now: 0, kind: "avoid", ben: "$7,000 a year · now run in-house", bar: "7,000 دولار سنوياً · يُدار الآن داخلياً" },
+  { en: "Call-center system (BI Technology offer)", ar: "نظام مركز الاتصال (عرض BI Technology)", when: "2023 Q4", cur: "EGP", was: 750000, now: 0, kind: "avoid", once: true, ben: "Vendor offer EGP 750,000 · Issabel built in-house for EGP 0", bar: "عرض المورد 750,000 جنيه · Issabel بُني داخلياً بتكلفة 0" },
+  { en: "196 IP cameras installed by the IT team", ar: "تركيب 196 كاميرا IP بفريق تقنية المعلومات", when: "2025 → 2026", cur: "EGP", was: 200000, now: 0, kind: "avoid", once: true, ben: "Installation done in-house instead of by a contractor", bar: "التركيب داخلياً بدلاً من مقاول" },
+  { en: "Two firewalls", ar: "جداران ناريان", when: "2025 → 2026", cur: "USD", was: 5000, now: 0, kind: "avoid", once: true, ben: "$2,500 each · installed for $0", bar: "2,500 دولار لكل منهما · التركيب بتكلفة 0" },
+  { en: "GPS trackers · 45 vehicles", ar: "أجهزة GPS · 45 مركبة", when: "2025 Q2", cur: "EGP", was: 292500, now: 202500, kind: "save", once: true, ben: "Lowest other quote EGP 6,500 → contracted 4,500 per device", bar: "أقل عرض آخر 6,500 جنيه ← التعاقد بـ 4,500 للجهاز" },
 ];
-export const CONTRACTS: [string, string, string][] = [
-  ["~24%", "Etisalat contract renegotiated", "إعادة التفاوض على عقد Etisalat"],
-  ["8 / 8", "Servers validly licensed", "خوادم مرخصة بشكل صحيح"],
-  ["SOTI → Scalefusion", "Device management at better value", "إدارة الأجهزة بقيمة أفضل"],
-  ["Static IPs", "Obtained from TE Data for both lines", "من TE Data للخطين"],
-  ["IT cost", "Written into the ELA contract", "مضافة إلى عقد ELA"],
+/** value of one line in EGP */
+export const egp = (m: Money) => (m.was - m.now) * (m.cur === "USD" ? FX : 1);
+const sum = (f: (m: Money) => boolean) => MONEY.filter(f).reduce((a, m) => a + egp(m), 0);
+export const ANNUAL = sum((m) => !m.once);
+export const ONCE = sum((m) => !!m.once);
+export const ANNUAL_SAVE = sum((m) => !m.once && m.kind === "save");
+export const ANNUAL_AVOID = sum((m) => !m.once && m.kind === "avoid");
+/** 6435000 → "6.4M", 750000 → "750K" */
+export const short = (n: number) => (n >= 1e6 ? `${(Math.round(n / 1e5) / 10).toFixed(1)}M` : n >= 1e3 ? `${Math.round(n / 1e3)}K` : String(n));
+export const money = (cur: string, n: number) => (cur === "USD" ? `$${n.toLocaleString("en-US")}` : `EGP ${n.toLocaleString("en-US")}`);
+/** millions with one decimal, for count-ups */
+export const millions = (n: number) => Math.round(n / 1e5) / 10;
+
+/* value that is real but never added to the cash total (form sections C, D, E) */
+export const REVENUE_PER_DAY = 3_000_000;
+// [figure, en, ar, detail en, detail ar]
+export const TIME: [string, string, string, string, string][] = [
+  ["160 h", "One asset count, by hand", "جرد أصول واحد يدوياً", "Now live in Snipe-IT, tied to each employee's custody", "الآن مباشر في Snipe-IT ومرتبط بعهدة كل موظف"],
+  ["48 h", "To build one sales report, 2 people", "لإعداد تقرير مبيعات واحد بشخصين", "Now automatic in SalesBuzz and Power BI", "الآن آلي في SalesBuzz وPower BI"],
+  ["5 → 1", "People on HR leave and attendance", "موظفون على الإجازات والحضور", "80 hours a month released by Mago HR self-service", "توفير 80 ساعة شهرياً بالخدمة الذاتية في Mago"],
+  ["200", "IT tickets a month, every one tracked", "تذكرة دعم شهرياً، كلها موثقة", "ManageEngine service desk instead of verbal requests", "مكتب ManageEngine بدلاً من الطلبات الشفهية"],
 ];
-export const NEXTA: [string, string, string, string][] = [
-  ["Issabel–Odoo 19 integration", "ربط Issabel مع Odoo 19", "Call history and CRM in one record · go-live next quarter", "سجل المكالمات والعملاء في مكان واحد · التشغيل الربع القادم"],
-  ["5th-floor network and surveillance", "شبكة وكاميرات الدور الخامس", "New floor secured to the same standard", "تأمين الدور الجديد بنفس المعايير"],
-  ["Home-delivery smart dashboard", "لوحة التوصيل المنزلي الذكية", "Live monitoring of delivery performance", "متابعة مباشرة لأداء التوصيل"],
-  ["Dynamics 365 plan", "خطة Dynamics 365", "Offer received and kickoff held · next ERP generation", "تم استلام العرض والاجتماع الأول · الجيل التالي من ERP"],
-  ["SMS invoicing with SalesBuzz", "إرسال الفواتير عبر SMS", "API key created · invoices sent to customers by SMS", "تم إنشاء مفتاح API · إرسال الفواتير للعملاء"],
-  ["Website and mobile app", "الموقع وتطبيق الجوال", "Scope complete · WhatsApp, backend and dashboards", "النطاق مكتمل · واتساب ولوحات تحكم"],
+export const CONTROL: [string, string][] = [
+  ["Credit limits and ceilings enforced at order entry", "حدود الائتمان والسقف مطبقة عند إدخال الطلب"],
+  ["Cash payment disabled for credit customers", "إيقاف الدفع النقدي لعملاء الآجل"],
+  ["Customer locations locked to the company", "مواقع العملاء مثبتة باسم الشركة"],
+  ["Fake e-commerce orders closed off", "إغلاق ثغرة الطلبات الوهمية"],
+  ["Least privilege in AX and SalesBuzz", "أقل صلاحيات في AX وSalesBuzz"],
 ];
+
+/* call center today · Issabel queue log and Odoo CRM (form section F) */
+// [value, prefix, suffix, en, ar, detail en, detail ar]
+export const KPIS: [number, string, string, string, string, string, string][] = [
+  [3000, "", "", "Calls a day", "مكالمة يومياً", "1,000 inbound · 2,000 outbound", "1,000 واردة · 2,000 صادرة"],
+  [1, "~", " min", "To answer", "زمن الرد", "Average speed of answer", "متوسط سرعة الرد"],
+  [2, "~", " min", "Per call", "مدة المكالمة", "Average handling time", "متوسط مدة المعالجة"],
+  [100, "", "%", "Complaints closed", "من الشكاوى مغلقة", "About 12 logged a month in the CRM", "حوالي 12 شكوى شهرياً في CRM"],
+];
+
+/* data and reporting · readme.md */
+// [value, en, ar, detail en, detail ar, color]
+export const REPORTS: [number, string, string, string, string, string][] = [
+  [72, "Power BI reports", "تقرير Power BI", "Sales, aging, distributors, ELA and DMS dashboards", "لوحات المبيعات وأعمار الديون والموزعين وELA وDMS", "var(--gold)"],
+  [13, "New SalesBuzz static reports", "تقرير SalesBuzz ثابت جديد", "Built from scratch on the sales database", "مبنية من الصفر على قاعدة بيانات المبيعات", "var(--teal)"],
+  [32, "SalesBuzz reports reworked", "تقرير SalesBuzz مطوَّر", "Fixed, extended and rebuilt after upgrades", "تصحيح وتوسيع وإعادة بناء بعد الترقيات", "var(--teal)"],
+  [30, "SalesBuzz database views", "عرض بيانات في SalesBuzz", "The layer the reports read from", "الطبقة التي تقرأ منها التقارير", "var(--fg)"],
+  [3, "Database triggers", "مشغلات قاعدة بيانات", "Performance and control · one critical", "للأداء والرقابة · أحدها حرج", "var(--red)"],
+];
+
+/* in progress now · readme.md (the live-factory project is featured on its own card) */
+// [en, ar, detail en, detail ar]
+export const NOW: [string, string, string, string][] = [
+  ["Global distribution company on AX 2012", "شركة التوزيع العالمية على AX 2012", "New company set up on the group ERP", "تأسيس الشركة الجديدة على نظام ERP للمجموعة"],
+  ["Dynamics 365 implementation", "تنفيذ Dynamics 365", "The next ERP generation for the group", "الجيل التالي من ERP للمجموعة"],
+  ["Issabel integration with Odoo", "ربط Issabel مع Odoo", "Every call and customer in one record", "كل مكالمة وكل عميل في سجل واحد"],
+  ["MPLS links for disaster recovery", "روابط MPLS للتعافي من الكوارث", "Factory, warehouse and management building on private links", "المصنع والمستودع والمبنى الإداري على روابط خاصة"],
+  ["HQ network migration", "نقل شبكة المقر", "HQ moved onto the new network design", "نقل المقر إلى تصميم الشبكة الجديد"],
+];
+
+/* next quarter · readme.md */
+// [lane en, lane ar, color, items [en, ar][]]
+export const ROADMAP: [string, string, string, [string, string][]][] = [
+  ["Core systems", "الأنظمة الأساسية", "var(--gold)", [
+    ["Odoo 20 implementation with CRM helpdesk", "تنفيذ Odoo 20 مع مكتب دعم CRM"],
+    ["Launch of the new SalesBuzz system", "إطلاق نظام SalesBuzz الجديد"],
+    ["Odoo ↔ SalesBuzz integration", "ربط Odoo مع SalesBuzz"],
+    ["SalesBuzz ↔ Dynamics 365 integration", "ربط SalesBuzz مع Dynamics 365"],
+  ]],
+  ["Digital commerce", "التجارة الرقمية", "var(--teal)", [
+    ["Puvana mobile app and e-commerce sites: Puvana Egypt, Global for GID, Puvana KSA", "تطبيق Puvana ومواقع التجارة الإلكترونية: Puvana مصر وGlobal لـ GID وPuvana السعودية"],
+    ["Websites ↔ SalesBuzz integration", "ربط المواقع مع SalesBuzz"],
+    ["Websites ↔ Odoo integration", "ربط المواقع مع Odoo"],
+  ]],
+  ["AI", "الذكاء الاصطناعي", "var(--amber)", [
+    ["Chatbot on Meta", "روبوت محادثة على Meta"],
+    ["Agentic AI on Meta and the websites", "وكلاء ذكاء اصطناعي على Meta والمواقع"],
+  ]],
+  ["Data and group", "البيانات والمجموعة", "#b9a7ff", [
+    ["Data-warehouse server", "خادم مستودع البيانات"],
+    ["LOCUS logistics system for the sister company, built from scratch", "نظام LOCUS اللوجستي للشركة الشقيقة من الصفر"],
+  ]],
+];
+export const ROADMAP_N = ROADMAP.reduce((a, l) => a + l[3].length, 0);
+
+/* summary · readme.md */
+// [title en, title ar, color, items [en, ar][]]
+export const SUMMARY: [string, string, string, [string, string][]][] = [
+  ["Built from scratch", "بُني من الصفر", "var(--gold)", [
+    ["Odoo CRM and helpdesk", "Odoo CRM ومكتب الدعم"], ["Issabel call center", "مركز اتصال Issabel"], ["ManageEngine service desk", "مكتب دعم ManageEngine"],
+    ["Snipe-IT asset register", "سجل أصول Snipe-IT"], ["Alrayen system on Odoo", "نظام Alrayen على Odoo"],
+  ]],
+  ["Reporting and data", "التقارير والبيانات", "var(--teal)", [
+    ["72 Power BI reports", "72 تقرير Power BI"], ["13 new SalesBuzz static reports", "13 تقرير SalesBuzz ثابت جديد"], ["32 SalesBuzz reports reworked", "32 تقرير SalesBuzz مطوَّر"],
+    ["About 30 SalesBuzz views", "حوالي 30 عرض بيانات في SalesBuzz"], ["3 triggers · one stops reps changing customer coordinates", "3 مشغلات · أحدها يمنع المندوب من تعديل إحداثيات العملاء"],
+  ]],
+  ["Network and security", "الشبكة والأمن", "var(--amber)", [
+    ["2 firewalls ($2,500 each) installed for $0", "جداران ناريان (2,500 دولار لكل منهما) بتكلفة 0"], ["VLANs · broadcast storms stopped", "VLANs · إيقاف البث العشوائي"], ["Web filtering · antivirus system", "فلترة الويب · نظام مضاد فيروسات"],
+    ["Data secured in the cloud · backup plan for failures", "بيانات مؤمنة على السحابة · خطة نسخ للأعطال"], ["UPS installed", "تركيب أجهزة UPS"],
+  ]],
+  ["Physical security", "الأمن المادي", "var(--red)", [
+    ["196 IP cameras", "196 كاميرا IP"], ["122 in the factory", "122 في المصنع"], ["74 in the warehouse and management building", "74 في المستودع والمبنى الإداري"],
+    ["Installed by the team · about EGP 200,000 saved", "التركيب بالفريق · وفر حوالي 200,000 جنيه"],
+  ]],
+];
+
 export const NEXTB: [string, string][] = [
   ["Formal disaster-recovery and restore-test schedule", "جدول رسمي للتعافي من الكوارث واختبار الاستعادة"],
   ["Multi-factor authentication on critical systems", "التحقق متعدد العوامل على الأنظمة الحرجة"],

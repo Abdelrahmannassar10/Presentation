@@ -3,14 +3,14 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useT, useLang } from "../i18n";
 import { CountUp, EASE, EASE_IN_OUT, Flares, Photo, Rise, Words, useTicker } from "../fx";
 import { IMG } from "../assets/img";
-import { BA, CRISES, LAYERS, Q, QTH, YEARS } from "../data/content";
+import { BA, CRISES, KPIS, LAYERS, PROG, Q, QP, QTH, TOTAL, YEARS } from "../data/content";
 import type { SlideProps } from "./types";
 
 /* =============== 06 · Delivery rhythm =============== */
 export function Rhythm({ step, active }: SlideProps) {
   const t = useT();
   const [hover, setHover] = useState<number | null>(null);
-  const H = 400, max = 29;
+  const H = 400, max = Math.max(...Q);
   return (
     <div className="slide" style={{ background: "radial-gradient(ellipse at 70% 0%, #10202c 0%, var(--ink) 65%)" }}>
       <Flares o={0.1} />
@@ -18,7 +18,7 @@ export function Rhythm({ step, active }: SlideProps) {
         <Rise><div className="kicker">{t("Chapter 02 · Delivery", "الفصل 02 · الإنجاز")}</div></Rise>
         <div style={{ display: "flex", alignItems: "end", justifyContent: "space-between", marginTop: 24 }}>
           <h2 className="h2">
-            <Words text={t("279 deliverables.", "279 إنجازاً.")} show={active} delay={0.2} /><br />
+            <Words text={t(`${TOTAL} deliverables.`, `${TOTAL} إنجازاً.`)} show={active} delay={0.2} /><br />
             <Words className="it muted" text={t("Sixteen quarters. No pause.", "ستة عشر ربعاً. بلا توقف.")} show={active} delay={0.45} />
           </h2>
           <div style={{ width: 700, minHeight: 150 }}>
@@ -32,8 +32,8 @@ export function Rhythm({ step, active }: SlideProps) {
                 <motion.div key="n" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
                   <div className="label gold">{t("Foundation first, then scale", "الأساس أولاً، ثم التوسع")}</div>
                   <div style={{ fontSize: 21, marginTop: 8, color: "#d3d7da", lineHeight: 1.45 }}>
-                    {t("2023 built the foundation: 110 items. After that, each quarter carried fewer but larger projects — manufacturing in the ERP, distributor servers, integration. Hatched: 2026 Q4, in progress.",
-                      "عام 2023 بنى الأساس: 110 إنجازات. وبعده حمل كل ربع مشروعات أقل عدداً وأكبر حجماً: التصنيع في ERP وخوادم الموزعين والتكامل. المظلل: الربع الرابع 2026 قيد التنفيذ.")}
+                    {t(`2023 built the foundation: ${YEARS[0][1]} items. Then fewer but larger projects — manufacturing in the ERP, distributor servers, and in 2025–2026 a full network and camera refresh. Hatched: ${PROG} projects in progress now.`,
+                      `عام 2023 بنى الأساس: ${YEARS[0][1]} إنجازاً. ثم مشروعات أقل عدداً وأكبر حجماً: التصنيع في ERP وخوادم الموزعين، وفي 2025–2026 تحديث كامل للشبكات والكاميرات. المظلل: ${PROG} مشروعات قيد التنفيذ الآن.`)}
                   </div>
                 </motion.div>
               ) : (
@@ -50,7 +50,7 @@ export function Rhythm({ step, active }: SlideProps) {
             <div key={y}>
               <div style={{ display: "flex", alignItems: "end", gap: 12, height: H, borderBottom: "1px solid var(--line2)" }}>
                 {Q.slice(yi * 4, yi * 4 + 4).map((v, qi) => {
-                  const i = yi * 4 + qi, prog = i === 15;
+                  const i = yi * 4 + qi, pv = QP[i];
                   return (
                     <div key={i} style={{ flex: 1, height: "100%", display: "flex", flexDirection: "column", justifyContent: "end", cursor: "default" }} onPointerEnter={() => setHover(i)} onPointerLeave={() => setHover(null)}>
                       <motion.div className="mono num" style={{ textAlign: "center", fontSize: 20, marginBottom: 8, color: hover === i ? "var(--gold)" : "var(--muted)" }} initial={{ opacity: 0 }} animate={{ opacity: active ? 1 : 0 }} transition={{ delay: 0.9 + i * 0.07 }}>{v}</motion.div>
@@ -59,12 +59,14 @@ export function Rhythm({ step, active }: SlideProps) {
                         animate={{ height: active ? (v / max) * (H - 50) : 0 }}
                         transition={{ delay: 0.6 + i * 0.07, duration: 1.1, ease: EASE }}
                         style={{
-                          borderRadius: "8px 8px 2px 2px",
-                          background: prog ? "repeating-linear-gradient(135deg, rgba(243,164,59,.5) 0 6px, transparent 6px 12px)" : hover === i ? "var(--gold)" : yi === 0 ? "linear-gradient(180deg, var(--gold), rgba(230,179,90,.35))" : "linear-gradient(180deg, var(--teal), rgba(79,209,197,.25))",
-                          border: prog ? "1px dashed var(--amber)" : "none",
+                          borderRadius: "8px 8px 2px 2px", overflow: "hidden", display: "flex", flexDirection: "column",
+                          background: hover === i ? "var(--gold)" : yi === 0 ? "linear-gradient(180deg, var(--gold), rgba(230,179,90,.35))" : "linear-gradient(180deg, var(--teal), rgba(79,209,197,.25))",
                           boxShadow: hover === i ? "0 0 30px rgba(230,179,90,.5)" : "none",
                         }}
-                      />
+                      >
+                        {/* projects still in progress sit hatched on top of the delivered part */}
+                        {pv > 0 && <div style={{ height: `${(pv / v) * 100}%`, flex: "none", background: "repeating-linear-gradient(135deg, rgba(243,164,59,.85) 0 6px, #0b1219 6px 12px)", borderBottom: "1px dashed var(--amber)" }} />}
+                      </motion.div>
                     </div>
                   );
                 })}
@@ -81,7 +83,7 @@ export function Rhythm({ step, active }: SlideProps) {
           ))}
         </div>
         <motion.div className="label" style={{ marginTop: 26, textTransform: "none", letterSpacing: 0, fontSize: 15 }} animate={{ opacity: step >= 1 ? 1 : 0 }}>
-          {t("One 2025 item (Odoo e-invoicing for Sadeq company) has no recorded quarter; it counts in the 2025 total only.", "إنجاز واحد في 2025 (الفاتورة الإلكترونية لشركة Sadeq) بلا ربع مسجل، ويظهر في إجمالي 2025 فقط.")}
+          {t("2026 Q4 runs to October. Its five planned items are delivered; the hatched part is work in progress.", "الربع الرابع 2026 حتى أكتوبر. بنوده الخمسة المخططة اكتملت، والجزء المظلل أعمال قيد التنفيذ.")}
         </motion.div>
       </div>
     </div>
@@ -341,11 +343,11 @@ export function Infrastructure({ step, active }: SlideProps) {
         </motion.div>
 
         {/* 2026 nodes */}
-        <Node n={{ x: 170, y: 140, w: 210, t: t("Line A", "الخط الأول"), s: t("static IP · TE Data", "عنوان ثابت · TE Data"), c: "var(--teal)" }} show={s1} />
+        <Node n={{ x: 170, y: 140, w: 210, t: t("Line A", "الخط الأول"), s: t("static IP · SD-WAN", "عنوان ثابت · SD-WAN"), c: "var(--teal)" }} show={s1} />
         <Node n={{ x: 170, y: 320, w: 210, t: t("Line B", "الخط الثاني"), s: t("static IP", "عنوان ثابت"), c: "var(--teal)" }} show={s1} delay={0.1} />
         <Node n={{ x: 170, y: 500, w: 210, t: t("4G failover", "4G احتياطي"), s: t("HQ · factory · warehouse", "المقر · المصنع · المستودع"), c: "var(--gold)" }} show={s1} delay={0.2} />
         <Node n={{ x: 420, y: 320, w: 190, t: "Fortigate", s: t("single-IP publishing", "نشر عبر عنوان واحد"), c: "var(--gold)" }} show={s1} delay={0.4} />
-        <Node n={{ x: 650, y: 320, w: 170, t: t("Core · VLANs", "النواة · VLANs") }} show={s1} delay={0.55} />
+        <Node n={{ x: 650, y: 320, w: 170, t: t("Core · VLANs", "النواة · VLANs"), s: t("broadcast contained", "البث محصور") }} show={s1} delay={0.55} />
         <Node n={{ x: 960, y: 110, w: 250, t: t("Server zone", "منطقة الخوادم"), s: t("Proxmox · test & staging · file server · daily backups", "Proxmox · بيئات اختبار · خادم ملفات · نسخ يومي"), c: "var(--teal)" }} show={s1} delay={0.8} />
         <Node n={{ x: 960, y: 320, w: 250, t: t("User VLANs", "شبكات المستخدمين"), s: t("web filtering · least privilege", "فلترة الويب · أقل صلاحيات") }} show={s1} delay={0.9} />
         <Node n={{ x: 960, y: 530, w: 250, t: t("Factory", "المصنع"), s: t("firewall · DMZ · Sidel VPN · 100 Mbps", "جدار ناري · DMZ · VPN لـ Sidel · 100 ميجابت"), c: "var(--teal)" }} show={s1} delay={1} />
@@ -357,8 +359,8 @@ export function Infrastructure({ step, active }: SlideProps) {
       {/* step 2: power + Proxmox */}
       <motion.div style={{ position: "absolute", left: 140, right: 140, bottom: 120, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }} initial={false} animate={{ opacity: step >= 2 ? 1 : 0, y: step >= 2 ? 0 : 40 }} transition={{ duration: 0.9, ease: EASE }}>
         {[
-          ["2024 Q2", "Generator attached to the UPS", "مولد مربوط بأجهزة UPS", "UPS-protected systems ride through long grid outages instead of shutting down when batteries run out.", "تستمر الأنظمة المحمية في العمل أثناء الانقطاع الطويل بدلاً من التوقف عند نفاد البطاريات."],
-          ["2023 Q1", "Proxmox virtualization", "خوادم افتراضية على Proxmox", "Idle servers reused as a platform, with test copies before every upgrade — and no hypervisor licence.", "إعادة استخدام الخوادم الخاملة كمنصة، مع نسخ اختبار قبل كل ترقية — وبدون رسوم ترخيص."],
+          ["2024 Q2 · 2026 Q3", "UPS with a generator behind it", "UPS ومولد احتياطي", "HQ on UPS and generator since 2024; the warehouse UPS project followed in 2026. Systems ride through long outages.", "المقر على UPS ومولد منذ 2024، ومشروع UPS للمستودع في 2026. تستمر الأنظمة أثناء الانقطاع الطويل."],
+          ["2023 Q1 → 2026 Q2", "Proxmox and Hyper-V", "Proxmox وHyper-V", "Idle servers reused as a platform, then extended with Hyper-V — test copies before every upgrade, no hypervisor licence.", "إعادة استخدام الخوادم الخاملة كمنصة ثم إضافة Hyper-V — نسخ اختبار قبل كل ترقية وبدون رسوم ترخيص."],
           ["2024 Q3", "Factory IP upgrade, zero downtime", "ترقية عناوين المصنع دون توقف", "Firewall and Cisco router reconfigured with production running, plus 4G backup at the factory.", "إعادة ضبط الجدار الناري والراوتر أثناء الإنتاج، مع 4G احتياطي للمصنع."],
         ].map(([w, en, ar, den, dar], i) => (
           <motion.div key={en} className="card" style={{ padding: "26px 28px" }} initial={false} animate={{ opacity: step >= 2 ? 1 : 0, y: step >= 2 ? 0 : 30 }} transition={{ delay: step >= 2 ? 0.2 + i * 0.15 : 0, duration: 0.8 }}>
@@ -510,10 +512,16 @@ export function CallCenter({ step, active }: SlideProps) {
                   ))}
                 </div>
                 <Rise delay={1.8}>
-                  <div className="card" style={{ marginTop: 50, padding: "22px 28px", display: "flex", gap: 24, alignItems: "center" }}>
-                    <span className="label gold" style={{ whiteSpace: "nowrap" }}>{t("KPI position", "مؤشرات الأداء")}</span>
-                    <span style={{ fontSize: 21, color: "#cfd3d6" }}>{t("Before 2023 calls were neither logged nor recorded, so no historical KPI baseline exists. Today every call is logged, queued and recorded — management has a baseline it can measure and improve.", "قبل 2023 لم تكن المكالمات توثق أو تسجل، لذا لا يوجد خط أساس تاريخي. اليوم كل مكالمة موثقة ومسجلة — وأصبح لدى الإدارة خط أساس يمكن قياسه وتحسينه.")}</span>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, marginTop: 46 }}>
+                    {KPIS.map(([v, pre, suf, en, ar, den, dar], i) => (
+                      <div key={en} className="card" style={{ padding: "20px 24px", borderTop: "3px solid var(--teal)" }}>
+                        <div className="serif teal ltr" style={{ fontSize: 64, lineHeight: 1 }}><CountUp to={v} prefix={pre} suffix={suf} show={active && step >= 2} delay={2 + i * 0.15} /></div>
+                        <div style={{ fontSize: 21, fontWeight: 600, marginTop: 10 }}>{t(en, ar)}</div>
+                        <div style={{ fontSize: 16, color: "var(--muted)", marginTop: 2 }}>{t(den, dar)}</div>
+                      </div>
+                    ))}
                   </div>
+                  <div className="label" style={{ marginTop: 16, textTransform: "none", letterSpacing: 0 }}>{t("Today's Issabel queue log and Odoo CRM. Before 2023 calls were not logged, so there is no older baseline to compare with.", "من سجل Issabel وOdoo CRM اليوم. قبل 2023 لم تكن المكالمات توثق، فلا يوجد خط أساس أقدم للمقارنة.")}</div>
                 </Rise>
               </motion.div>
             )}
@@ -570,7 +578,7 @@ export function Factory({ step, active }: SlideProps) {
               <motion.div key="w" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
                 <div className="label teal">{t("Each warehouse brought to the same standard", "كل مستودع بنفس المعايير")}</div>
                 <div style={{ display: "grid", gap: 12, marginTop: 18 }}>
-                  {[["Mansouria · managerial-building network and access (2024 Q1)", "Mansouria · شبكة المبنى الإداري والوصول (2024 ر1)"], ["Shpramont · network, backups and external access (2025 Q4)", "Shpramont · شبكة ونسخ احتياطي ووصول خارجي (2025 ر4)"], ["Firewall, web filter, cameras, fingerprint device (2026 Q1)", "جدار ناري وفلترة وكاميرات وجهاز بصمة (2026 ر1)"]].map(([en, ar]) => (
+                  {[["Mansouria · managerial-building network and access (2024 Q1)", "Mansouria · شبكة المبنى الإداري والوصول (2024 ر1)"], ["Shpramont · network, backups and external access (2025 Q4)", "Shpramont · شبكة ونسخ احتياطي ووصول خارجي (2025 ر4)"], ["Firewall, web filter, fingerprint device (2026 Q1) · UPS (2026 Q3)", "جدار ناري وفلترة وجهاز بصمة (2026 ر1) · UPS (2026 ر3)"], ["74 cameras across the warehouse and management building", "74 كاميرا في المستودع والمبنى الإداري"]].map(([en, ar]) => (
                     <div key={en} style={{ fontSize: 22, display: "flex", gap: 14 }}><span className="teal">✓</span>{t(en, ar)}</div>
                   ))}
                 </div>
@@ -604,7 +612,7 @@ export function Factory({ step, active }: SlideProps) {
           })}
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", marginTop: 16 }}>
-          <span className="label"><span className="red">●</span> {t("32 new factory cameras + NVR · 2025 Q2", "32 كاميرا جديدة في المصنع + NVR · 2025 ر2")}</span>
+          <span className="label"><span className="red">●</span> {t("122 factory cameras · 196 company-wide · installed in-house", "122 كاميرا بالمصنع · 196 في الشركة · تركيب داخلي")}</span>
           <span className="label">{t("Illustrative feeds", "مشاهد توضيحية")}</span>
         </div>
       </motion.div>

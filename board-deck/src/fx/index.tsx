@@ -114,7 +114,8 @@ export function CountUp({ to, show = true, duration = 2.2, delay = 0, decimals =
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [to, show, duration, delay, reduce]);
-  return <span className="num ltr">{prefix}{v.toFixed(decimals)}{suffix}</span>;
+  const txt = v.toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+  return <span className="num ltr">{prefix}{txt}{suffix}</span>;
 }
 
 /* ---------- typewriter for mono captions ---------- */

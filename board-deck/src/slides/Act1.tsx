@@ -4,7 +4,7 @@ import { useT, useLang } from "../i18n";
 import { CountUp, EASE, Flares, Letterbox, Photo, Rise, Typer, Words } from "../fx";
 import ParticleText from "../fx/ParticleText";
 import { IMG } from "../assets/img";
-import { DOMAINS, FINDINGS, SEV_AR } from "../data/content";
+import { ANNUAL, DOMAINS, DONE, FINDINGS, ONCE, PROG, SEV_AR, TOTAL, millions, short } from "../data/content";
 import type { SlideProps } from "./types";
 
 /* =============== 01 · Cold open =============== */
@@ -229,15 +229,15 @@ export function Zero({ step, active }: SlideProps) {
 /* =============== 05 · At a glance =============== */
 export function Glance({ active }: SlideProps) {
   const t = useT();
-  const tiles: { v: number; pre?: string; suf?: string; big?: string; en: string; ar: string; sen: string; sar: string; c?: string }[] = [
-    { v: 279, en: "Documented deliverables", ar: "إنجازاً موثقاً", sen: "274 completed · 5 in progress", sar: "274 مكتمل · 5 قيد التنفيذ", c: "var(--gold)" },
+  const tiles: { v: number; d?: number; pre?: string; suf?: string; en: string; ar: string; sen: string; sar: string; c?: string }[] = [
+    { v: TOTAL, en: "Documented deliverables", ar: "إنجازاً موثقاً", sen: `${DONE} completed · ${PROG} in progress`, sar: `${DONE} مكتمل · ${PROG} قيد التنفيذ`, c: "var(--gold)" },
+    { v: millions(ANNUAL), d: 1, suf: "M", en: "EGP saved or avoided every year", ar: "جنيه وفر سنوي متكرر", sen: `Plus EGP ${short(ONCE)} one-time`, sar: `إضافة إلى ${short(ONCE)} جنيه لمرة واحدة`, c: "var(--gold)" },
     { v: 0, en: "Ransomware or wiper incidents", ar: "حوادث فدية أو مسح بيانات", sen: "In four years", sar: "خلال أربع سنوات", c: "var(--gold)" },
-    { v: 32, en: "Concurrent call channels", ar: "قناة اتصال متزامنة", sen: "From personal mobile phones", sar: "بدلاً من الهواتف الشخصية", c: "var(--teal)" },
-    { v: 24, pre: "~", suf: "%", en: "Etisalat contract discount", ar: "خصم على عقد Etisalat", sen: "Signed contract · 2023 Q1", sar: "عقد موقع · 2023 ر1", c: "var(--teal)" },
-    { v: 8, suf: "/ 8", en: "Servers validly licensed", ar: "خوادم مرخصة", sen: "Without the partnership purchase route", sar: "دون مسار الشراء عبر الشراكة" },
+    { v: 196, en: "IP cameras installed in-house", ar: "كاميرا IP بتركيب داخلي", sen: "122 factory · 74 warehouse and management", sar: "122 بالمصنع · 74 بالمستودع والمبنى الإداري", c: "var(--teal)" },
+    { v: 72, en: "Power BI reports", ar: "تقرير Power BI", sen: "Plus 45 SalesBuzz reports built or reworked", sar: "إضافة إلى 45 تقرير SalesBuzz جديد أو مطوَّر", c: "var(--teal)" },
+    { v: 3000, en: "Calls handled a day", ar: "مكالمة يومياً", sen: "On 32 SIP channels · once personal mobiles", sar: "على 32 قناة SIP · بدلاً من الهواتف الشخصية", c: "var(--teal)" },
+    { v: 8, suf: "/ 8", en: "Servers validly licensed", ar: "خوادم مرخصة", sen: "$10,500 a year partnership route avoided", sar: "تجنب 10,500 دولار سنوياً عبر الشراكة" },
     { v: 100, suf: " Mbps", en: "Factory link", ar: "سرعة اتصال المصنع", sen: "From a single insecure link", sar: "بدلاً من اتصال واحد غير آمن" },
-    { v: 32, en: "Factory cameras + new NVR", ar: "كاميرا في المصنع مع NVR جديد", sen: "2025 · plus 2023 and 2026 installs", sar: "2025 · إضافة لتركيبات 2023 و2026" },
-    { v: 15, pre: "~", en: "Power BI reports published", ar: "تقرير Power BI منشور", sen: "Plus 15+ SalesBuzz reports", sar: "إضافة لأكثر من 15 تقرير SalesBuzz" },
   ];
   return (
     <div className="slide">
@@ -253,7 +253,7 @@ export function Glance({ active }: SlideProps) {
               <div className="card" style={{ padding: "28px 32px 26px", height: 258, display: "flex", flexDirection: "column", position: "relative", overflow: "hidden" }}>
                 <motion.div style={{ position: "absolute", left: 0, top: 0, height: 3, background: x.c ?? "var(--line2)" }} initial={{ width: 0 }} animate={{ width: active ? "100%" : 0 }} transition={{ delay: 0.8 + i * 0.12, duration: 1.4, ease: EASE }} />
                 <div className="serif ltr" style={{ fontSize: 100, lineHeight: 1, color: x.c ?? "var(--fg)", whiteSpace: "nowrap" }}>
-                  <CountUp to={x.v} prefix={x.pre} show={active} delay={0.6 + i * 0.12} />
+                  <CountUp to={x.v} prefix={x.pre} decimals={x.d} show={active} delay={0.6 + i * 0.12} />
                   {x.suf && <span style={{ fontSize: 52, marginInlineStart: 6, opacity: 0.85 }}>{x.suf.trim()}</span>}
                 </div>
                 <div style={{ fontSize: 23, fontWeight: 600, marginTop: "auto" }}>{t(x.en, x.ar)}</div>
@@ -264,7 +264,7 @@ export function Glance({ active }: SlideProps) {
         </div>
         <Rise delay={1.8} show={active}>
           <div style={{ display: "flex", gap: 14, marginTop: 28, flexWrap: "wrap" }}>
-            {[["IT team: 2 → 3, all senior", "فريق IT: من 2 إلى 3، جميعهم خبراء"], ["9 colleagues and 6 teams trained", "تدريب 9 زملاء و6 فرق"], ["CRM · HR · asset register · service desk · MDM — from zero", "CRM · HR · سجل الأصول · مكتب الدعم · MDM — من الصفر"]].map(([en, ar]) => (
+            {[["IT team: 2 → 3, all senior", "فريق IT: من 2 إلى 3، جميعهم خبراء"], ["9 colleagues and 6 teams trained", "تدريب 9 زملاء و6 فرق"], ["CRM · helpdesk · call center · asset register · service desk — built from scratch", "CRM · مكتب الدعم · مركز الاتصال · سجل الأصول · مكتب الخدمة — من الصفر"]].map(([en, ar]) => (
               <span key={en} className="chip"><span className="dot" />{t(en, ar)}</span>
             ))}
           </div>

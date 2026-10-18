@@ -4,23 +4,23 @@ import { useT, useLang } from "../i18n";
 import { CountUp, EASE, EASE_IN_OUT, Flares, Letterbox, Photo, Rise, Words, useTicker } from "../fx";
 import ParticleText from "../fx/ParticleText";
 import { IMG } from "../assets/img";
-import { CONTRACTS, HUB, NEXTA, NEXTB, PEOPLE, Q, QHEAD, QTH, REG, TEAMS, VALUES, YEARS } from "../data/content";
+import { ANNUAL, HUB, PEOPLE, Q, QHEAD, QP, QTH, REG, TEAMS, TOTAL, YEARS, millions } from "../data/content";
 import type { SlideProps } from "./types";
 
 /* =============== 13 · Business systems in orbit =============== */
 const SYS: { n: string; ring: 0 | 1; en: string; ar: string; y: string }[] = [
-  { n: "Odoo CRM", ring: 0, y: "2023 →", en: "Launched v14 in 2023, rebuilt on v15 in 2024. Complaints, call logging, REST and Swagger APIs. Odoo 19 + Issabel integration next.", ar: "إطلاق الإصدار 14 في 2023 وإعادة البناء على 15 في 2024. الشكاوى وتوثيق المكالمات وواجهات REST وSwagger. ربط Odoo 19 مع Issabel قادم." },
-  { n: "SalesBuzz", ring: 0, y: "v4.58 → 5.15", en: "Two major upgrades, each rehearsed on a test copy. 15+ reports, credit controls at order entry, isolated DMS and DS servers.", ar: "ترقيتان كبيرتان، كل منهما مجربة على نسخة اختبار. أكثر من 15 تقريراً، وضوابط ائتمان عند إدخال الطلب، وخوادم DMS وDS معزولة." },
-  { n: "AX 2012", ring: 0, y: "in-house", en: "From freelancer support to in-house operation. Roles reset, fiscal years closed, full manufacturing cycle with BOM, quality and cost.", ar: "من دعم مستقل خارجي إلى تشغيل داخلي. إعادة ضبط الصلاحيات، وإقفال السنوات المالية، ودورة تصنيع كاملة بالجودة والتكاليف." },
+  { n: "Odoo CRM", ring: 0, y: "built from scratch", en: "CRM and helpdesk built from zero: v14 in 2023, rebuilt on v15 in 2024, dedicated call-center servers and two upgrades since. Complaints, call logging, REST APIs. Odoo 20 next.", ar: "CRM ومكتب دعم من الصفر: الإصدار 14 في 2023 وإعادة البناء على 15 في 2024، ثم خوادم مخصصة لمركز الاتصال وترقيتان. الشكاوى وتوثيق المكالمات وواجهات REST. وOdoo 20 قادم." },
+  { n: "SalesBuzz", ring: 0, y: "v4.58 → 5.15", en: "Two major upgrades, each rehearsed on a test copy. 13 new and 32 reworked reports, ~30 views, 3 triggers including the customer-location lock, credit controls, isolated DMS and DS servers.", ar: "ترقيتان كبيرتان مجربتان على نسخة اختبار. 13 تقريراً جديداً و32 مطوَّراً وحوالي 30 عرض بيانات و3 مشغلات منها قفل مواقع العملاء، وضوابط ائتمان، وخوادم DMS وDS معزولة." },
+  { n: "AX 2012", ring: 0, y: "in-house", en: "From a $7,000-a-year freelancer to in-house operation. Roles reset, fiscal years closed, full manufacturing cycle with BOM, quality and cost, and a test server since 2026.", ar: "من مستقل بتكلفة 7,000 دولار سنوياً إلى تشغيل داخلي. إعادة ضبط الصلاحيات، وإقفال السنوات المالية، ودورة تصنيع كاملة، وخادم اختبار منذ 2026." },
   { n: "Mago HR", ring: 0, y: "2024 live", en: "From no HR system to live HR with employee self-service, attendance machines, and factory and warehouse users.", ar: "من غياب نظام الموارد البشرية إلى نظام يعمل بالخدمة الذاتية وأجهزة الحضور ومستخدمي المصنع والمستودعات." },
-  { n: "Issabel", ring: 0, y: "32 channels", en: "Company-owned call-center platform: 32 SIP channels, queues, recording, multi-brand IVR.", ar: "منصة مركز اتصال تملكها الشركة: 32 قناة SIP وقوائم انتظار وتسجيل ورد صوتي لعدة علامات." },
-  { n: "Power BI", ring: 1, y: "~15 reports", en: "About 15 reports published in 2025, plus ELA, distributor and aging dashboards on live data.", ar: "حوالي 15 تقريراً منشوراً في 2025، إضافة للوحات ELA والموزعين وأعمار الديون." },
-  { n: "Snipe-IT", ring: 1, y: "2023", en: "First auditable asset register: asset codes and legal custody forms tied to employee ID.", ar: "أول سجل أصول قابل للتدقيق: أكواد الأصول ونماذج عهدة قانونية مرتبطة برقم الموظف." },
-  { n: "ManageEngine", ring: 1, y: "2024 live", en: "Service desk live since 2024 Q1 — every IT request tracked, run by a trained colleague.", ar: "مكتب الدعم يعمل منذ الربع الأول 2024 — كل طلب موثق، ويديره زميل مدرَّب." },
+  { n: "Issabel", ring: 0, y: "built from scratch", en: "Company-owned call center built in-house instead of a EGP 750,000 vendor system: 32 SIP channels, queues, recording, multi-brand IVR, about 3,000 calls a day.", ar: "مركز اتصال بُني داخلياً بدلاً من نظام مورد بقيمة 750,000 جنيه: 32 قناة SIP وقوائم انتظار وتسجيل ورد صوتي لعدة علامات وحوالي 3,000 مكالمة يومياً." },
+  { n: "Power BI", ring: 1, y: "72 reports", en: "72 reports on live data: sales, aging, distributor, ELA and DMS dashboards.", ar: "72 تقريراً على بيانات مباشرة: لوحات المبيعات وأعمار الديون والموزعين وELA وDMS." },
+  { n: "Snipe-IT", ring: 1, y: "built from scratch", en: "First auditable asset register: asset codes and legal custody forms tied to employee ID — a 160-hour manual count, now live.", ar: "أول سجل أصول قابل للتدقيق: أكواد ونماذج عهدة مرتبطة برقم الموظف — بدلاً من جرد يدوي يستغرق 160 ساعة." },
+  { n: "ManageEngine", ring: 1, y: "built from scratch", en: "Service desk live since 2024 Q1 — about 200 IT tickets a month, every one tracked.", ar: "مكتب الدعم يعمل منذ الربع الأول 2024 — حوالي 200 تذكرة شهرياً وكلها موثقة." },
   { n: "Scalefusion", ring: 1, y: "2026", en: "Device management on every handheld; replaced SOTI on best value and cost.", ar: "إدارة كل الأجهزة المحمولة؛ حل محل SOTI بأفضل قيمة وتكلفة." },
-  { n: "Proxmox", ring: 1, y: "2023", en: "Virtualization on existing hardware — test and staging on demand, no hypervisor licence.", ar: "خوادم افتراضية على الأجهزة الحالية — بيئات اختبار عند الطلب وبدون ترخيص." },
+  { n: "Proxmox", ring: 1, y: "2023 → 2026", en: "Virtualization on existing hardware, joined by Hyper-V in 2026 — test and staging on demand, no hypervisor licence.", ar: "خوادم افتراضية على الأجهزة الحالية، ثم Hyper-V في 2026 — بيئات اختبار عند الطلب وبدون ترخيص." },
   { n: "Kaspersky", ring: 1, y: "2026", en: "Central protection for clients and servers, following GravityZone; IT team trained on the console.", ar: "حماية مركزية للأجهزة والخوادم بعد GravityZone، مع تدريب الفريق على لوحة الإدارة." },
-  { n: "Fortigate", ring: 1, y: "2025", en: "Old firewall replaced with a modern, supported perimeter.", ar: "استبدال الجدار الناري القديم بحماية حديثة مدعومة." },
+  { n: "Fortigate", ring: 1, y: "2025", en: "Old firewall replaced with a modern, supported perimeter; user policies enforced on it.", ar: "استبدال الجدار الناري القديم بحماية حديثة مدعومة مع سياسات للمستخدمين." },
   { n: "Azure", ring: 1, y: "2023 →", en: "Mago HR, DMS and DS servers in the cloud — port-secured and automatically backed up.", ar: "Mago HR وخوادم DMS وDS على السحابة — بمنافذ مؤمنة ونسخ احتياطي آلي." },
 ];
 export function Systems({ active }: SlideProps) {
@@ -38,7 +38,7 @@ export function Systems({ active }: SlideProps) {
         <h2 className="h2" style={{ marginTop: 24, maxWidth: 820, fontSize: t("80px", "60px") }}>
           <Words text={t("A digital backbone", "عمود فقري رقمي")} show={active} delay={0.2} /> <Words className="it gold" text={t("the business owns.", "تملكه الشركة.")} show={active} delay={0.45} />
         </h2>
-        <Rise delay={0.7}><p className="lede" style={{ marginTop: 26, maxWidth: 760, fontSize: 24 }}>{t("Built from zero: CRM, HR, asset register, service desk, device management, BI, virtualization, file server and automated backups — operated in-house, not by freelancers.", "بُني من الصفر: CRM والموارد البشرية وسجل الأصول ومكتب الدعم وإدارة الأجهزة وBI والخوادم الافتراضية وخادم الملفات والنسخ الآلي — يُدار داخلياً وليس عبر مستقلين.")}</p></Rise>
+        <Rise delay={0.7}><p className="lede" style={{ marginTop: 26, maxWidth: 760, fontSize: 24 }}>{t("Built from zero: CRM and helpdesk, call center, asset register, service desk, HR, device management, BI, virtualization and automated backups — operated in-house, not by freelancers.", "بُني من الصفر: CRM ومكتب الدعم ومركز الاتصال وسجل الأصول ومكتب الخدمة والموارد البشرية وإدارة الأجهزة وBI والخوادم الافتراضية والنسخ الآلي — يُدار داخلياً وليس عبر مستقلين.")}</p></Rise>
         <div style={{ width: 760, marginTop: 44, minHeight: 230 }}>
           <AnimatePresence mode="wait">
             <motion.div key={sel} className="card" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.45 }} style={{ padding: "26px 30px", borderInlineStart: `3px solid ${SYS[sel].ring ? "var(--teal)" : "var(--gold)"}` }}>
@@ -99,7 +99,7 @@ export function Expansion({ active }: SlideProps) {
     <div className="slide">
       <Photo src={IMG.riyadh} dim={0.55} saturate={1} from={{ s: 1.25, y: 20 }} to={{ s: 1.08, y: -20, x: 0 }} duration={40} gradient="linear-gradient(90deg, rgba(5,8,12,.96) 0%, rgba(5,8,12,.75) 45%, rgba(5,8,12,.45) 100%)" />
       <div className="pad">
-        <Rise><div className="kicker">{t("Chapter 10 · Group growth", "الفصل 10 · نمو المجموعة")}</div></Rise>
+        <Rise><div className="kicker">{t("Chapter 12 · Group growth", "الفصل 12 · نمو المجموعة")}</div></Rise>
         <h2 className="h2" style={{ marginTop: 24, maxWidth: 780, fontSize: t("80px", "60px") }}>
           <Words text={t("New businesses joined", "الشركات الجديدة انضمت")} show={active} delay={0.2} /> <Words className="it gold" text={t("platforms already built.", "إلى منصات قائمة بالفعل.")} show={active} delay={0.5} />
         </h2>
@@ -157,7 +157,7 @@ export function People({ step, active }: SlideProps) {
     <div className="slide">
       <Photo src={IMG.team} dim={0.78} saturate={0.5} from={{ s: 1.2 }} to={{ s: 1.06, x: -30 }} duration={36} gradient="linear-gradient(90deg, rgba(5,8,12,.97) 0%, rgba(5,8,12,.85) 55%, rgba(5,8,12,.6) 100%)" />
       <div className="pad">
-        <Rise><div className="kicker">{t("Chapter 11 · People", "الفصل 11 · الأفراد")}</div></Rise>
+        <Rise><div className="kicker">{t("Chapter 13 · People", "الفصل 13 · الأفراد")}</div></Rise>
         <h2 className="h2" style={{ marginTop: 24, fontSize: t("84px", "64px") }}>
           <Words text={t("Two people, then three.", "شخصان، ثم ثلاثة.")} show={active} delay={0.2} /> <Words className="it gold" text={t("All senior today.", "وجميعهم اليوم خبراء.")} show={active} delay={0.5} />
         </h2>
@@ -165,9 +165,9 @@ export function People({ step, active }: SlideProps) {
           {step === 0 ? (
             <motion.div key="a" exit={{ opacity: 0, y: -20 }} style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 40, marginTop: 80 }}>
               {[
-                ["2023 – 2024", "2023 – 2024", 2, "The two-person team recorded in the audit", "الفريق المكوَّن من شخصين كما ورد في التقييم", "Coached daily; took ownership of service desk, device management and endpoint protection.", "تدريب يومي؛ وتسلّم مكتب الدعم وإدارة الأجهزة وحماية الأجهزة."],
-                ["2025 – 2026", "2025 – 2026", 3, "One more IT employee added", "انضمام موظف ثالث", "Brought up to speed through hands-on work on live projects.", "اكتسب الخبرة من خلال العمل المباشر على المشروعات."],
-                ["Today", "اليوم", 3, "All team members at senior level", "جميع الأعضاء بمستوى خبير", "Platforms and daily operations run independently — delivery no longer depends on one person.", "تشغيل الأنظمة والعمل اليومي باستقلالية — ولم يعد الإنجاز يعتمد على شخص واحد."],
+                ["Jan 2023", "يناير 2023", 2, "The two-person team recorded in the audit", "الفريق المكوَّن من شخصين كما ورد في التقييم", "Ahmed Soufy from January 2023, coached daily on SalesBuzz, reports and PHP.", "أحمد صوفي منذ يناير 2023، بتدريب يومي على SalesBuzz والتقارير وPHP."],
+                ["Nov 2023 – Dec 2024", "نوفمبر 2023 – ديسمبر 2024", 3, "Grown to three", "التوسع إلى ثلاثة", "Esraa joined in November 2023 and took the service desk, MDM and security consoles; Yassen joined in December 2024.", "انضمت إسراء في نوفمبر 2023 وتسلمت مكتب الدعم وإدارة الأجهزة والأمن؛ وانضم ياسين في ديسمبر 2024."],
+                ["Today", "اليوم", 3, "All senior — a school for talent", "جميعهم خبراء — مدرسة للكفاءات", "Esraa grew into a senior and now leads IT in another company. Platforms run independently of any one person.", "تطورت إسراء إلى مستوى خبير وتقود الآن تقنية المعلومات في شركة أخرى. والأنظمة تعمل دون الاعتماد على شخص واحد."],
               ].map(([w, wa, n, en, ar, den, dar], i) => (
                 <Rise key={i} delay={0.6 + i * 0.5}>
                   <div className="label gold">{t(w as string, wa as string)}</div>
@@ -206,45 +206,6 @@ export function People({ step, active }: SlideProps) {
   );
 }
 
-/* =============== 16 · Value =============== */
-export function Value({ active }: SlideProps) {
-  const t = useT();
-  return (
-    <div className="slide">
-      <Photo src={IMG.towers} dim={0.8} saturate={0.4} from={{ s: 1.25 }} to={{ s: 1.06, y: 30, x: 0 }} duration={40} gradient="linear-gradient(180deg, rgba(5,8,12,.75), rgba(5,8,12,.94))" />
-      <div className="pad">
-        <Rise><div className="kicker">{t("Chapter 12 · Financial and risk value", "الفصل 12 · القيمة المالية وتقليل المخاطر")}</div></Rise>
-        <h2 className="h2" style={{ marginTop: 24, fontSize: t("80px", "62px") }}>
-          <Words text={t("Five kinds of value.", "خمسة أنواع من القيمة.")} show={active} delay={0.2} /> <Words className="it gold" text={t("Never double-counted.", "دون احتساب أي بند مرتين.")} show={active} delay={0.5} />
-        </h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 18, marginTop: 56 }}>
-          {VALUES.map(([en, ar, ien, iar, ben, bar, c], i) => (
-            <motion.div key={en} className="card" initial={{ opacity: 0, y: 80, rotateX: 25 }} animate={{ opacity: active ? 1 : 0, y: active ? 0 : 80, rotateX: 0 }} transition={{ delay: 0.6 + i * 0.14, duration: 1, ease: EASE }}
-              style={{ padding: "28px 26px", height: 450, display: "flex", flexDirection: "column", transformPerspective: 1200, borderTop: `3px solid ${c}` }}>
-              <div className="mono" style={{ fontSize: 15, color: c }}>{String(i + 1).padStart(2, "0")}</div>
-              <div className="h3" style={{ fontSize: t("40px", "34px"), marginTop: 14 }}>{t(en, ar)}</div>
-              <div style={{ fontSize: 19, color: "#bcc2c7", marginTop: 18, lineHeight: 1.5 }}>{t(ien, iar)}</div>
-              <div style={{ marginTop: "auto", paddingTop: 16, borderTop: "1px solid var(--line)" }}>
-                <span className="label" style={{ color: c, fontSize: 13 }}>{t(ben, bar)}</span>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-        <Rise delay={1.6} show={active}>
-          <div style={{ display: "flex", gap: 14, marginTop: 28, alignItems: "center", flexWrap: "wrap" }}>
-            {CONTRACTS.map(([k, en, ar]) => (
-              <span key={en} className="chip" style={{ fontSize: 17 }}><b className="gold ltr" style={{ fontWeight: 600 }}>{k}</b>{t(en, ar)}</span>
-            ))}
-          </div>
-          <div style={{ fontSize: 17, color: "var(--muted)", marginTop: 18 }}>
-            {t("Amounts appear only where a signed contract or documented comparison exists. Risk exposure avoided is shown as risk reduction — never as a cash saving.", "لا تظهر مبالغ إلا بعقد موقع أو مقارنة موثقة. والمخاطر التي تم تجنبها تظهر كتقليل للمخاطر — وليست وفراً نقدياً أبداً.")}
-          </div>
-        </Rise>
-      </div>
-    </div>
-  );
-}
-
 /* =============== 17 · Timeline film strip =============== */
 export function Timeline({ step, active }: SlideProps) {
   const t = useT();
@@ -254,7 +215,7 @@ export function Timeline({ step, active }: SlideProps) {
     <div className="slide" style={{ background: "radial-gradient(ellipse at 50% 120%, #10202c 0%, var(--ink) 60%)" }}>
       <Flares o={0.08} />
       <div className="pad">
-        <Rise><div className="kicker">{t("Chapter 13 · Quarter by quarter", "الفصل 13 · ربعاً بربع")}</div></Rise>
+        <Rise><div className="kicker">{t("Chapter 16 · Quarter by quarter", "الفصل 16 · ربعاً بربع")}</div></Rise>
         <div style={{ display: "flex", alignItems: "end", justifyContent: "space-between", marginTop: 20 }}>
           <h2 className="h2" style={{ fontSize: t("80px", "62px") }}>
             <AnimatePresence mode="wait">
@@ -276,13 +237,13 @@ export function Timeline({ step, active }: SlideProps) {
         </motion.div>
         <motion.div style={{ position: "absolute", top: 70, left: 0, display: "flex", gap: GAP }} animate={{ x: -step * YW }} transition={{ duration: 1.6, ease: EASE_IN_OUT }}>
           {Q.map((v, i) => {
-            const yi = Math.floor(i / 4), cur = yi === step, prog = i === 15;
+            const yi = Math.floor(i / 4), cur = yi === step, prog = QP[i] > 0;
             return (
               <motion.div key={i} className="card" animate={{ opacity: cur ? 1 : 0.28, scale: cur ? 1 : 0.94 }} transition={{ duration: 0.8 }}
                 style={{ width: CW, flex: "none", height: 440, padding: "26px 28px", marginRight: i % 4 === 3 ? 60 : 0, display: "flex", flexDirection: "column", borderColor: prog ? "rgba(243,164,59,.5)" : undefined, borderStyle: prog ? "dashed" : "solid" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
                   <span className="label gold">{2023 + yi} · Q{(i % 4) + 1}</span>
-                  {prog && <span className="label" style={{ color: "var(--amber)", fontSize: 12 }}>{t("In progress", "قيد التنفيذ")}</span>}
+                  {prog && <span className="label" style={{ color: "var(--amber)", fontSize: 12 }}>{t(`${QP[i]} in progress`, `${QP[i]} قيد التنفيذ`)}</span>}
                 </div>
                 <div className="serif" style={{ fontSize: 96, lineHeight: 1, marginTop: 14 }}>{v}</div>
                 <div className={ar ? "" : "serif it"} style={{ fontSize: ar ? 26 : 30, fontWeight: ar ? 700 : 400, marginTop: 10, color: "var(--fg)", lineHeight: 1.2, direction: ar ? "rtl" : "ltr" }}>{t(...QTH[i])}</div>
@@ -302,50 +263,6 @@ export function Timeline({ step, active }: SlideProps) {
             <div className="mono" style={{ fontSize: 14, marginTop: 8, color: i === step ? "var(--gold)" : "var(--dim)" }}>{y}</div>
           </div>
         ))}
-      </div>
-    </div>
-  );
-}
-
-/* =============== 18 · Next 12 months =============== */
-export function Next({ step, active }: SlideProps) {
-  const t = useT();
-  return (
-    <div className="slide" style={{ background: "radial-gradient(ellipse at 80% 20%, #10202c 0%, var(--ink) 60%)" }}>
-      <Flares o={0.1} />
-      <div className="pad">
-        <Rise><div className="kicker">{t("Chapter 14 · The next twelve months", "الفصل 14 · الاثنا عشر شهراً القادمة")}</div></Rise>
-        <h2 className="h2" style={{ marginTop: 24, fontSize: t("80px", "62px") }}>
-          <Words text={t("Finish what is in progress.", "استكمال ما بدأ.")} show={active} delay={0.2} /><br />
-          <Words className="it gold" text={t("Strengthen what is built.", "وتعزيز ما تم بناؤه.")} show={active} delay={0.5} />
-        </h2>
-        <div style={{ display: "grid", gridTemplateColumns: "1.15fr 1fr", gap: 70, marginTop: 56 }}>
-          <div>
-            <div className="label teal">{t("In progress · from the 2026 Q4 log", "قيد التنفيذ · من سجل الربع الرابع 2026")}</div>
-            <div style={{ display: "grid", gap: 0, marginTop: 14 }}>
-              {NEXTA.map(([en, ar, den, dar], i) => (
-                <Rise key={en} delay={0.6 + i * 0.1} y={18}>
-                  <div style={{ display: "grid", gridTemplateColumns: "40px 1fr", padding: "14px 0", borderBottom: "1px solid var(--line)" }}>
-                    <motion.span style={{ width: 14, height: 14, borderRadius: "50%", border: "2px solid var(--teal)", marginTop: 8 }} animate={{ boxShadow: ["0 0 0 0 rgba(79,209,197,.6)", "0 0 0 10px rgba(79,209,197,0)"] }} transition={{ duration: 1.8, repeat: Infinity, delay: i * 0.3 }} />
-                    <div><div style={{ fontSize: 24, fontWeight: 600 }}>{t(en, ar)}</div><div style={{ fontSize: 18, color: "var(--muted)" }}>{t(den, dar)}</div></div>
-                  </div>
-                </Rise>
-              ))}
-            </div>
-          </div>
-          <motion.div initial={false} animate={{ opacity: step >= 1 ? 1 : 0.12, filter: step >= 1 ? "blur(0px)" : "blur(6px)" }} transition={{ duration: 0.9 }}>
-            <div className="label gold">{t("Recommended strengthening · for Board approval", "تعزيزات مقترحة · لموافقة مجلس الإدارة")}</div>
-            <div style={{ display: "grid", gap: 14, marginTop: 20 }}>
-              {NEXTB.map(([en, ar], i) => (
-                <motion.div key={en} className="card" initial={false} animate={{ x: step >= 1 ? 0 : 30, opacity: step >= 1 ? 1 : 0.4 }} transition={{ delay: step >= 1 ? 0.15 + i * 0.12 : 0, duration: 0.7, ease: EASE }}
-                  style={{ padding: "20px 24px", display: "flex", gap: 20, alignItems: "center" }}>
-                  <span className="serif gold" style={{ fontSize: 40, lineHeight: 1 }}>{i + 1}</span>
-                  <span style={{ fontSize: 22 }}>{t(en, ar)}</span>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
       </div>
     </div>
   );
@@ -371,7 +288,7 @@ function Credits({ active }: { active: boolean }) {
         style={{ position: "absolute", left: 0, right: 0, top: 0 }}>
         <div style={{ textAlign: "center", marginBottom: 80 }}>
           <div className="kicker">{t("The complete register", "السجل الكامل")}</div>
-          <div className="serif" style={{ fontSize: 72, marginTop: 14 }}>{t("279 deliverables", "279 إنجازاً")}</div>
+          <div className="serif" style={{ fontSize: 72, marginTop: 14 }}>{t(`${TOTAL} deliverables`, `${TOTAL} إنجازاً`)}</div>
         </div>
         {rows.map((x, i) =>
           "h" in x ? (
@@ -414,10 +331,10 @@ export function Finale({ step, active }: SlideProps) {
             </div>
             <div style={{ position: "absolute", left: 0, right: 0, top: 540, textAlign: "center" }}>
               <Rise delay={3.4}><div className="kicker">{t("Four years · built in-house", "أربع سنوات · بُنيت داخلياً")}</div></Rise>
-              <div style={{ display: "flex", justifyContent: "center", gap: 120, marginTop: 44 }}>
-                {[[279, "Deliverables", "إنجازاً"], [0, "Ransomware or wiper incidents", "حوادث فدية أو مسح"], [3, "IT specialists, all senior", "متخصصين جميعهم خبراء"]].map(([v, en, ar], i) => (
+              <div style={{ display: "flex", justifyContent: "center", gap: 96, marginTop: 44 }}>
+                {([[TOTAL, 0, "", "Deliverables", "إنجازاً"], [millions(ANNUAL), 1, "M", "EGP saved every year", "جنيه وفر سنوي"], [0, 0, "", "Ransomware or wiper incidents", "حوادث فدية أو مسح"], [3, 0, "", "IT specialists, all senior", "متخصصين جميعهم خبراء"]] as const).map(([v, d, suf, en, ar], i) => (
                   <Rise key={i} delay={3.8 + i * 0.25}>
-                    <div className="serif gold" style={{ fontSize: 110, lineHeight: 1 }}><CountUp to={v as number} show={active} delay={3.8 + i * 0.25} /></div>
+                    <div className="serif gold" style={{ fontSize: 110, lineHeight: 1 }}><CountUp to={v} decimals={d} suffix={suf} show={active} delay={3.8 + i * 0.25} /></div>
                     <div className="label" style={{ marginTop: 10 }}>{t(en as string, ar as string)}</div>
                   </Rise>
                 ))}

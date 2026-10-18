@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DECK } from "./deck";
 import { LangCtx, type Lang } from "./i18n";
 import { EASE, Grain } from "./fx";
-import { CATS, REG } from "./data/content";
+import { CATS, REG, TOTAL } from "./data/content";
 
 /* ---------- persistence and the presenter bus ---------- */
 const store = {
@@ -261,7 +261,7 @@ function Help({ lang, onClose }: { lang: Lang; onClose: () => void }) {
     ["P", "Open presenter window (notes, timer, next scene)", "نافذة المقدم (ملاحظات ومؤقت والمشهد التالي)"],
     ["N", "Speaker notes on this screen", "ملاحظات المتحدث على هذه الشاشة"],
     ["O  Esc", "Scene overview", "عرض كل المشاهد"],
-    ["R", "Searchable register of all 279 deliverables", "سجل الإنجازات الـ 279 القابل للبحث"],
+    ["R", `Searchable register of all ${TOTAL} deliverables`, `سجل الإنجازات الـ ${TOTAL} القابل للبحث`],
     ["L", "English / العربية", "English / العربية"],
     ["B", "Black screen (pause)", "شاشة سوداء (إيقاف مؤقت)"],
     ["G", "Film grain on / off", "تشغيل أو إيقاف تأثير الفيلم"],
@@ -293,7 +293,7 @@ function Register({ lang, onClose }: { lang: Lang; onClose: () => void }) {
     <div className="ov-in">
       <div className="ov-head">
         <h2>{T(lang, ["Achievement register", "سجل الإنجازات"])}</h2>
-        <span className="label">{list.length} / 279</span>
+        <span className="label">{list.length} / {TOTAL}</span>
         <button className="ov-close" onClick={onClose}>{T(lang, ["Close", "إغلاق"])}</button>
       </div>
       <div className="reg-tools">

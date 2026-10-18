@@ -1,20 +1,24 @@
-// Uplifting generative score, synthesized live with Web Audio: no audio files, no licence, works offline.
-// C – G – Am – F at 96 bpm. Level 0 = pads and bass, 1 = adds the arpeggio, 2 = adds a soft pulse and bell melody.
+// Quiet classical score: Pachelbel's Canon in D (public domain), synthesized live with Web Audio,
+// so there are no audio files or licences and the deck stays one offline file.
+// Level 0 = strings on the ground bass, 1 = adds the violin melody, 2 = adds a soft harp arpeggio.
 
 const hz = (midi: number) => 440 * Math.pow(2, (midi - 69) / 12);
-const CHORDS = [[48, 55, 60, 64, 67], [43, 55, 59, 62, 67], [45, 57, 60, 64, 69], [41, 57, 60, 65, 69]];
-const MELODY = [76, 74, 72, 77, 79, 74, 76, 72]; // one bell note per bar, two-bar phrases over the progression
-const BEAT = 60 / 96, BAR = BEAT * 4, LOOKAHEAD = 0.8;
+// the eight-chord ground: D – A – Bm – F#m – G – D – G – A  [bass, ...upper strings]
+const GROUND = [[38, 62, 66, 69], [45, 61, 64, 69], [47, 62, 66, 71], [42, 61, 66, 69], [43, 62, 67, 71], [38, 62, 66, 69], [43, 62, 67, 71], [45, 61, 64, 69]];
+// first-violin lines over the ground, one long note per chord, alternating each cycle
+const MELODIES = [[78, 76, 74, 73, 71, 69, 71, 73], [74, 73, 71, 69, 67, 66, 67, 64], [78, 76, 74, 78, 79, 78, 79, 76]];
+const STEP = 2.2; // seconds per chord: slow and calm
+const LOOKAHEAD = 1.2;
+const PEAK = 0.24; // master level: background, never over the speaker
 
 export class Score {
   private ctx?: AudioContext;
   private master!: GainNode;
   private bus!: GainNode;
-  private echo!: GainNode;
   private timer?: ReturnType<typeof setInterval>;
   private stopTimer?: ReturnType<typeof setTimeout>;
-  private nextBar = 0;
-  private bar = 0;
+  private next = 0;
+  private n = 0;
   private level = 1;
   playing = false;
 
@@ -24,89 +28,90 @@ export class Score {
     this.master = ctx.createGain();
     this.master.gain.value = 0;
     const comp = ctx.createDynamicsCompressor();
-    comp.threshold.value = -18;
-    comp.ratio.value = 3;
-    this.master.connect(comp).connect(ctx.destination);
+    comp.threshold.value = -22;
+    comp.ratio.value = 2.5;
+    // soften the top end, like a hall
+    const tone = ctx.createBiquadFilter();
+    tone.type = "lowpass";
+    tone.frequency.value = 5200;
+    this.master.connect(tone).connect(comp).connect(ctx.destination);
 
-    // everything goes through one bus: dry plus a long generated reverb
     this.bus = ctx.createGain();
     this.bus.connect(this.master);
     const verb = ctx.createConvolver();
-    const len = ctx.sampleRate * 3.2, ir = ctx.createBuffer(2, len, ctx.sampleRate);
+    const len = ctx.sampleRate * 4, ir = ctx.createBuffer(2, len, ctx.sampleRate);
     for (let ch = 0; ch < 2; ch++) {
       const d = ir.getChannelData(ch);
-      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.6);
+      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
     }
     verb.buffer = ir;
     const wet = ctx.createGain();
-    wet.gain.value = 0.45;
+    wet.gain.value = 0.6;
     this.bus.connect(verb).connect(wet).connect(this.master);
-
-    // dotted-eighth echo for the arpeggio and bells
-    this.echo = ctx.createGain();
-    const delay = ctx.createDelay(2);
-    delay.delayTime.value = BEAT * 0.75;
-    const fb = ctx.createGain();
-    fb.gain.value = 0.32;
-    this.echo.connect(delay).connect(fb).connect(delay);
-    delay.connect(this.bus);
   }
 
-  private voice(type: OscillatorType, f: number, t: number, dur: number, gain: number, attack: number, opts: { detune?: number; cutoff?: number; echo?: boolean } = {}) {
+  /** bowed string: two detuned saws, filtered, with a slow swell and gentle vibrato */
+  private bow(midi: number, t: number, dur: number, gain: number, bright = 1600) {
     const ctx = this.ctx!;
-    const o = ctx.createOscillator();
-    o.type = type;
-    o.frequency.value = f;
-    if (opts.detune) o.detune.value = opts.detune;
     const g = ctx.createGain();
     g.gain.setValueAtTime(0, t);
-    g.gain.linearRampToValueAtTime(gain, t + attack);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    let out: AudioNode = o;
-    if (opts.cutoff) {
-      const lp = ctx.createBiquadFilter();
-      lp.type = "lowpass";
-      lp.frequency.value = opts.cutoff;
+    g.gain.linearRampToValueAtTime(gain, t + Math.min(0.7, dur * 0.35));
+    g.gain.setValueAtTime(gain, t + dur * 0.7);
+    g.gain.linearRampToValueAtTime(0, t + dur + 0.6);
+    const lp = ctx.createBiquadFilter();
+    lp.type = "lowpass";
+    lp.frequency.value = bright;
+    lp.Q.value = 0.5;
+    lp.connect(g).connect(this.bus);
+    const vib = ctx.createOscillator(), vibAmt = ctx.createGain();
+    vib.frequency.value = 5.2;
+    vibAmt.gain.value = 5; // cents
+    vib.connect(vibAmt);
+    for (const d of [-6, 6]) {
+      const o = ctx.createOscillator();
+      o.type = "sawtooth";
+      o.frequency.value = hz(midi);
+      o.detune.value = d;
+      vibAmt.connect(o.detune);
       o.connect(lp);
-      out = lp;
+      o.start(t);
+      o.stop(t + dur + 0.7);
     }
-    out.connect(g).connect(this.bus);
-    if (opts.echo) g.connect(this.echo);
-    o.start(t);
-    o.stop(t + dur + 0.05);
+    vib.start(t);
+    vib.stop(t + dur + 0.7);
   }
 
-  private kick(t: number) {
+  /** plucked harp: sine with a quiet octave, fast attack, long natural decay */
+  private pluck(midi: number, t: number, gain: number) {
     const ctx = this.ctx!;
-    const o = ctx.createOscillator(), g = ctx.createGain();
-    o.frequency.setValueAtTime(110, t);
-    o.frequency.exponentialRampToValueAtTime(42, t + 0.14);
-    g.gain.setValueAtTime(0.32, t);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
-    o.connect(g).connect(this.master);
-    o.start(t);
-    o.stop(t + 0.5);
+    for (const [mul, amt] of [[1, 1], [2, 0.25]] as const) {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = "sine";
+      o.frequency.value = hz(midi) * mul;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(gain * amt, t + 0.006);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 1.8);
+      o.connect(g).connect(this.bus);
+      o.start(t);
+      o.stop(t + 1.9);
+    }
   }
 
-  private scheduleBar(t: number) {
-    const chord = CHORDS[this.bar % 4], lv = this.level;
-    // pads: two detuned saws per note, filter opens with the level
-    for (const n of chord.slice(2)) {
-      for (const d of [-7, 7]) this.voice("sawtooth", hz(n), t, BAR + 1.6, 0.022, 1.1, { detune: d, cutoff: 700 + lv * 450 });
-    }
-    // bass on beats 1 and 3
-    for (const b of [0, 2]) this.voice("triangle", hz(chord[0]), t + b * BEAT, BEAT * 2, 0.16, 0.04);
+  private scheduleChord(t: number) {
+    const i = this.n % 8, [bass, ...upper] = GROUND[i], lv = this.level;
+    this.bow(bass, t, STEP, 0.05, 900); // cello
+    this.bow(bass + 12, t, STEP, 0.02, 1100); // viola doubling
+    for (const u of upper) this.bow(u, t, STEP, 0.011, 1500); // second violins
     if (lv >= 1) {
-      const arp = [chord[2], chord[3], chord[4], chord[3] + 12, chord[4], chord[3], chord[2] + 12, chord[4]].map((n) => n + 12);
-      arp.forEach((n, i) => this.voice("triangle", hz(n), t + i * (BEAT / 2), 0.38, 0.035, 0.008, { echo: true }));
+      const line = MELODIES[Math.floor(this.n / 8) % MELODIES.length];
+      this.bow(line[i], t, STEP * 0.96, 0.024, 2600); // first violin
     }
     if (lv >= 2) {
-      for (const b of [0, 1, 2, 3]) this.kick(t + b * BEAT);
-      const m = MELODY[this.bar % MELODY.length];
-      this.voice("sine", hz(m), t, 2.6, 0.05, 0.01, { echo: true });
-      this.voice("sine", hz(m + 12), t, 1.2, 0.012, 0.01);
+      // broken chord in eighths: bass, fifth, octave, third…
+      const notes = [bass + 12, upper[0], upper[1], upper[2], upper[1] + 12, upper[2], upper[1], upper[0]];
+      notes.forEach((m, k) => this.pluck(m, t + k * (STEP / 8), 0.03));
     }
-    this.bar++;
+    this.n++;
   }
 
   start() {
@@ -118,12 +123,12 @@ export class Score {
     this.playing = true;
     this.master.gain.cancelScheduledValues(ctx.currentTime);
     this.master.gain.setValueAtTime(this.master.gain.value, ctx.currentTime);
-    this.master.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 3);
-    this.nextBar = Math.max(this.nextBar, ctx.currentTime + 0.1);
+    this.master.gain.linearRampToValueAtTime(PEAK, ctx.currentTime + 4);
+    this.next = Math.max(this.next, ctx.currentTime + 0.1);
     this.timer = setInterval(() => {
-      while (this.nextBar < ctx.currentTime + LOOKAHEAD) {
-        this.scheduleBar(this.nextBar);
-        this.nextBar += BAR;
+      while (this.next < ctx.currentTime + LOOKAHEAD) {
+        this.scheduleChord(this.next);
+        this.next += STEP;
       }
     }, 100);
   }
@@ -135,10 +140,10 @@ export class Score {
     clearInterval(this.timer);
     this.master.gain.cancelScheduledValues(ctx.currentTime);
     this.master.gain.setValueAtTime(this.master.gain.value, ctx.currentTime);
-    this.master.gain.linearRampToValueAtTime(0, ctx.currentTime + 1.5);
-    this.stopTimer = setTimeout(() => { void ctx.suspend(); this.nextBar = 0; }, 1700);
+    this.master.gain.linearRampToValueAtTime(0, ctx.currentTime + 2);
+    this.stopTimer = setTimeout(() => { void ctx.suspend(); this.next = 0; }, 2200);
   }
 
-  /** 0 calm · 1 building · 2 full; takes effect from the next bar */
+  /** 0 calm · 1 melody · 2 full; takes effect from the next chord */
   setLevel(l: number) { this.level = l; }
 }

@@ -20,7 +20,7 @@ Press **F** for fullscreen and **P** for the presenter window (notes, timer, liv
 | L | English / العربية |
 | B | Black screen |
 | G | Film grain on / off |
-| M | Music on / off (generated live, starts on the first key or click) |
+| M | Music on / off · quiet strings and harp, Pachelbel's Canon in D (public domain), generated live; starts on the first key or click |
 | 1–25 then Enter | Jump to a scene |
 
 ## Develop

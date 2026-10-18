@@ -1,5 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "rewrites": [{ "source": "/", "destination": "/GID_IT_Transformation.html" }]
+  "rewrites": [{ "source": "/", "destination": "/GID_Board_Presentation.html" }]
 }

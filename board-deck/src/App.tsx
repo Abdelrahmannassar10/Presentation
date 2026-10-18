@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DECK } from "./deck";
 import { LangCtx, type Lang } from "./i18n";
 import { EASE, Grain } from "./fx";
+import { Score } from "./fx/music";
 import { CATS, REG, TOTAL } from "./data/content";
 
 /* ---------- persistence and the presenter bus ---------- */
@@ -69,6 +70,8 @@ function Deck() {
   const [black, setBlack] = useState(false);
   const [idle, setIdle] = useState(false);
   const [hint, setHint] = useState(true);
+  const [music, setMusic] = useState(() => store.get("gid-music") !== "off");
+  const score = useMemo(() => new Score(), []);
   const scale = useScale();
   const slide = DECK[idx];
 
@@ -97,6 +100,18 @@ function Deck() {
     send({ type: "state", idx, step, lang });
   }, [idx, step, lang, send]);
   useEffect(() => { store.set("gid-lang", lang); }, [lang]);
+  /* music: browsers only allow audio after a gesture, so it starts on the first key or click */
+  useEffect(() => {
+    store.set("gid-music", music ? "on" : "off");
+    if (!music) { score.stop(); return; }
+    const go = () => score.start();
+    go();
+    addEventListener("keydown", go, { once: true });
+    addEventListener("pointerdown", go, { once: true });
+    return () => { removeEventListener("keydown", go); removeEventListener("pointerdown", go); };
+  }, [music, score]);
+  useEffect(() => { score.setLevel(black ? 0 : (DECK[idx].mood ?? 1)); }, [idx, black, score]);
+  useEffect(() => () => score.stop(), [score]);
   useEffect(() => { const to = setTimeout(() => setHint(false), 6000); return () => clearTimeout(to); }, []);
 
   /* keyboard: arrows, space and PageUp/PageDown (presentation clickers) */
@@ -127,6 +142,7 @@ function Deck() {
       else if (k === "l") setLang((l) => (l === "en" ? "ar" : "en"));
       else if (k === "n") setNotes((v) => !v);
       else if (k === "g") setGrain((v) => !v);
+      else if (k === "m") setMusic((v) => !v);
       else if (k === "b" || k === ".") setBlack((v) => !v);
       else if (k === "p") window.open(location.pathname + "?presenter" + location.hash, "gid-presenter", "width=1280,height=800");
     };
@@ -208,7 +224,11 @@ function Deck() {
           <motion.div className="progress" animate={{ scaleX: progress }} transition={{ duration: 0.8, ease: EASE }} style={{ width: "100%" }} />
         </div>
 
-        <div className="hint" style={{ opacity: hint && !overlay ? 1 : 0 }}>→ / SPACE · F FULLSCREEN · ? HELP</div>
+        <div className="hint" style={{ opacity: hint && !overlay ? 1 : 0 }}>→ / SPACE · F FULLSCREEN · M MUSIC · ? HELP</div>
+        <button className={`music-btn ${music ? "on" : ""}`} style={{ opacity: idle && !overlay ? 0 : undefined }} onClick={() => setMusic((v) => !v)} title={T(lang, ["Music on / off (M)", "تشغيل أو إيقاف الموسيقى (M)"])}>
+          <span className="eq">{[0, 1, 2, 3].map((i) => <i key={i} style={{ animationDelay: `${i * 0.15}s` }} />)}</span>
+          {music ? T(lang, ["Music", "موسيقى"]) : T(lang, ["Music off", "الموسيقى متوقفة"])}
+        </button>
       </div>
 
       {notes && (
@@ -265,6 +285,7 @@ function Help({ lang, onClose }: { lang: Lang; onClose: () => void }) {
     ["L", "English / العربية", "English / العربية"],
     ["B", "Black screen (pause)", "شاشة سوداء (إيقاف مؤقت)"],
     ["G", "Film grain on / off", "تشغيل أو إيقاف تأثير الفيلم"],
+    ["M", "Music on / off", "تشغيل أو إيقاف الموسيقى"],
     ["1 2 … Enter", "Jump to scene number", "الانتقال إلى مشهد برقمه"],
     ["Home  End", "First / last scene", "المشهد الأول / الأخير"],
   ];

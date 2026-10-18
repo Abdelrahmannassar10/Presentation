@@ -10,5 +10,7 @@ export type SlideDef = {
   thumb: string;
   notes: [string, string];
   chrome?: boolean;
+  /** music intensity: 0 calm, 1 building (default), 2 full */
+  mood?: 0 | 1 | 2;
   C: FC<SlideProps>;
 };

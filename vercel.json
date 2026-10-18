@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
-  "installCommand": "cd board-deck && npm ci",
-  "buildCommand": "cd board-deck && npm run build",
-  "outputDirectory": "board-deck/dist"
+  "installCommand": "if [ -d board-deck ]; then cd board-deck; fi; npm ci",
+  "buildCommand": "if [ -d board-deck ]; then cd board-deck && npm run build && rm -rf ../dist && cp -r dist ../dist; else npm run build; fi",
+  "outputDirectory": "dist"
 }

@@ -32,8 +32,8 @@ export function Rhythm({ step, active }: SlideProps) {
                 <motion.div key="n" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
                   <div className="label gold">{t("Foundation first, then scale", "الأساس أولاً، ثم التوسع")}</div>
                   <div style={{ fontSize: 21, marginTop: 8, color: "#d3d7da", lineHeight: 1.45 }}>
-                    {t(`2023 built the foundation: ${YEARS[0][1]} items. Then fewer but larger projects — manufacturing in the ERP, distributor servers, and in 2025–2026 a full network and camera refresh. Hatched: ${PROG} projects in progress now.`,
-                      `عام 2023 بنى الأساس: ${YEARS[0][1]} إنجازاً. ثم مشروعات أقل عدداً وأكبر حجماً: التصنيع في ERP وخوادم الموزعين، وفي 2025–2026 تحديث كامل للشبكات والكاميرات. المظلل: ${PROG} مشروعات قيد التنفيذ الآن.`)}
+                    {t(`2023 built the foundation: ${YEARS[0][1]} items. Then fewer but larger projects — manufacturing in the ERP, distributor servers, in 2025–2026 a full network and camera refresh, and 2026 Q3's 25 AX customisations. Hatched: ${PROG} projects in progress now.`,
+                      `عام 2023 بنى الأساس: ${YEARS[0][1]} إنجازاً. ثم مشروعات أقل عدداً وأكبر حجماً: التصنيع في ERP وخوادم الموزعين، وفي 2025–2026 تحديث كامل للشبكات والكاميرات، و25 تطويراً في AX في الربع الثالث 2026. المظلل: ${PROG} مشروعات قيد التنفيذ الآن.`)}
                   </div>
                 </motion.div>
               ) : (

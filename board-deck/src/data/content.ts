@@ -1,4 +1,4 @@
-// All figures come from the data folder: IT_Call_Center_4-Year_Achievement_Report.md, achievement2.xlsx,
+// All figures come from the data folder: IT_Call_Center_4-Year_Achievement_Report.md, achievement 3.xlsx,
 // readme.md and Financial_Data_Request_EN-AR.docx (amounts filled in by the IT & Call Center Manager). Nothing here is invented.
 import regJson from "./register.json";
 
@@ -39,8 +39,8 @@ export const BA: [string, string, string, string, string, string][] = [
   ["Backups", "النسخ الاحتياطي", "None", "لا يوجد", "Daily automated backups, local and cloud", "نسخ احتياطي يومي آلي محلياً وسحابياً"],
   ["Security", "الأمن", "Misconfigured firewall, everyone an administrator", "جدار ناري غير مضبوط والجميع بصلاحية مدير", "Fortigate, VLANs, web filtering, central antivirus, 196 IP cameras", "Fortigate وVLANs وفلترة الويب ومضاد فيروسات مركزي و196 كاميرا IP"],
   ["Call center", "مركز الاتصال", "Personal mobiles and a busy tone", "هواتف شخصية ونغمة انشغال", "Issabel, 32 SIP channels, queues, recording, CRM logging", "Issabel و32 قناة وقوائم انتظار وتسجيل وربط مع CRM"],
-  ["Business systems", "أنظمة الأعمال", "No CRM, no HR system, freelancer-run ERP", "بدون CRM أو نظام موارد بشرية، وERP يديره مستقل", "Odoo CRM, Mago HR, in-house AX, SalesBuzz 5.15", "Odoo CRM وMago HR وتشغيل AX داخلياً وSalesBuzz 5.15"],
-  ["Reporting", "التقارير", "Manual spreadsheets", "جداول يدوية", "72 Power BI reports · 45 SalesBuzz reports built or reworked · ~30 views", "72 تقرير Power BI · 45 تقرير SalesBuzz جديد أو مطوَّر · حوالي 30 عرض بيانات"],
+  ["Business systems", "أنظمة الأعمال", "No CRM, no HR system, freelancer-run ERP", "بدون CRM أو نظام موارد بشرية، وERP يديره مستقل", "Odoo CRM, Mago HR, in-house AX with 25 customisations, SalesBuzz 5.15", "Odoo CRM وMago HR وتشغيل AX داخلياً مع 25 تطويراً وSalesBuzz 5.15"],
+  ["Reporting", "التقارير", "Manual spreadsheets", "جداول يدوية", "72 Power BI reports · 45 SalesBuzz reports built or reworked · 17 AX reports · ~30 views", "72 تقرير Power BI · 45 تقرير SalesBuzz جديد أو مطوَّر · 17 تقرير AX · حوالي 30 عرض بيانات"],
   ["IT assets and devices", "الأصول والأجهزة", "Paper records, unmanaged handhelds", "سجلات ورقية وأجهزة محمولة بلا إدارة", "Snipe-IT custody, MDM on every handheld, service desk", "عهدة Snipe-IT وإدارة كل الأجهزة المحمولة ومكتب دعم فني"],
   ["Team", "الفريق", "Two people, limited experience", "شخصان بخبرة محدودة", "Three people, all at senior level", "ثلاثة أشخاص جميعهم بمستوى خبير"],
 ];
@@ -66,7 +66,7 @@ export const QHEAD: [string, string][] = [
   ["Shpramont warehouse · Mobinil IVR · Fawry and Paymob · .eg domains · static IPs · faster microwave WAN", "مستودع Shpramont · IVR موبينيل · Fawry وPaymob · نطاقات ‎.eg · عناوين ثابتة · ميكروويف أسرع"],
   ["Warehouse firewall, filter, cameras · HQ CCTV (~32) · DB disk failure resolved · new laptops and printers", "جدار ناري وفلترة وكاميرات للمستودع · كاميرات المقر (حوالي 32) · حل عطل القرص · أجهزة وطابعات جديدة"],
   ["Kaspersky · DMS servers · distributors isolated · SalesBuzz 5.15 · Proxmox + Hyper-V · HQ switches · ~200 devices", "Kaspersky · خوادم DMS · عزل الموزعين · SalesBuzz 5.15 · Proxmox وHyper-V · سويتشات المقر · 200 جهاز"],
-  ["DS servers · new tax server · Scalefusion · SD-WAN at HQ · AX test server · warehouse UPS · Dynamics 365 kickoff", "خوادم DS · خادم ضرائب · Scalefusion · SD-WAN للمقر · خادم اختبار AX · UPS للمستودع · بدء Dynamics 365"],
+  ["AX test server and 25 AX customisations · DS servers · new tax server · Scalefusion · SD-WAN at HQ · warehouse UPS · Dynamics 365 kickoff", "خادم اختبار AX و25 تطويراً في AX · خوادم DS · خادم ضرائب · Scalefusion · SD-WAN للمقر · UPS للمستودع · بدء Dynamics 365"],
   ["5th floor built · Issabel–Odoo 19 · delivery dashboard · six projects in flight: D365, MPLS, live factory", "الدور الخامس · ربط Issabel مع Odoo 19 · لوحة التوصيل · ستة مشروعات جارية: D365 وMPLS والمصنع المباشر"],
 ];
 export const YEARS: [string, number, string, string][] = [["2023", yearTotal("2023"), "Foundations", "بناء الأساس"], ["2024", yearTotal("2024"), "Go-live and industrialisation", "التشغيل والتصنيع"], ["2025", yearTotal("2025"), "Growth and modernisation", "النمو والتحديث"], ["2026", yearTotal("2026"), "Hardening · to October", "التحصين · حتى أكتوبر"]];
@@ -199,6 +199,32 @@ export const REPORTS: [number, string, string, string, string, string][] = [
   [3, "Database triggers", "مشغلات قاعدة بيانات", "Performance and control · one critical", "للأداء والرقابة · أحدها حرج", "var(--red)"],
 ];
 
+/* ERP built in-house · achievement 3.xlsx, sheet "Ax" (all 2026 Q3) */
+export type AxType = "Report" | "Form" | "Solution" | "Project";
+// [type, module key, name as it appears in AX]
+export const AX: [AxType, string, string][] = [
+  ["Report", "gl", "Ledger Summary"], ["Report", "gl", "Ledger Summary Details"], ["Report", "gl", "Ledger Summary Monthly"], ["Report", "gl", "Ledger Balance List"],
+  ["Report", "ap", "Last Purchase Price"], ["Report", "inv", "Item Stock Card - Physical"], ["Report", "inv", "Inventory Equation - Physical"], ["Report", "ap", "Purchase Order Print"],
+  ["Report", "cash", "Cash Summary"], ["Report", "cash", "Cash Trans Details"], ["Report", "cash", "Cash Summary Monthly"], ["Report", "cash", "Bank Balance List"],
+  ["Report", "cash", "Bank Transfer_BM"], ["Report", "cash", "Bank Transfer_Alex"], ["Report", "cash", "Bank Transfer_FAB"], ["Report", "cash", "Bank Transfer_SCB"], ["Report", "cash", "Bank Transfer_ADCB"],
+  ["Form", "inv", "Receipt Trans"], ["Form", "ap", "Order Lines"], ["Form", "cash", "Bank Transfer"], ["Form", "cash", "Cash Trans"],
+  ["Solution", "ar", "Import From Excel To Sales Order"], ["Solution", "cash", "Upload Bank GL"], ["Solution", "ap", "Vendor DocNum on Product Receipt"],
+  ["Project", "admin", "Notification Reminder"],
+];
+// [key, en, ar]; the sheet's "Bank" module is shown with cash and bank
+export const AX_MODULES: [string, string, string][] = [
+  ["cash", "Cash and bank", "النقدية والبنوك"], ["gl", "General ledger", "دفتر الأستاذ العام"], ["ap", "Purchasing · AP", "المشتريات والموردون"],
+  ["inv", "Inventory", "المخزون"], ["ar", "Sales · AR", "المبيعات والعملاء"], ["admin", "Administration", "الإدارة"],
+];
+// [type, en, ar, detail en, detail ar, color]
+export const AX_TYPES: [AxType, string, string, string, string, string][] = [
+  ["Report", "Reports", "تقريراً", "Ledger, cash and bank, inventory, purchasing", "الأستاذ العام والنقدية والبنوك والمخزون والمشتريات", "var(--gold)"],
+  ["Form", "Forms", "نماذج", "Receipts, order lines, bank transfer, cash", "الاستلام وبنود الطلبات والتحويل البنكي والنقدية", "var(--teal)"],
+  ["Solution", "Solutions", "حلول", "Excel to sales order · bank GL upload · vendor document on receipts", "Excel إلى أوامر البيع · رفع قيود البنوك · مستند المورد على الاستلام", "#7cc4ff"],
+  ["Project", "Project", "مشروع", "Notification reminders", "التذكيرات الآلية", "#b9a7ff"],
+];
+export const axCount = (k: AxType) => AX.filter((x) => x[0] === k).length;
+
 /* in progress now · readme.md (the live-factory project is featured on its own card) */
 // [en, ar, detail en, detail ar]
 export const NOW: [string, string, string, string][] = [
@@ -243,7 +269,7 @@ export const SUMMARY: [string, string, string, [string, string][]][] = [
   ]],
   ["Reporting and data", "التقارير والبيانات", "var(--teal)", [
     ["72 Power BI reports", "72 تقرير Power BI"], ["13 new SalesBuzz static reports", "13 تقرير SalesBuzz ثابت جديد"], ["32 SalesBuzz reports reworked", "32 تقرير SalesBuzz مطوَّر"],
-    ["About 30 SalesBuzz views", "حوالي 30 عرض بيانات في SalesBuzz"], ["3 triggers · one stops reps changing customer coordinates", "3 مشغلات · أحدها يمنع المندوب من تعديل إحداثيات العملاء"],
+    ["About 30 SalesBuzz views", "حوالي 30 عرض بيانات في SalesBuzz"], ["17 AX reports · 4 forms · 3 solutions", "17 تقرير AX · 4 نماذج · 3 حلول"], ["3 triggers · one stops reps changing customer coordinates", "3 مشغلات · أحدها يمنع المندوب من تعديل إحداثيات العملاء"],
   ]],
   ["Network and security", "الشبكة والأمن", "var(--amber)", [
     ["2 firewalls ($2,500 each) installed for $0", "جداران ناريان (2,500 دولار لكل منهما) بتكلفة 0"], ["VLANs · broadcast storms stopped", "VLANs · إيقاف البث العشوائي"], ["Web filtering · antivirus system", "فلترة الويب · نظام مضاد فيروسات"],

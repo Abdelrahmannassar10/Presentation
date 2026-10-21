@@ -1,8 +1,8 @@
 # GID · From Fragile to Resilient — Board deck
 
-Cinematic 25-scene presentation of the IT & Call Center four-year report (Jan 2023 – Oct 2026), in English and Arabic.
-Figures come from the `../data` folder: `IT_Call_Center_4-Year_Achievement_Report.md`, `achievement2.xlsx`, `readme.md` and `Financial_Data_Request_EN-AR.docx`.
-The 304-item register is in `src/data/register.json`; every count in the deck is derived from it. Money lines and the EGP-per-USD rate (`FX`) are in `src/data/content.ts`.
+Cinematic 26-scene presentation of the IT & Call Center four-year report (Jan 2023 – Oct 2026), in English and Arabic.
+Figures come from the `../data` folder: `IT_Call_Center_4-Year_Achievement_Report.md`, `achievement 3.xlsx` (networks and the 25 AX customisations), `readme.md` and `Financial_Data_Request_EN-AR.docx`.
+The 313-item register is in `src/data/register.json`; every count in the deck is derived from it. Money lines and the EGP-per-USD rate (`FX`) are in `src/data/content.ts`.
 
 ## Present
 
@@ -16,12 +16,12 @@ Press **F** for fullscreen and **P** for the presenter window (notes, timer, liv
 | P | Presenter window |
 | N | Speaker notes on screen |
 | O | Scene overview |
-| R | Searchable register of all 304 deliverables |
+| R | Searchable register of all 313 deliverables |
 | L | English / العربية |
 | B | Black screen |
 | G | Film grain on / off |
 | M | Music on / off · quiet strings and harp, Pachelbel's Canon in D (public domain), generated live; starts on the first key or click |
-| 1–25 then Enter | Jump to a scene |
+| 1–26 then Enter | Jump to a scene |
 
 ## Develop
 

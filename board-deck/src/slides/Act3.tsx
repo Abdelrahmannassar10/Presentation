@@ -4,14 +4,14 @@ import { useT, useLang } from "../i18n";
 import { CountUp, EASE, EASE_IN_OUT, Flares, Letterbox, Photo, Rise, Words, useTicker } from "../fx";
 import ParticleText from "../fx/ParticleText";
 import { IMG } from "../assets/img";
-import { ANNUAL, HUB, PEOPLE, Q, QHEAD, QP, QTH, REG, TEAMS, TOTAL, YEARS, millions } from "../data/content";
+import { ANNUAL, AX, AX_MODULES, AX_TYPES, HUB, PEOPLE, Q, QHEAD, QP, QTH, REG, TEAMS, TOTAL, YEARS, axCount, millions, type AxType } from "../data/content";
 import type { SlideProps } from "./types";
 
 /* =============== 13 · Business systems in orbit =============== */
 const SYS: { n: string; ring: 0 | 1; en: string; ar: string; y: string }[] = [
   { n: "Odoo CRM", ring: 0, y: "built from scratch", en: "CRM and helpdesk built from zero: v14 in 2023, rebuilt on v15 in 2024, dedicated call-center servers and two upgrades since. Complaints, call logging, REST APIs. Odoo 20 next.", ar: "CRM ومكتب دعم من الصفر: الإصدار 14 في 2023 وإعادة البناء على 15 في 2024، ثم خوادم مخصصة لمركز الاتصال وترقيتان. الشكاوى وتوثيق المكالمات وواجهات REST. وOdoo 20 قادم." },
   { n: "SalesBuzz", ring: 0, y: "v4.58 → 5.15", en: "Two major upgrades, each rehearsed on a test copy. 13 new and 32 reworked reports, ~30 views, 3 triggers including the customer-location lock, credit controls, isolated DMS and DS servers.", ar: "ترقيتان كبيرتان مجربتان على نسخة اختبار. 13 تقريراً جديداً و32 مطوَّراً وحوالي 30 عرض بيانات و3 مشغلات منها قفل مواقع العملاء، وضوابط ائتمان، وخوادم DMS وDS معزولة." },
-  { n: "AX 2012", ring: 0, y: "in-house", en: "From a $7,000-a-year freelancer to in-house operation. Roles reset, fiscal years closed, full manufacturing cycle with BOM, quality and cost, and a test server since 2026.", ar: "من مستقل بتكلفة 7,000 دولار سنوياً إلى تشغيل داخلي. إعادة ضبط الصلاحيات، وإقفال السنوات المالية، ودورة تصنيع كاملة، وخادم اختبار منذ 2026." },
+  { n: "AX 2012", ring: 0, y: "in-house", en: "From a $7,000-a-year freelancer to in-house operation. Roles reset, fiscal years closed, full manufacturing cycle with BOM, quality and cost. 2026 Q3: a test server and 25 customisations — 17 reports, 4 forms, 3 solutions, 1 project.", ar: "من مستقل بتكلفة 7,000 دولار سنوياً إلى تشغيل داخلي. إعادة ضبط الصلاحيات، وإقفال السنوات المالية، ودورة تصنيع كاملة. وفي الربع الثالث 2026: خادم اختبار و25 تطويراً — 17 تقريراً و4 نماذج و3 حلول ومشروع." },
   { n: "Mago HR", ring: 0, y: "2024 live", en: "From no HR system to live HR with employee self-service, attendance machines, and factory and warehouse users.", ar: "من غياب نظام الموارد البشرية إلى نظام يعمل بالخدمة الذاتية وأجهزة الحضور ومستخدمي المصنع والمستودعات." },
   { n: "Issabel", ring: 0, y: "built from scratch", en: "Company-owned call center built in-house instead of a EGP 750,000 vendor system: 32 SIP channels, queues, recording, multi-brand IVR, about 3,000 calls a day.", ar: "مركز اتصال بُني داخلياً بدلاً من نظام مورد بقيمة 750,000 جنيه: 32 قناة SIP وقوائم انتظار وتسجيل ورد صوتي لعدة علامات وحوالي 3,000 مكالمة يومياً." },
   { n: "Power BI", ring: 1, y: "72 reports", en: "72 reports on live data: sales, aging, distributor, ELA and DMS dashboards.", ar: "72 تقريراً على بيانات مباشرة: لوحات المبيعات وأعمار الديون والموزعين وELA وDMS." },
@@ -91,6 +91,105 @@ export function Systems({ active }: SlideProps) {
   );
 }
 
+/* =============== 10 · ERP built in-house =============== */
+const AX_COLOR = Object.fromEntries(AX_TYPES.map((x) => [x[0], x[5]])) as Record<AxType, string>;
+// tiles are shown grouped by module; this is the order they light up in
+const AX_SHOWN = AX_MODULES.map(([k, en, ar]) => ({ k, en, ar, items: AX.filter((x) => x[1] === k) }));
+const AX_ORDER = new Map(AX_SHOWN.flatMap((m) => m.items).map((x, i) => [x, i]));
+const AX_NEW: [string, string, string, string][] = [
+  ["Import From Excel To Sales Order", "Sales · AR", "Sales orders loaded from a spreadsheet instead of keyed line by line", "تحميل أوامر البيع من ملف Excel بدلاً من إدخالها بنداً بنداً"],
+  ["Upload Bank GL", "Cash and bank", "Bank entries uploaded to the general ledger in one step", "رفع قيود البنوك إلى دفتر الأستاذ العام في خطوة واحدة"],
+  ["Vendor DocNum on Product Receipt", "Purchasing · AP", "Every receipt carries the vendor's document number, so it matches the vendor bill", "كل استلام يحمل رقم مستند المورد ليطابق فاتورته"],
+  ["Notification Reminder", "Administration", "Reminders sent automatically from AX", "تذكيرات تُرسل آلياً من AX"],
+];
+export function Erp({ step, active }: SlideProps) {
+  const t = useT();
+  const rtl = useLang() === "ar";
+  const lit = useTicker(active, 110, AX.length);
+  const spot = step >= 1;
+  return (
+    <div className="slide" style={{ background: "radial-gradient(ellipse at 72% 45%, #16202b 0%, var(--ink) 65%)" }}>
+      <Flares o={0.08} />
+      <div className="pad">
+        <Rise><div className="kicker">{t("Chapter 10 · ERP built in-house", "الفصل 10 · تطوير ERP داخلياً")}</div></Rise>
+        <h2 className="h2" style={{ marginTop: 24, maxWidth: 760, fontSize: t("76px", "58px") }}>
+          <Words text={t(`${AX.length} changes to AX,`, `${AX.length} تطويراً في AX،`)} show={active} delay={0.2} /> <Words className="it gold" text={t("in one quarter, in-house.", "في ربع واحد وبفريق داخلي.")} show={active} delay={0.45} />
+        </h2>
+        <Rise delay={0.7}><p className="lede" style={{ marginTop: 22, maxWidth: 720, fontSize: 22 }}>{t("In 2023 AX was run by a $7,000-a-year freelancer, with no test server. In 2026 Q3 the team built the test server and delivered these customisations the same quarter.", "في 2023 كان AX يُدار عبر مستقل بتكلفة 7,000 دولار سنوياً وبدون خادم اختبار. وفي الربع الثالث 2026 بنى الفريق خادم الاختبار وسلّم هذه التطويرات في الربع نفسه.")}</p></Rise>
+        <div style={{ width: 720, marginTop: 30, position: "relative" }}>
+          <AnimatePresence mode="wait">
+            {!spot ? (
+              <motion.div key="types" exit={{ opacity: 0, x: -20 }}>
+                {AX_TYPES.map(([k, en, ar, den, dar, c], i) => (
+                  <Rise key={k} delay={0.9 + i * 0.12} y={18}>
+                    <div style={{ display: "grid", gridTemplateColumns: "110px 1fr", alignItems: "center", padding: "10px 0", borderBottom: "1px solid var(--line)" }}>
+                      <div className="serif" style={{ fontSize: 58, lineHeight: 1, color: c }}><CountUp to={axCount(k)} show={active} delay={1 + i * 0.12} duration={1.4} /></div>
+                      <div>
+                        <div style={{ fontSize: 22, fontWeight: 600 }}>{t(en, ar)}</div>
+                        <div style={{ fontSize: 16, color: "var(--muted)" }}>{t(den, dar)}</div>
+                      </div>
+                    </div>
+                  </Rise>
+                ))}
+              </motion.div>
+            ) : (
+              <motion.div key="new" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
+                <div className="label" style={{ color: AX_COLOR.Solution }}>{t("What changes for the people who use it", "ما الذي يتغير لمستخدميه")}</div>
+                <div style={{ display: "grid", gap: 0, marginTop: 10 }}>
+                  {AX_NEW.map(([n, mod, en, ar], i) => (
+                    <motion.div key={n} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 + i * 0.12 }} style={{ padding: "13px 0", borderBottom: "1px solid var(--line)" }}>
+                      <div style={{ display: "flex", alignItems: "baseline", gap: 14 }}>
+                        <span className="mono ltr" style={{ fontSize: 18, color: i === 3 ? AX_COLOR.Project : AX_COLOR.Solution }}>{n}</span>
+                        <span className="label ltr" style={{ fontSize: 12 }}>{mod}</span>
+                      </div>
+                      <div style={{ fontSize: 20, marginTop: 4 }}>{t(en, ar)}</div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+
+      <div className="ltr" style={{ position: "absolute", [rtl ? "left" : "right"]: 110, top: 150, width: 900 }}>
+        <motion.div className="card" initial={{ opacity: 0, y: 40 }} animate={{ opacity: active ? 1 : 0, y: active ? 0 : 40 }} transition={{ delay: 0.3, duration: 0.9, ease: EASE }} style={{ overflow: "hidden", borderRadius: 20 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 22px", borderBottom: "1px solid var(--line)", background: "rgba(5,8,12,.55)" }}>
+            {["#ff5a4e", "#f3a43b", "#4fd1c5"].map((c) => <span key={c} style={{ width: 11, height: 11, borderRadius: "50%", background: c, opacity: 0.7 }} />)}
+            <span className="mono" style={{ fontSize: 16, color: "#cfd3d6", marginLeft: 6 }}>Microsoft Dynamics AX 2012 · GID</span>
+            <span className="chip" style={{ marginLeft: "auto", padding: "5px 12px", fontSize: 14 }}><span className="dot" />{t("Test server · built 2026 Q3", "خادم اختبار · 2026 ر3")}</span>
+            <span className="mono gold" style={{ fontSize: 16 }}>{Math.min(lit, AX.length)} / {AX.length}</span>
+          </div>
+          <div style={{ padding: "8px 22px 18px" }}>
+            {AX_SHOWN.map((m) => (
+              <div key={m.k} style={{ padding: "10px 0 4px" }}>
+                <div className="label" style={{ fontSize: 12, marginBottom: 8 }}>{t(m.en, m.ar)} <span style={{ color: "var(--dim)" }}>· {m.items.length}</span></div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
+                  {m.items.map((x) => {
+                    const [k, , n] = x, c = AX_COLOR[k], on = lit > AX_ORDER.get(x)!, hot = spot && (k === "Solution" || k === "Project");
+                    return (
+                      <motion.div key={n + k} initial={false}
+                        animate={{ opacity: on ? (spot && !hot ? 0.28 : 1) : 0.06, y: on ? 0 : 8, scale: hot ? 1.06 : 1, boxShadow: hot ? `0 0 26px ${c}` : "0 0 0 rgba(0,0,0,0)" }}
+                        transition={{ duration: 0.45, ease: EASE }}
+                        style={{ display: "flex", alignItems: "center", gap: 9, padding: "7px 12px 7px 8px", borderRadius: 9, border: `1px solid ${c}`, background: "rgba(11,18,25,.9)", fontSize: 15 }}>
+                        <span className="mono" style={{ fontSize: 11, fontWeight: 700, color: "#081014", background: c, borderRadius: 4, padding: "2px 5px" }}>{k[0]}</span>
+                        <span className="mono" style={{ color: "#dfe2e4" }}>{n}</span>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+        <div style={{ display: "flex", gap: 22, marginTop: 14, direction: rtl ? "rtl" : "ltr" }}>
+          {AX_TYPES.map(([k, en, ar, , , c]) => <span key={k} className="label" style={{ fontSize: 13 }}><span style={{ color: c }}>■</span> {axCount(k)} {t(en, ar)}</span>)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* =============== 14 · Group expansion =============== */
 export function Expansion({ active }: SlideProps) {
   const t = useT();
@@ -99,7 +198,7 @@ export function Expansion({ active }: SlideProps) {
     <div className="slide">
       <Photo src={IMG.riyadh} dim={0.55} saturate={1} from={{ s: 1.25, y: 20 }} to={{ s: 1.08, y: -20, x: 0 }} duration={40} gradient="linear-gradient(90deg, rgba(5,8,12,.96) 0%, rgba(5,8,12,.75) 45%, rgba(5,8,12,.45) 100%)" />
       <div className="pad">
-        <Rise><div className="kicker">{t("Chapter 12 · Group growth", "الفصل 12 · نمو المجموعة")}</div></Rise>
+        <Rise><div className="kicker">{t("Chapter 13 · Group growth", "الفصل 13 · نمو المجموعة")}</div></Rise>
         <h2 className="h2" style={{ marginTop: 24, maxWidth: 780, fontSize: t("80px", "60px") }}>
           <Words text={t("New businesses joined", "الشركات الجديدة انضمت")} show={active} delay={0.2} /> <Words className="it gold" text={t("platforms already built.", "إلى منصات قائمة بالفعل.")} show={active} delay={0.5} />
         </h2>
@@ -157,7 +256,7 @@ export function People({ step, active }: SlideProps) {
     <div className="slide">
       <Photo src={IMG.team} dim={0.78} saturate={0.5} from={{ s: 1.2 }} to={{ s: 1.06, x: -30 }} duration={36} gradient="linear-gradient(90deg, rgba(5,8,12,.97) 0%, rgba(5,8,12,.85) 55%, rgba(5,8,12,.6) 100%)" />
       <div className="pad">
-        <Rise><div className="kicker">{t("Chapter 13 · People", "الفصل 13 · الأفراد")}</div></Rise>
+        <Rise><div className="kicker">{t("Chapter 14 · People", "الفصل 14 · الأفراد")}</div></Rise>
         <h2 className="h2" style={{ marginTop: 24, fontSize: t("84px", "64px") }}>
           <Words text={t("Two people, then three.", "شخصان، ثم ثلاثة.")} show={active} delay={0.2} /> <Words className="it gold" text={t("All senior today.", "وجميعهم اليوم خبراء.")} show={active} delay={0.5} />
         </h2>
@@ -215,7 +314,7 @@ export function Timeline({ step, active }: SlideProps) {
     <div className="slide" style={{ background: "radial-gradient(ellipse at 50% 120%, #10202c 0%, var(--ink) 60%)" }}>
       <Flares o={0.08} />
       <div className="pad">
-        <Rise><div className="kicker">{t("Chapter 16 · Quarter by quarter", "الفصل 16 · ربعاً بربع")}</div></Rise>
+        <Rise><div className="kicker">{t("Chapter 17 · Quarter by quarter", "الفصل 17 · ربعاً بربع")}</div></Rise>
         <div style={{ display: "flex", alignItems: "end", justifyContent: "space-between", marginTop: 20 }}>
           <h2 className="h2" style={{ fontSize: t("80px", "62px") }}>
             <AnimatePresence mode="wait">

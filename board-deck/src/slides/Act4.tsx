@@ -47,7 +47,7 @@ export function Reports({ active }: SlideProps) {
     <div className="slide" style={{ background: "radial-gradient(ellipse at 75% 40%, #0f2130 0%, var(--ink) 65%)" }}>
       <Flares o={0.09} />
       <div className="pad">
-        <Rise><div className="kicker">{t("Chapter 10 · Data and reporting", "الفصل 10 · البيانات والتقارير")}</div></Rise>
+        <Rise><div className="kicker">{t("Chapter 11 · Data and reporting", "الفصل 11 · البيانات والتقارير")}</div></Rise>
         <h2 className="h2" style={{ marginTop: 24, maxWidth: 720, fontSize: t("76px", "58px") }}>
           <Words text={t("From hand-built spreadsheets", "من جداول تُعد يدوياً")} show={active} delay={0.2} /> <Words className="it gold" text={t("to 72 live reports.", "إلى 72 تقريراً مباشراً.")} show={active} delay={0.5} />
         </h2>
@@ -108,7 +108,7 @@ export function Location({ step, active }: SlideProps) {
     <div className="slide" style={{ background: step >= 1 ? "radial-gradient(ellipse at 70% 50%, #0d2226 0%, var(--ink) 65%)" : "radial-gradient(ellipse at 70% 50%, #1d1210 0%, var(--ink) 65%)", transition: "background 1.2s" }}>
       <Flares a={step >= 1 ? "var(--teal)" : "var(--red)"} b="#0f2233" o={0.08} />
       <div className="pad">
-        <Rise><div className="kicker">{t("Chapter 11 · Customer Location Enforcement", "الفصل 11 · تثبيت مواقع العملاء")}</div></Rise>
+        <Rise><div className="kicker">{t("Chapter 12 · Customer Location Enforcement", "الفصل 12 · تثبيت مواقع العملاء")}</div></Rise>
         <div style={{ position: "relative", height: 230, marginTop: 24, width: 820 }}>
           <AnimatePresence mode="wait">
             <motion.h2 key={step} className="h2" style={{ fontSize: t("76px", "58px"), position: "absolute" }} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.6 }}>
@@ -193,7 +193,7 @@ export function Money({ step, active }: SlideProps) {
       <motion.div style={{ position: "absolute", left: "50%", top: "46%", width: 1200, height: 1200, marginLeft: -600, marginTop: -600, borderRadius: "50%", background: "radial-gradient(circle, rgba(230,179,90,.2), transparent 60%)" }}
         animate={{ opacity: step === 0 ? [0.6, 1, 0.6] : 0.25 }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} />
       <div className="pad" style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-        <Rise><div className="kicker">{t("Chapter 14 · The money", "الفصل 14 · المال")}</div></Rise>
+        <Rise><div className="kicker">{t("Chapter 15 · The money", "الفصل 15 · المال")}</div></Rise>
         <motion.div initial={false} animate={{ scale: step >= 1 ? 0.56 : 1, y: step >= 1 ? -12 : 0 }} transition={{ duration: 1.1, ease: EASE }} style={{ transformOrigin: "50% 0%", marginTop: 40 }}>
           <p className="h2 it" style={{ fontSize: t("68px", "54px") }}>
             <Words text={t("IT did not only cost money.", "تقنية المعلومات لم تكن تكلفة فقط.")} show={active} delay={0.3} /> <Words className="gold" text={t("It saved it.", "بل وفّرت المال.")} show={active} delay={0.9} />
@@ -262,7 +262,7 @@ export function Ledger({ active }: SlideProps) {
     <div className="slide" style={{ background: "radial-gradient(ellipse at 20% 0%, #1a160c 0%, var(--ink) 60%)" }}>
       <Flares o={0.08} />
       <div className="pad" style={{ paddingTop: 110 }}>
-        <Rise><div className="kicker">{t("Chapter 14 · Line by line", "الفصل 14 · بنداً بنداً")}</div></Rise>
+        <Rise><div className="kicker">{t("Chapter 15 · Line by line", "الفصل 15 · بنداً بنداً")}</div></Rise>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", marginTop: 18 }}>
           <h2 className="h2" style={{ fontSize: t("70px", "54px") }}>
             <Words text={t("Twelve lines.", "اثنا عشر بنداً.")} show={active} delay={0.2} /> <Words className="it gold" text={t("Each with a document behind it.", "ولكل بند مستند.")} show={active} delay={0.45} />
@@ -307,7 +307,7 @@ export function Beyond({ active }: SlideProps) {
     <div className="slide">
       <Photo src={IMG.servers} dim={0.86} saturate={0.4} from={{ s: 1.2 }} to={{ s: 1.06, x: -30 }} duration={40} gradient="linear-gradient(180deg, rgba(5,8,12,.8), rgba(5,8,12,.95))" />
       <div className="pad">
-        <Rise><div className="kicker">{t("Chapter 15 · Value beyond cash", "الفصل 15 · قيمة تتجاوز النقد")}</div></Rise>
+        <Rise><div className="kicker">{t("Chapter 16 · Value beyond cash", "الفصل 16 · قيمة تتجاوز النقد")}</div></Rise>
         <h2 className="h2" style={{ marginTop: 24, fontSize: t("76px", "58px") }}>
           <Words text={t("And the value", "والقيمة التي")} show={active} delay={0.2} /> <Words className="it gold" text={t("the cash total does not count.", "لا يحسبها الرقم النقدي.")} show={active} delay={0.45} />
         </h2>
@@ -391,7 +391,7 @@ export function Now({ active }: SlideProps) {
     <div className="slide" style={{ background: "radial-gradient(ellipse at 30% 30%, #10202c 0%, var(--ink) 62%)" }}>
       <Flares o={0.09} />
       <div className="pad">
-        <Rise><div className="kicker">{t("Chapter 17 · In progress now", "الفصل 17 · قيد التنفيذ الآن")}</div></Rise>
+        <Rise><div className="kicker">{t("Chapter 18 · In progress now", "الفصل 18 · قيد التنفيذ الآن")}</div></Rise>
         <h2 className="h2" style={{ marginTop: 24, fontSize: t("80px", "62px") }}>
           <Words text={t(`${PROG} projects`, `${PROG} مشروعات`)} show={active} delay={0.2} /> <Words className="it gold" text={t("in flight right now.", "قيد التنفيذ الآن.")} show={active} delay={0.45} />
         </h2>
@@ -449,7 +449,7 @@ export function Roadmap({ step, active }: SlideProps) {
     <div className="slide" style={{ background: "radial-gradient(ellipse at 80% 20%, #10202c 0%, var(--ink) 60%)" }}>
       <Flares o={0.1} />
       <div className="pad">
-        <Rise><div className="kicker">{t("Chapter 18 · Next quarter", "الفصل 18 · الربع القادم")}</div></Rise>
+        <Rise><div className="kicker">{t("Chapter 19 · Next quarter", "الفصل 19 · الربع القادم")}</div></Rise>
         <h2 className="h2" style={{ marginTop: 24, fontSize: t("80px", "62px") }}>
           <Words text={t(`${ROADMAP_N} projects next quarter.`, `${ROADMAP_N} مشروعاً في الربع القادم.`)} show={active} delay={0.2} /> <Words className="it gold" text={t("One connected group.", "مجموعة واحدة مترابطة.")} show={active} delay={0.5} />
         </h2>
@@ -525,7 +525,7 @@ export function Summary({ step, active }: SlideProps) {
     <div className="slide" style={{ background: "radial-gradient(ellipse at 50% 0%, #131d26 0%, var(--ink) 62%)" }}>
       <Flares o={0.08} />
       <div className="pad" style={{ paddingTop: 110 }}>
-        <Rise><div className="kicker">{t("Chapter 19 · Summary", "الفصل 19 · الملخص")}</div></Rise>
+        <Rise><div className="kicker">{t("Chapter 20 · Summary", "الفصل 20 · الملخص")}</div></Rise>
         <h2 className="h2" style={{ marginTop: 20, fontSize: t("76px", "58px") }}>
           <Words text={t("Four years,", "أربع سنوات،")} show={active} delay={0.2} /> <Words className="it gold" text={t("on one page.", "في صفحة واحدة.")} show={active} delay={0.4} />
         </h2>

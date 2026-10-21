@@ -234,7 +234,7 @@ export function Glance({ active }: SlideProps) {
     { v: millions(ANNUAL), d: 1, suf: "M", en: "EGP saved or avoided every year", ar: "جنيه وفر سنوي متكرر", sen: `Plus EGP ${short(ONCE)} one-time`, sar: `إضافة إلى ${short(ONCE)} جنيه لمرة واحدة`, c: "var(--gold)" },
     { v: 0, en: "Ransomware or wiper incidents", ar: "حوادث فدية أو مسح بيانات", sen: "In four years", sar: "خلال أربع سنوات", c: "var(--gold)" },
     { v: 196, en: "IP cameras installed in-house", ar: "كاميرا IP بتركيب داخلي", sen: "122 factory · 74 warehouse and management", sar: "122 بالمصنع · 74 بالمستودع والمبنى الإداري", c: "var(--teal)" },
-    { v: 72, en: "Power BI reports", ar: "تقرير Power BI", sen: "Plus 45 SalesBuzz reports built or reworked", sar: "إضافة إلى 45 تقرير SalesBuzz جديد أو مطوَّر", c: "var(--teal)" },
+    { v: 72, en: "Power BI reports", ar: "تقرير Power BI", sen: "Plus 45 SalesBuzz reports built or reworked and 17 in AX", sar: "إضافة إلى 45 تقرير SalesBuzz جديد أو مطوَّر و17 في AX", c: "var(--teal)" },
     { v: 3000, en: "Calls handled a day", ar: "مكالمة يومياً", sen: "On 32 SIP channels · once personal mobiles", sar: "على 32 قناة SIP · بدلاً من الهواتف الشخصية", c: "var(--teal)" },
     { v: 8, suf: "/ 8", en: "Servers validly licensed", ar: "خوادم مرخصة", sen: "$10,500 a year partnership route avoided", sar: "تجنب 10,500 دولار سنوياً عبر الشراكة" },
     { v: 100, suf: " Mbps", en: "Factory link", ar: "سرعة اتصال المصنع", sen: "From a single insecure link", sar: "بدلاً من اتصال واحد غير آمن" },

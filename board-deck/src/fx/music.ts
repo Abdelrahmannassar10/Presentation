@@ -23,7 +23,9 @@ export class Score {
   playing = false;
 
   private build() {
-    const ctx = new AudioContext();
+    // older iOS Safari only has the prefixed constructor
+    const AC: typeof AudioContext = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    const ctx = new AC();
     this.ctx = ctx;
     this.master = ctx.createGain();
     this.master.gain.value = 0;
@@ -115,10 +117,15 @@ export class Score {
   }
 
   start() {
+    // some phone browsers and in-app webviews lack Web Audio; the deck must still open without music
+    try { this.play(); } catch { this.playing = false; }
+  }
+
+  private play() {
     if (!this.ctx) this.build();
     const ctx = this.ctx!;
     clearTimeout(this.stopTimer);
-    void ctx.resume();
+    ctx.resume().catch(() => {});
     if (this.playing) return;
     this.playing = true;
     this.master.gain.cancelScheduledValues(ctx.currentTime);
@@ -141,7 +148,7 @@ export class Score {
     this.master.gain.cancelScheduledValues(ctx.currentTime);
     this.master.gain.setValueAtTime(this.master.gain.value, ctx.currentTime);
     this.master.gain.linearRampToValueAtTime(0, ctx.currentTime + 2);
-    this.stopTimer = setTimeout(() => { void ctx.suspend(); this.next = 0; }, 2200);
+    this.stopTimer = setTimeout(() => { ctx.suspend().catch(() => {}); this.next = 0; }, 2200);
   }
 
   /** 0 calm · 1 melody · 2 full; takes effect from the next chord */

@@ -52,6 +52,33 @@ function useScale() {
   return s;
 }
 
+/* ---------- phones and tablets: touch controls, portrait warning ---------- */
+function useTouch() {
+  const coarse = () => { try { return matchMedia("(pointer: coarse)").matches || navigator.maxTouchPoints > 0; } catch { return false; } };
+  const [t, setT] = useState(coarse);
+  useEffect(() => {
+    // a touch on a laptop with a touch screen also switches the controls on
+    const on = (e: PointerEvent) => { if (e.pointerType === "touch") setT(true); };
+    addEventListener("pointerdown", on);
+    return () => removeEventListener("pointerdown", on);
+  }, []);
+  return t;
+}
+function usePortrait() {
+  const [p, setP] = useState(() => innerHeight > innerWidth);
+  useEffect(() => {
+    const f = () => setP(innerHeight > innerWidth);
+    addEventListener("resize", f);
+    return () => removeEventListener("resize", f);
+  }, []);
+  return p;
+}
+const canFullscreen = typeof document !== "undefined" && !!document.documentElement.requestFullscreen;
+const toggleFullscreen = () => {
+  if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+  else document.documentElement.requestFullscreen?.().catch(() => {});
+};
+
 const T = (lang: Lang, pair: [string, string]) => (lang === "ar" ? pair[1] : pair[0]);
 
 export default function App() {
@@ -73,6 +100,9 @@ function Deck() {
   const [music, setMusic] = useState(() => store.get("gid-music") !== "off");
   const score = useMemo(() => new Score(), []);
   const scale = useScale();
+  const isTouch = useTouch();
+  const portrait = usePortrait();
+  const [rotateOk, setRotateOk] = useState(false);
   const slide = DECK[idx];
 
   const go = useCallback((d: 1 | -1) => {
@@ -135,7 +165,7 @@ function Deck() {
       else if (["ArrowLeft", "ArrowUp", "PageUp", "Backspace"].includes(k)) { e.preventDefault(); go(-1); }
       else if (k === "Home") jump(0);
       else if (k === "End") jump(DECK.length - 1);
-      else if (k === "f" || k === "F5") { e.preventDefault(); document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => {}); }
+      else if (k === "f" || k === "F5") { e.preventDefault(); toggleFullscreen(); }
       else if (k === "o" || k === "Escape") setOverlay((o) => (o === "overview" ? null : "overview"));
       else if (k === "r") { e.preventDefault(); setOverlay((o) => (o === "register" ? null : "register")); }
       else if (k === "?" || k === "h") setOverlay((o) => (o === "help" ? null : "help"));
@@ -169,6 +199,11 @@ function Deck() {
     const dx = e.clientX - t0.x, dy = e.clientY - t0.y;
     if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) go(dx < 0 ? (lang === "ar" ? -1 : 1) : (lang === "ar" ? 1 : -1));
     else if (Math.abs(dx) < 6 && Math.abs(dy) < 6 && e.pointerType === "mouse" && e.button === 0) go(e.clientX < innerWidth * 0.25 ? -1 : 1);
+    // a tap on a phone: the edge on the reading-start side goes back, anywhere else goes forward
+    else if (Math.abs(dx) < 12 && Math.abs(dy) < 12 && e.pointerType !== "mouse") {
+      const back = lang === "ar" ? e.clientX > innerWidth * 0.75 : e.clientX < innerWidth * 0.25;
+      if (black) setBlack(false); else go(back ? -1 : 1);
+    }
   };
 
   /* hide the cursor when idle, like a video player */
@@ -224,12 +259,45 @@ function Deck() {
           <motion.div className="progress" animate={{ scaleX: progress }} transition={{ duration: 0.8, ease: EASE }} style={{ width: "100%" }} />
         </div>
 
-        <div className="hint" style={{ opacity: hint && !overlay ? 1 : 0 }}>→ / SPACE · F FULLSCREEN · M MUSIC · ? HELP</div>
-        <button className={`music-btn ${music ? "on" : ""}`} style={{ opacity: idle && !overlay ? 0 : undefined }} onClick={() => setMusic((v) => !v)} title={T(lang, ["Music on / off (M)", "تشغيل أو إيقاف الموسيقى (M)"])}>
+        {isTouch ? (
+          <div className="hint touch" style={{ opacity: hint && !overlay ? 1 : 0 }}>{T(lang, ["TAP OR SWIPE TO MOVE", "انقر أو اسحب للتنقل"])}</div>
+        ) : (
+          <div className="hint" style={{ opacity: hint && !overlay ? 1 : 0 }}>→ / SPACE · F FULLSCREEN · M MUSIC · ? HELP</div>
+        )}
+        {!isTouch && <button className={`music-btn ${music ? "on" : ""}`} style={{ opacity: idle && !overlay ? 0 : undefined }} onClick={() => setMusic((v) => !v)} title={T(lang, ["Music on / off (M)", "تشغيل أو إيقاف الموسيقى (M)"])}>
           <span className="eq">{[0, 1, 2, 3].map((i) => <i key={i} style={{ animationDelay: `${i * 0.15}s` }} />)}</span>
           {music ? T(lang, ["Music", "موسيقى"]) : T(lang, ["Music off", "الموسيقى متوقفة"])}
-        </button>
+        </button>}
       </div>
+
+      {isTouch && !overlay && (
+        <nav className="mbar" dir={lang === "ar" ? "rtl" : "ltr"}>
+          <button className="mb-nav" onClick={() => go(-1)} disabled={idx === 0 && step === 0} aria-label={T(lang, ["Previous", "السابق"])}>
+            <span className="flipx">‹</span>
+          </button>
+          <button className="mb-btn" onClick={() => setOverlay("overview")} aria-label={T(lang, ["All scenes", "جميع المشاهد"])}>
+            <span className="ltr">{String(idx + 1).padStart(2, "0")}<span style={{ opacity: 0.5 }}>/{DECK.length}</span></span>
+          </button>
+          <button className="mb-btn" onClick={() => setLang((l) => (l === "en" ? "ar" : "en"))}>{lang === "en" ? "ع" : "EN"}</button>
+          <button className="mb-btn" onClick={() => setOverlay("register")} aria-label={T(lang, ["Achievement register", "سجل الإنجازات"])}>
+            {T(lang, ["List", "السجل"])}
+          </button>
+          <button className={`mb-btn ${music ? "on" : ""}`} onClick={() => setMusic((v) => !v)} aria-label={T(lang, ["Music on / off", "تشغيل أو إيقاف الموسيقى"])}>
+            <span className="eq">{[0, 1, 2, 3].map((i) => <i key={i} style={{ animationDelay: `${i * 0.15}s` }} />)}</span>
+          </button>
+          {canFullscreen && <button className="mb-btn mb-fs" onClick={toggleFullscreen} aria-label={T(lang, ["Fullscreen", "ملء الشاشة"])}>⛶</button>}
+          <button className="mb-nav next" onClick={() => (black ? setBlack(false) : go(1))} disabled={idx === DECK.length - 1 && step === slide.steps - 1} aria-label={T(lang, ["Next", "التالي"])}>
+            <span className="flipx">›</span>
+          </button>
+        </nav>
+      )}
+      {isTouch && portrait && !rotateOk && !overlay && (
+        <div className="rotate" dir={lang === "ar" ? "rtl" : "ltr"}>
+          <div className="rotate-ico">⟳</div>
+          <div>{T(lang, ["Turn your phone sideways for the full picture.", "أدر هاتفك أفقياً لمشاهدة العرض كاملاً."])}</div>
+          <button className="ov-close" style={{ margin: 0 }} onClick={() => setRotateOk(true)}>{T(lang, ["Continue anyway", "متابعة على أي حال"])}</button>
+        </div>
+      )}
 
       {notes && (
         <div className="notes" dir={lang === "ar" ? "rtl" : "ltr"}>
@@ -244,7 +312,7 @@ function Deck() {
           <motion.div key={overlay} className="overlay" dir={lang === "ar" ? "rtl" : "ltr"} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
             {overlay === "overview" && <Overview lang={lang} idx={idx} onPick={(i) => { jump(i); setOverlay(null); }} onClose={() => setOverlay(null)} />}
             {overlay === "help" && <Help lang={lang} onClose={() => setOverlay(null)} />}
-            {overlay === "register" && <Register lang={lang} onClose={() => setOverlay(null)} />}
+            {overlay === "register" && <Register lang={lang} touch={isTouch} onClose={() => setOverlay(null)} />}
           </motion.div>
         )}
       </AnimatePresence>
@@ -301,7 +369,7 @@ function Help({ lang, onClose }: { lang: Lang; onClose: () => void }) {
   );
 }
 
-function Register({ lang, onClose }: { lang: Lang; onClose: () => void }) {
+function Register({ lang, touch, onClose }: { lang: Lang; touch: boolean; onClose: () => void }) {
   const [q, setQ] = useState("");
   const [year, setYear] = useState("all");
   const [cat, setCat] = useState("all");
@@ -318,7 +386,7 @@ function Register({ lang, onClose }: { lang: Lang; onClose: () => void }) {
         <button className="ov-close" onClick={onClose}>{T(lang, ["Close", "إغلاق"])}</button>
       </div>
       <div className="reg-tools">
-        <input className="reg-search" autoFocus placeholder={T(lang, ["Search any system, site or colleague…", "ابحث عن نظام أو موقع أو زميل…"])} value={q} onChange={(e) => setQ(e.target.value)} />
+        <input className="reg-search" autoFocus={!touch} placeholder={T(lang, ["Search any system, site or colleague…", "ابحث عن نظام أو موقع أو زميل…"])} value={q} onChange={(e) => setQ(e.target.value)} />
         {["all", "2023", "2024", "2025", "2026"].map((y) => <button key={y} className={`pill ${year === y ? "on" : ""}`} onClick={() => setYear(y)}>{y === "all" ? T(lang, ["All years", "كل السنوات"]) : y}</button>)}
       </div>
       <div className="reg-tools">

@@ -69,7 +69,7 @@ export function Title({ active }: SlideProps) {
   const rtl = useLang() === "ar";
   return (
     <div className="slide">
-      <Photo src={IMG.earth} dim={0.35} from={{ s: 1.25, x: 40 }} to={{ s: 1.08, x: -40, y: -20 }} duration={40} saturate={1} gradient="linear-gradient(90deg, rgba(5,8,12,.95) 0%, rgba(5,8,12,.7) 42%, rgba(5,8,12,.15) 100%)" />
+      <Photo src={IMG.earth} dim={0.35} from={{ s: 1.25, x: 40 }} to={{ s: 1.08, x: -40, y: -20 }} duration={40} saturate={1} gradient="linear-gradient(90deg, rgba(15,26,38,.95) 0%, rgba(15,26,38,.7) 42%, rgba(15,26,38,.15) 100%)" />
       <div style={{ position: "absolute", insetInlineEnd: 60, top: 200, width: 1000, height: 560 }}>
         <ParticleText words={["2023", "2026"]} hold={3200} active={active} width={1000} height={560} count={3200} gap={6} dotSize={2.6} colors={["#FF5A4E", "#E6B35A"]} />
       </div>
@@ -241,7 +241,7 @@ export function Glance({ active }: SlideProps) {
   ];
   return (
     <div className="slide">
-      <Photo src={IMG.servers} dim={0.8} saturate={0.6} from={{ s: 1.2 }} to={{ s: 1.08, x: -60 }} duration={40} gradient="linear-gradient(180deg, rgba(5,8,12,.6), rgba(5,8,12,.92))" />
+      <Photo src={IMG.servers} dim={0.8} saturate={0.6} from={{ s: 1.2 }} to={{ s: 1.08, x: -60 }} duration={40} gradient="linear-gradient(180deg, rgba(15,26,38,.6), rgba(15,26,38,.92))" />
       <div className="pad">
         <Rise><div className="kicker">{t("Results at a glance", "النتائج في لمحة")}</div></Rise>
         <h2 className="h2" style={{ marginTop: 24 }}>

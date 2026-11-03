@@ -40,20 +40,24 @@ type PhotoProps = {
   style?: CSSProperties;
   gradient?: string;
 };
+/** lighten a scene's own shading: near-black becomes navy and every alpha is scaled down */
+const lift = (g: string) => g.replace(/rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)/g, (_m, r, gg, b, a) =>
+  `rgba(${+r < 10 ? "15,26,38" : `${r},${gg},${b}`},${(+a * 0.72).toFixed(3)})`);
+
 export function Photo({ src, dim = 0.55, from = {}, to = {}, duration = 22, tint, saturate = 0.85, style, gradient }: PhotoProps) {
   const reduce = useReducedMotion();
   return (
     <>
       <motion.div
         className="photo"
-        style={{ backgroundImage: `url(${src})`, filter: `saturate(${saturate}) contrast(1.06)`, ...style }}
+        style={{ backgroundImage: `url(${src})`, filter: `saturate(${saturate * 1.15 + 0.15}) contrast(1.04) brightness(1.14)`, ...style }}
         initial={{ scale: from.s ?? 1.06, x: from.x ?? 0, y: from.y ?? 0, opacity: 0 }}
         animate={reduce ? { opacity: 1 } : { scale: to.s ?? 1.16, x: to.x ?? -30, y: to.y ?? -10, opacity: 1 }}
         transition={{ duration, ease: "linear", opacity: { duration: 1.6, ease: "easeOut" } }}
       />
-      <div className="grade" style={{ background: `rgba(5,8,12,${dim})` }} />
+      <div className="grade" style={{ background: `rgba(15,26,38,${(dim * 0.62).toFixed(3)})` }} />
       {tint && <div className="grade" style={{ background: tint, mixBlendMode: "color" }} />}
-      <div className="grade" style={{ background: gradient ?? "linear-gradient(90deg, rgba(5,8,12,.92) 0%, rgba(5,8,12,.55) 45%, rgba(5,8,12,.2) 100%)" }} />
+      <div className="grade" style={{ background: gradient ? lift(gradient) : "linear-gradient(90deg, rgba(15,26,38,.78) 0%, rgba(15,26,38,.38) 45%, rgba(15,26,38,.06) 100%)" }} />
     </>
   );
 }

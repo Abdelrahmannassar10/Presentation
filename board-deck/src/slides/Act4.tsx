@@ -92,8 +92,8 @@ function Pin({ x, y, i, step, lost }: { x: number; y: number; i: number; step: n
       {locked && <motion.circle r={14} fill="none" stroke="var(--teal)" initial={{ scale: 1, opacity: 0.8 }} animate={{ scale: 2.4, opacity: 0 }} transition={{ duration: 2.2, repeat: Infinity, delay: rnd(i, 7) * 2 }} />}
       <path d="M0,-30 C-11,-30 -17,-22 -17,-13 C-17,0 0,12 0,12 C0,12 17,0 17,-13 C17,-22 11,-30 0,-30 Z" fill={c} fillOpacity={0.9} style={{ filter: `drop-shadow(0 0 8px ${locked ? "#4FD1C5" : "#FF5A4E"})` }} />
       {locked
-        ? <g transform="translate(0,-15)"><rect x={-5.5} y={-2} width={11} height={8} rx={1.5} fill="#05080c" /><path d="M-3.4,-2 V-5 A3.4,3.4 0 0 1 3.4,-5 V-2" fill="none" stroke="#05080c" strokeWidth={2} /></g>
-        : <circle cy={-14} r={5} fill="#05080c" />}
+        ? <g transform="translate(0,-15)"><rect x={-5.5} y={-2} width={11} height={8} rx={1.5} fill="#0f1a26" /><path d="M-3.4,-2 V-5 A3.4,3.4 0 0 1 3.4,-5 V-2" fill="none" stroke="#0f1a26" strokeWidth={2} /></g>
+        : <circle cy={-14} r={5} fill="#0f1a26" />}
       {lost && !locked && <text y={-40} textAnchor="middle" fill="var(--red)" style={{ font: "700 18px var(--mono)" }}>?</text>}
     </motion.g>
   );
@@ -163,7 +163,7 @@ export function Location({ step, active }: SlideProps) {
         </div>
         <AnimatePresence mode="wait">
           <motion.div key={step === 0 ? "l" + rep : "ok"} className="chip" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
-            style={{ position: "absolute", left: 24, top: 24, background: "rgba(5,8,12,.85)", borderColor: step >= 1 ? "var(--teal)" : "var(--red)" }}>
+            style={{ position: "absolute", left: 24, top: 24, background: "rgba(15,26,38,.85)", borderColor: step >= 1 ? "var(--teal)" : "var(--red)" }}>
             {step >= 1
               ? <><span className="dot" />{t("Locked by trigger · sales reps cannot move a customer", "مثبتة بالمشغل · لا يستطيع المندوب نقل أي عميل")}</>
               : tick > 0 ? <><span className="dot" style={{ background: "var(--red)", boxShadow: "0 0 12px var(--red)" }} />{t(`A sales rep leaves · ${Math.ceil(PINS.length / 3)} customer locations lost`, `مغادرة مندوب · ضياع ${Math.ceil(PINS.length / 3)} من مواقع العملاء`)}</>
@@ -305,7 +305,7 @@ export function Beyond({ active }: SlideProps) {
   const t = useT();
   return (
     <div className="slide">
-      <Photo src={IMG.servers} dim={0.86} saturate={0.4} from={{ s: 1.2 }} to={{ s: 1.06, x: -30 }} duration={40} gradient="linear-gradient(180deg, rgba(5,8,12,.8), rgba(5,8,12,.95))" />
+      <Photo src={IMG.servers} dim={0.86} saturate={0.4} from={{ s: 1.2 }} to={{ s: 1.06, x: -30 }} duration={40} gradient="linear-gradient(180deg, rgba(15,26,38,.8), rgba(15,26,38,.95))" />
       <div className="pad">
         <Rise><div className="kicker">{t("Chapter 16 · Value beyond cash", "الفصل 16 · قيمة تتجاوز النقد")}</div></Rise>
         <h2 className="h2" style={{ marginTop: 24, fontSize: t("76px", "58px") }}>
@@ -365,7 +365,7 @@ function LiveFeed({ active }: { active: boolean }) {
   const clock = `14:${String(32 + Math.floor(sec / 60) % 28).padStart(2, "0")}:${String(sec % 60).padStart(2, "0")}`;
   return (
     <div className="ltr" style={{ position: "relative", height: 330, borderRadius: 16, overflow: "hidden", border: "1px solid var(--line2)" }}>
-      <Photo src={IMG.factory} dim={0.35} saturate={0} from={{ s: 1.15, x: 20 }} to={{ s: 1.05, x: -20 }} duration={24} gradient="linear-gradient(180deg, rgba(5,8,12,.1), rgba(5,8,12,.75))" />
+      <Photo src={IMG.factory} dim={0.35} saturate={0} from={{ s: 1.15, x: 20 }} to={{ s: 1.05, x: -20 }} duration={24} gradient="linear-gradient(180deg, rgba(15,26,38,.1), rgba(15,26,38,.75))" />
       <div style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 2px, transparent 2px 4px)" }} />
       <div style={{ position: "absolute", left: 18, top: 16, display: "flex", gap: 10, alignItems: "center" }}>
         <motion.span style={{ width: 11, height: 11, borderRadius: "50%", background: "var(--red)" }} animate={{ opacity: [1, 0.2, 1] }} transition={{ duration: 1.2, repeat: Infinity }} />
@@ -374,7 +374,7 @@ function LiveFeed({ active }: { active: boolean }) {
       <span className="mono" style={{ position: "absolute", right: 18, top: 16, fontSize: 14, color: "#cfe" }}>{clock}</span>
       {/* two-way voice */}
       <div style={{ position: "absolute", left: 18, right: 18, bottom: 16, display: "flex", alignItems: "center", gap: 16 }}>
-        <span className="chip" style={{ fontSize: 15, padding: "7px 14px", background: "rgba(5,8,12,.75)" }}><span className="dot" />{t("Voice on", "الصوت مفعل")}</span>
+        <span className="chip" style={{ fontSize: 15, padding: "7px 14px", background: "rgba(15,26,38,.75)" }}><span className="dot" />{t("Voice on", "الصوت مفعل")}</span>
         <div style={{ display: "flex", gap: 4, alignItems: "center", height: 40, flex: 1 }}>
           {Array.from({ length: 46 }, (_, i) => (
             <motion.div key={i} style={{ width: 4, borderRadius: 2, background: "var(--teal)" }} animate={{ height: active ? [4, 6 + rnd(i, 1) * 32, 4 + rnd(i, 2) * 12, 4] : 4 }} transition={{ duration: 1.1 + rnd(i, 3) * 0.6, repeat: Infinity, delay: rnd(i, 4) }} />

@@ -190,7 +190,7 @@ export function Security({ step, active }: SlideProps) {
   const threats = useMemo(() => Array.from({ length: 14 }, (_, i) => ({ angle: (i * 360) / 14 + Math.random() * 14, delay: Math.random() * 3 })), []);
   return (
     <div className="slide">
-      <Photo src={IMG.circuit} dim={0.86} saturate={0.3} from={{ s: 1.2 }} to={{ s: 1.05 }} duration={40} gradient="linear-gradient(90deg, rgba(5,8,12,.96) 0%, rgba(5,8,12,.75) 50%, rgba(5,8,12,.5) 100%)" />
+      <Photo src={IMG.circuit} dim={0.86} saturate={0.3} from={{ s: 1.2 }} to={{ s: 1.05 }} duration={40} gradient="linear-gradient(90deg, rgba(15,26,38,.96) 0%, rgba(15,26,38,.75) 50%, rgba(15,26,38,.5) 100%)" />
       <div className="pad">
         <Rise><div className="kicker">{t("Chapter 04 · Security", "الفصل 04 · الأمن")}</div></Rise>
         <h2 className="h2" style={{ marginTop: 24, maxWidth: 900, fontSize: t("84px", "64px") }}>
@@ -247,7 +247,7 @@ export function Security({ step, active }: SlideProps) {
             <motion.circle cx={420} cy={420} r={R(k)} fill="none" stroke="#fff" strokeWidth={2.5} strokeDasharray={`18 ${2 * Math.PI * R(k)}`}
               animate={{ rotate: built > k ? 360 : 0, opacity: built > k ? 0.7 : 0 }} transition={{ rotate: { duration: 9 + k * 2.2, repeat: Infinity, ease: "linear" }, opacity: { duration: 0.5 } }}
               style={{ transformOrigin: "420px 420px" }} />
-            <motion.text x={420} y={420 - R(k) + 5} textAnchor="middle" fill={k % 2 ? "var(--teal)" : "var(--gold)"} style={{ font: "600 12px var(--mono)", paintOrder: "stroke", stroke: "#05080c", strokeWidth: 5 }}
+            <motion.text x={420} y={420 - R(k) + 5} textAnchor="middle" fill={k % 2 ? "var(--teal)" : "var(--gold)"} style={{ font: "600 12px var(--mono)", paintOrder: "stroke", stroke: "#0f1a26", strokeWidth: 5 }}
               animate={{ opacity: built > k ? 1 : 0 }}>{String(k + 1).padStart(2, "0")}</motion.text>
           </g>
         ))}
@@ -289,7 +289,7 @@ export function Infrastructure({ step, active }: SlideProps) {
   return (
     <div className="slide" style={{ background: "radial-gradient(ellipse at 60% 50%, #0d1a24 0%, var(--ink) 70%)" }}>
       <motion.div style={{ position: "absolute", inset: 0 }} animate={{ opacity: step >= 2 ? 1 : 0 }} transition={{ duration: 1.5 }}>
-        <Photo src={IMG.power} dim={0.25} saturate={1} from={{ s: 1.15 }} to={{ s: 1.04, x: 0, y: 0 }} gradient="linear-gradient(0deg, rgba(5,8,12,.97) 24%, rgba(5,8,12,.35) 62%, rgba(5,8,12,.55) 100%)" />
+        <Photo src={IMG.power} dim={0.25} saturate={1} from={{ s: 1.15 }} to={{ s: 1.04, x: 0, y: 0 }} gradient="linear-gradient(0deg, rgba(15,26,38,.97) 24%, rgba(15,26,38,.35) 62%, rgba(15,26,38,.55) 100%)" />
       </motion.div>
       <div className="pad">
         <Rise><div className="kicker">{t("Chapter 05 · Infrastructure", "الفصل 05 · البنية التحتية")}</div></Rise>
@@ -380,7 +380,7 @@ export function Crises({ active }: SlideProps) {
   const n = useTicker(active, 380, CRISES.length + 3);
   return (
     <div className="slide">
-      <Photo src={IMG.sparks} dim={0.7} saturate={0.9} from={{ s: 1.2, x: 30 }} to={{ s: 1.05, x: -30 }} duration={30} gradient="linear-gradient(180deg, rgba(5,8,12,.75), rgba(5,8,12,.93))" />
+      <Photo src={IMG.sparks} dim={0.7} saturate={0.9} from={{ s: 1.2, x: 30 }} to={{ s: 1.05, x: -30 }} duration={30} gradient="linear-gradient(180deg, rgba(15,26,38,.75), rgba(15,26,38,.93))" />
       <div className="pad">
         <Rise><div className="kicker">{t("Chapter 06 · Under pressure", "الفصل 06 · تحت الضغط")}</div></Rise>
         <h2 className="h2" style={{ marginTop: 24, fontSize: t("84px", "64px") }}>
@@ -458,7 +458,7 @@ export function CallCenter({ step, active }: SlideProps) {
   ];
   return (
     <div className="slide">
-      <Photo src={IMG.headset} dim={0.82} saturate={0.5} from={{ s: 1.2 }} to={{ s: 1.06, x: -20 }} duration={36} gradient="linear-gradient(90deg, rgba(5,8,12,.96) 0%, rgba(5,8,12,.8) 50%, rgba(5,8,12,.6) 100%)" />
+      <Photo src={IMG.headset} dim={0.82} saturate={0.5} from={{ s: 1.2 }} to={{ s: 1.06, x: -20 }} duration={36} gradient="linear-gradient(90deg, rgba(15,26,38,.96) 0%, rgba(15,26,38,.8) 50%, rgba(15,26,38,.6) 100%)" />
       <div className="pad">
         <Rise><div className="kicker">{t("Chapter 07 · Call center", "الفصل 07 · مركز الاتصال")}</div></Rise>
         <div style={{ position: "relative", height: 240, marginTop: 24 }}>
@@ -553,7 +553,7 @@ export function Factory({ step, active }: SlideProps) {
     <div className="slide">
       <AnimatePresence>
         <motion.div key={step >= 1 ? "w" : "f"} style={{ position: "absolute", inset: 0 }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 1.4 }}>
-          <Photo src={step >= 1 ? IMG.warehouse : IMG.factory} dim={step >= 1 ? 0.35 : 0.7} saturate={0.7} from={{ s: 1.18, x: 20 }} to={{ s: 1.05, x: -30 }} duration={30} gradient={step >= 1 ? "linear-gradient(90deg, rgba(5,8,12,.97) 0%, rgba(5,8,12,.9) 40%, rgba(5,8,12,.15) 75%, rgba(5,8,12,.3) 100%)" : "linear-gradient(90deg, rgba(5,8,12,.96) 0%, rgba(5,8,12,.8) 48%, rgba(5,8,12,.45) 100%)"} />
+          <Photo src={step >= 1 ? IMG.warehouse : IMG.factory} dim={step >= 1 ? 0.35 : 0.7} saturate={0.7} from={{ s: 1.18, x: 20 }} to={{ s: 1.05, x: -30 }} duration={30} gradient={step >= 1 ? "linear-gradient(90deg, rgba(15,26,38,.97) 0%, rgba(15,26,38,.9) 40%, rgba(15,26,38,.15) 75%, rgba(15,26,38,.3) 100%)" : "linear-gradient(90deg, rgba(15,26,38,.96) 0%, rgba(15,26,38,.8) 48%, rgba(15,26,38,.45) 100%)"} />
         </motion.div>
       </AnimatePresence>
       <div className="pad">

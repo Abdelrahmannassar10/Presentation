@@ -1,6 +1,7 @@
 // Quiet classical score: Pachelbel's Canon in D (public domain), synthesized live with Web Audio,
 // so there are no audio files or licences and the deck stays one offline file.
 // Level 0 = strings on the ground bass, 1 = adds the violin melody, 2 = adds a soft harp arpeggio.
+// The deck drives it from low to high: level and volume both rise as the presentation moves forward.
 
 const hz = (midi: number) => 440 * Math.pow(2, (midi - 69) / 12);
 // the eight-chord ground: D – A – Bm – F#m – G – D – G – A  [bass, ...upper strings]
@@ -9,7 +10,8 @@ const GROUND = [[38, 62, 66, 69], [45, 61, 64, 69], [47, 62, 66, 71], [42, 61, 6
 const MELODIES = [[78, 76, 74, 73, 71, 69, 71, 73], [74, 73, 71, 69, 67, 66, 67, 64], [78, 76, 74, 78, 79, 78, 79, 76]];
 const STEP = 2.2; // seconds per chord: slow and calm
 const LOOKAHEAD = 1.2;
-const PEAK = 0.24; // master level: background, never over the speaker
+const LOW = 0.09; // master level on the first scene: barely there
+const PEAK = 0.3; // master level at the finale: full, still under the speaker
 
 export class Score {
   private ctx?: AudioContext;
@@ -19,7 +21,9 @@ export class Score {
   private stopTimer?: ReturnType<typeof setTimeout>;
   private next = 0;
   private n = 0;
-  private level = 1;
+  private level = 0;
+  private progress = 0;
+  private get target() { return LOW + (PEAK - LOW) * this.progress; }
   playing = false;
 
   private build() {
@@ -130,7 +134,7 @@ export class Score {
     this.playing = true;
     this.master.gain.cancelScheduledValues(ctx.currentTime);
     this.master.gain.setValueAtTime(this.master.gain.value, ctx.currentTime);
-    this.master.gain.linearRampToValueAtTime(PEAK, ctx.currentTime + 4);
+    this.master.gain.linearRampToValueAtTime(this.target, ctx.currentTime + 4);
     this.next = Math.max(this.next, ctx.currentTime + 0.1);
     this.timer = setInterval(() => {
       while (this.next < ctx.currentTime + LOOKAHEAD) {
@@ -153,4 +157,14 @@ export class Score {
 
   /** 0 calm · 1 melody · 2 full; takes effect from the next chord */
   setLevel(l: number) { this.level = l; }
+
+  /** 0 = first scene (quiet) … 1 = finale (loudest); glides to the new volume over 3 s */
+  setProgress(p: number) {
+    this.progress = Math.min(1, Math.max(0, p));
+    if (!this.ctx || !this.playing) return;
+    const t = this.ctx.currentTime;
+    this.master.gain.cancelScheduledValues(t);
+    this.master.gain.setValueAtTime(this.master.gain.value, t);
+    this.master.gain.linearRampToValueAtTime(this.target, t + 3);
+  }
 }

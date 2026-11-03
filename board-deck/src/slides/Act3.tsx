@@ -32,7 +32,7 @@ export function Systems({ active }: SlideProps) {
   const cx = 470, cy = 470;
   return (
     <div className="slide">
-      <Photo src={IMG.chip} dim={0.85} saturate={0.5} from={{ s: 1.2 }} to={{ s: 1.06 }} duration={40} gradient="linear-gradient(90deg, rgba(5,8,12,.97) 0%, rgba(5,8,12,.82) 50%, rgba(5,8,12,.7) 100%)" />
+      <Photo src={IMG.chip} dim={0.85} saturate={0.5} from={{ s: 1.2 }} to={{ s: 1.06 }} duration={40} gradient="linear-gradient(90deg, rgba(15,26,38,.97) 0%, rgba(15,26,38,.82) 50%, rgba(15,26,38,.7) 100%)" />
       <div className="pad">
         <Rise><div className="kicker">{t("Chapter 09 · Business systems", "الفصل 09 · أنظمة الأعمال")}</div></Rise>
         <h2 className="h2" style={{ marginTop: 24, maxWidth: 820, fontSize: t("80px", "60px") }}>
@@ -154,7 +154,7 @@ export function Erp({ step, active }: SlideProps) {
 
       <div className="ltr" style={{ position: "absolute", [rtl ? "left" : "right"]: 110, top: 150, width: 900 }}>
         <motion.div className="card" initial={{ opacity: 0, y: 40 }} animate={{ opacity: active ? 1 : 0, y: active ? 0 : 40 }} transition={{ delay: 0.3, duration: 0.9, ease: EASE }} style={{ overflow: "hidden", borderRadius: 20 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 22px", borderBottom: "1px solid var(--line)", background: "rgba(5,8,12,.55)" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 22px", borderBottom: "1px solid var(--line)", background: "rgba(15,26,38,.55)" }}>
             {["#ff5a4e", "#f3a43b", "#4fd1c5"].map((c) => <span key={c} style={{ width: 11, height: 11, borderRadius: "50%", background: c, opacity: 0.7 }} />)}
             <span className="mono" style={{ fontSize: 16, color: "#cfd3d6", marginLeft: 6 }}>Microsoft Dynamics AX 2012 · GID</span>
             <span className="chip" style={{ marginLeft: "auto", padding: "5px 12px", fontSize: 14 }}><span className="dot" />{t("Test server · built 2026 Q3", "خادم اختبار · 2026 ر3")}</span>
@@ -196,7 +196,7 @@ export function Expansion({ active }: SlideProps) {
   const cx = 470, cy = 430;
   return (
     <div className="slide">
-      <Photo src={IMG.riyadh} dim={0.55} saturate={1} from={{ s: 1.25, y: 20 }} to={{ s: 1.08, y: -20, x: 0 }} duration={40} gradient="linear-gradient(90deg, rgba(5,8,12,.96) 0%, rgba(5,8,12,.75) 45%, rgba(5,8,12,.45) 100%)" />
+      <Photo src={IMG.riyadh} dim={0.55} saturate={1} from={{ s: 1.25, y: 20 }} to={{ s: 1.08, y: -20, x: 0 }} duration={40} gradient="linear-gradient(90deg, rgba(15,26,38,.96) 0%, rgba(15,26,38,.75) 45%, rgba(15,26,38,.45) 100%)" />
       <div className="pad">
         <Rise><div className="kicker">{t("Chapter 13 · Group growth", "الفصل 13 · نمو المجموعة")}</div></Rise>
         <h2 className="h2" style={{ marginTop: 24, maxWidth: 780, fontSize: t("80px", "60px") }}>
@@ -217,7 +217,7 @@ export function Expansion({ active }: SlideProps) {
               </g>
             );
           })}
-          <motion.circle cx={cx} cy={cy} r={95} fill="rgba(5,8,12,.85)" stroke="var(--gold)" strokeWidth={1.5} initial={{ scale: 0 }} animate={{ scale: active ? 1 : 0 }} transition={{ duration: 0.8, ease: EASE }} style={{ transformOrigin: `${cx}px ${cy}px` }} />
+          <motion.circle cx={cx} cy={cy} r={95} fill="rgba(15,26,38,.85)" stroke="var(--gold)" strokeWidth={1.5} initial={{ scale: 0 }} animate={{ scale: active ? 1 : 0 }} transition={{ duration: 0.8, ease: EASE }} style={{ transformOrigin: `${cx}px ${cy}px` }} />
           <motion.circle cx={cx} cy={cy} r={95} fill="none" stroke="var(--gold)" initial={{ scale: 1, opacity: 0.7 }} animate={{ scale: 1.9, opacity: 0 }} transition={{ duration: 2.6, repeat: Infinity }} style={{ transformOrigin: `${cx}px ${cy}px` }} />
         </svg>
         <div style={{ position: "absolute", left: cx, top: cy, transform: "translate(-50%,-50%)", textAlign: "center", width: 180 }}>
@@ -254,7 +254,7 @@ export function People({ step, active }: SlideProps) {
   const t = useT();
   return (
     <div className="slide">
-      <Photo src={IMG.team} dim={0.78} saturate={0.5} from={{ s: 1.2 }} to={{ s: 1.06, x: -30 }} duration={36} gradient="linear-gradient(90deg, rgba(5,8,12,.97) 0%, rgba(5,8,12,.85) 55%, rgba(5,8,12,.6) 100%)" />
+      <Photo src={IMG.team} dim={0.78} saturate={0.5} from={{ s: 1.2 }} to={{ s: 1.06, x: -30 }} duration={36} gradient="linear-gradient(90deg, rgba(15,26,38,.97) 0%, rgba(15,26,38,.85) 55%, rgba(15,26,38,.6) 100%)" />
       <div className="pad">
         <Rise><div className="kicker">{t("Chapter 14 · People", "الفصل 14 · الأفراد")}</div></Rise>
         <h2 className="h2" style={{ marginTop: 24, fontSize: t("84px", "64px") }}>

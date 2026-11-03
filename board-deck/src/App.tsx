@@ -140,7 +140,12 @@ function Deck() {
     addEventListener("pointerdown", go, { once: true });
     return () => { removeEventListener("keydown", go); removeEventListener("pointerdown", go); };
   }, [music, score]);
-  useEffect(() => { score.setLevel(black ? 0 : (DECK[idx].mood ?? 1)); }, [idx, black, score]);
+  // the score grows with the story: quiet strings at the start, full and louder by the finale
+  useEffect(() => {
+    const p = idx / Math.max(1, DECK.length - 1);
+    score.setProgress(black ? 0 : p);
+    score.setLevel(black ? 0 : p < 0.3 ? 0 : p < 0.65 ? 1 : 2);
+  }, [idx, black, score]);
   useEffect(() => () => score.stop(), [score]);
   useEffect(() => { const to = setTimeout(() => setHint(false), 6000); return () => clearTimeout(to); }, []);
 
@@ -236,6 +241,8 @@ function Deck() {
             </motion.div>
           </AnimatePresence>
 
+          <div className="glow" />
+          <div className="sheen" />
           <div className="vignette" />
           <Grain on={grain} />
 

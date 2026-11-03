@@ -468,6 +468,10 @@ export function Roadmap({ step, active }: SlideProps) {
                         <motion.div key={ien} initial={{ opacity: 0, x: -14 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.9 + li * 0.14 + i * 0.08 }} style={{ fontSize: 23, padding: "15px 0", borderBottom: "1px solid var(--line)", lineHeight: 1.35 }}>{t(ien, iar)}</motion.div>
                       ))}
                     </div>
+                    {items.some(([ien]) => ien.startsWith("Puvana")) && (
+                      <motion.img src={IMG.puvana} alt="Puvana" initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.4 + li * 0.14, duration: 0.8, ease: EASE }}
+                        style={{ display: "block", width: 190, margin: "26px auto 0", filter: "drop-shadow(0 10px 26px rgba(0,0,0,.35)) drop-shadow(0 0 22px rgba(95,227,214,.25))" }} />
+                    )}
                   </motion.div>
                 ))}
               </motion.div>
@@ -487,7 +491,8 @@ export function Roadmap({ step, active }: SlideProps) {
                   </svg>
                   {GRAPH.map((g, i) => (
                     <motion.div key={g.k} initial={{ opacity: 0, scale: 0.7 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 + i * 0.1, duration: 0.6, ease: EASE }}
-                      style={{ position: "absolute", left: g.x, top: g.y, translateX: "-50%", translateY: "-50%", padding: "13px 20px", borderRadius: 14, background: "rgba(11,18,25,.94)", border: `1px solid ${g.c}`, boxShadow: `0 0 30px ${g.c}33`, whiteSpace: "nowrap", fontSize: 19, fontWeight: 600, color: g.c }}>
+                      style={{ position: "absolute", left: g.x, top: g.y, translateX: "-50%", translateY: "-50%", padding: "13px 20px", borderRadius: 14, background: "rgba(11,18,25,.94)", border: `1px solid ${g.c}`, boxShadow: `0 0 30px ${g.c}33`, whiteSpace: "nowrap", fontSize: 19, fontWeight: 600, color: g.c, display: "flex", alignItems: "center", gap: 12 }}>
+                      {g.k === "web" && <img src={IMG.puvana} alt="Puvana" style={{ height: 40, display: "block" }} />}
                       {t(...g.t)}
                     </motion.div>
                   ))}

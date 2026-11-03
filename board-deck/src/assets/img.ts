@@ -14,5 +14,7 @@ import water from "./img/water.jpg";
 import team from "./img/team.jpg";
 import towers from "./img/towers.jpg";
 import chip from "./img/chip.jpg";
+// Puvana brand logo, supplied by GID
+import puvana from "./img/puvana.png";
 
-export const IMG = { earth, servers, cables, circuit, power, factory, sparks, warehouse, trucks, headset, riyadh, water, team, towers, chip };
+export const IMG = { earth, servers, cables, circuit, power, factory, sparks, warehouse, trucks, headset, riyadh, water, team, towers, chip, puvana };

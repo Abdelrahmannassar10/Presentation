@@ -67,7 +67,7 @@ export const QHEAD: [string, string][] = [
   ["Warehouse firewall, filter, cameras · HQ CCTV (~32) · DB disk failure resolved · new laptops and printers", "جدار ناري وفلترة وكاميرات للمستودع · كاميرات المقر (حوالي 32) · حل عطل القرص · أجهزة وطابعات جديدة"],
   ["Kaspersky · DMS servers · distributors isolated · SalesBuzz 5.15 · Proxmox + Hyper-V · HQ switches · ~200 devices", "Kaspersky · خوادم DMS · عزل الموزعين · SalesBuzz 5.15 · Proxmox وHyper-V · سويتشات المقر · 200 جهاز"],
   ["AX test server and 25 AX customisations · DS servers · new tax server · Scalefusion · SD-WAN at HQ · warehouse UPS · Dynamics 365 kickoff", "خادم اختبار AX و25 تطويراً في AX · خوادم DS · خادم ضرائب · Scalefusion · SD-WAN للمقر · UPS للمستودع · بدء Dynamics 365"],
-  ["5th floor built · Issabel–Odoo 19 · delivery dashboard · six projects in flight: D365, MPLS, live factory", "الدور الخامس · ربط Issabel مع Odoo 19 · لوحة التوصيل · ستة مشروعات جارية: D365 وMPLS والمصنع المباشر"],
+  ["5th floor built · Issabel–Odoo 19 · GID Exams · NASHAAT redesign · six projects in flight: D365, MPLS, live factory", "الدور الخامس · ربط Issabel مع Odoo 19 · GID Exams · إعادة تصميم NASHAAT · ستة مشروعات جارية: D365 وMPLS والمصنع المباشر"],
 ];
 export const YEARS: [string, number, string, string][] = [["2023", yearTotal("2023"), "Foundations", "بناء الأساس"], ["2024", yearTotal("2024"), "Go-live and industrialisation", "التشغيل والتصنيع"], ["2025", yearTotal("2025"), "Growth and modernisation", "النمو والتحديث"], ["2026", yearTotal("2026"), "Hardening · to October", "التحصين · حتى أكتوبر"]];
 

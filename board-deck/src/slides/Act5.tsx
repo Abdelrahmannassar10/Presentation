@@ -169,7 +169,7 @@ export function BiRedesign({ step, active }: SlideProps) {
                   <Stat to={384} en="navigation buttons" ar="زر تنقل" show={active && step === 0} delay={0.6} />
                 </div>
                 <Rise delay={0.8}><p className="lede" style={{ fontSize: 23, marginTop: 28 }}>{t("The Nashaat report was rebuilt around an executive Home page. Managers see the headline numbers first, then go to any report in one click. Filters for date, channel and product group drive the whole page.", "أُعيد بناء تقرير Nashaat حول صفحة رئيسية تنفيذية. يرى المديرون الأرقام الرئيسية أولاً، ثم يصلون إلى أي تقرير بنقرة واحدة. وتتحكم فلاتر التاريخ والقناة ومجموعة المنتجات في الصفحة كلها.")}</p></Rise>
-                <Rise delay={1}><p style={{ fontSize: 19, color: "var(--muted)", marginTop: 16 }}>{t("Nothing was lost: no page or data table was deleted, and the original file is kept.", "لم يُفقد شيء: لم تُحذف أي صفحة أو جدول بيانات، والملف الأصلي محفوظ.")}</p></Rise>
+                <Rise delay={1}><p style={{ fontSize: 19, color: "var(--muted)", marginTop: 16 }}>{t("Published on Power BI Service. Nothing was lost: no page or data table was deleted, and the original file is kept.", "منشور على خدمة Power BI. ولم يُفقد شيء: لم تُحذف أي صفحة أو جدول بيانات، والملف الأصلي محفوظ.")}</p></Rise>
               </div>
               <div>
                 <Shot src={IMG.biHome} alt={t("NASHAAT executive Home page", "الصفحة الرئيسية التنفيذية لتقارير NASHAAT")} style={{ width: "84%", marginInlineStart: "auto" }} />
@@ -213,7 +213,7 @@ export function GidExams({ step, active }: SlideProps) {
     <div className="slide" style={{ background: "radial-gradient(ellipse at 30% 30%, #1a2a44 0%, var(--ink) 66%)" }}>
       <Flares o={0.1} />
       <div className="pad" style={{ paddingTop: 100 }}>
-        <Rise><div className="kicker">{t("Chapter 14 · GID Exams, built in-house", "الفصل 14 · GID Exams، بُني داخلياً")}</div></Rise>
+        <Rise><div className="kicker">{t("Chapter 14 · GID Exams, built in-house and in real use", "الفصل 14 · GID Exams، بُني داخلياً وقيد الاستخدام الفعلي")}</div></Rise>
         <Stage step={step} head={<>
           {step === 0 && <h2 className="h2" style={{ fontSize: size }}>{t("Hiring on proof,", "التوظيف بالدليل،")}<br /><span className="it gold">{t("not on promises.", "لا بالوعود.")}</span></h2>}
           {step === 1 && <h2 className="h2" style={{ fontSize: size }}>{t("Watched live.", "متابعة مباشرة.")}<br /><span className="it teal">{t("Decided on evidence.", "وقرار مبني على الأدلة.")}</span></h2>}

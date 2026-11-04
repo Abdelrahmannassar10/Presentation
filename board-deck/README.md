@@ -21,7 +21,7 @@ Press **F** for fullscreen and **P** for the presenter window (notes, timer, liv
 | B | Black screen |
 | G | Film grain on / off |
 | M | Music on / off · looping song (`src/assets/audio/song.mp3`), louder as the deck advances; starts on the first key or click |
-| 1–26 then Enter | Jump to a scene |
+| 1–29 then Enter | Jump to a scene |
 
 ## Develop
 

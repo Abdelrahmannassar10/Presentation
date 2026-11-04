@@ -230,9 +230,74 @@ export const axCount = (k: AxType) => AX.filter((x) => x[0] === k).length;
 export const NOW: [string, string, string, string][] = [
   ["Global distribution company on AX 2012", "شركة التوزيع العالمية على AX 2012", "New company set up on the group ERP", "تأسيس الشركة الجديدة على نظام ERP للمجموعة"],
   ["Dynamics 365 implementation", "تنفيذ Dynamics 365", "The next ERP generation for the group", "الجيل التالي من ERP للمجموعة"],
-  ["Issabel integration with Odoo", "ربط Issabel مع Odoo", "Every call and customer in one record", "كل مكالمة وكل عميل في سجل واحد"],
+  ["Issabel integration with Odoo", "ربط Issabel مع Odoo", "Built and tested · real-call testing next", "بُني واختُبر · التالي الاختبار بمكالمات حقيقية"],
   ["MPLS links for disaster recovery", "روابط MPLS للتعافي من الكوارث", "Factory, warehouse and management building on private links", "المصنع والمستودع والمبنى الإداري على روابط خاصة"],
   ["HQ network migration", "نقل شبكة المقر", "HQ moved onto the new network design", "نقل المقر إلى تصميم الشبكة الجديد"],
+];
+
+/* the call center inside Odoo · project overview and data/readme.md */
+// [en, ar, detail en, detail ar]
+export const CC_FLOW: [string, string, string, string][] = [
+  ["The customer calls", "العميل يتصل", "Odoo matches the number to the contact", "يطابق Odoo الرقم مع جهة الاتصال"],
+  ["The record opens by itself", "السجل يفتح تلقائياً", "Tickets, unpaid invoices, orders and last calls", "التذاكر والفواتير غير المسددة والطلبات وآخر المكالمات"],
+  ["The agent answers in the browser", "الموظف يرد من المتصفح", "Odoo Phone, with live notes during the call", "عبر Odoo Phone مع ملاحظات مباشرة أثناء المكالمة"],
+  ["Every call gets an outcome", "لكل مكالمة نتيجة", "It can open a lead, a ticket or a callback", "ويمكن أن تنشئ فرصة بيع أو تذكرة أو معاودة اتصال"],
+  ["Checked every night", "مراجعة كل ليلة", "Compared with the PBX; missed calls are added", "مقارنة مع سجلات المقسم وإضافة أي مكالمة ناقصة"],
+];
+export const CC_SUPER: [string, string, string, string][] = [
+  ["Live wallboard", "لوحة مباشرة", "Agents, callers waiting, SLA and abandon rate", "الموظفون والمتصلون المنتظرون ومستوى الخدمة ونسبة المكالمات المفقودة"],
+  ["Listen, whisper, barge", "استماع وتوجيه وتدخل", "Coach on a live call; every use is logged", "التوجيه أثناء المكالمة، مع تسجيل كل استخدام"],
+  ["Breaks with limits", "استراحات بحدود", "Timed, and the supervisor is alerted when one runs over", "بمؤقت، مع تنبيه المشرف عند تجاوز الحد"],
+  ["Auto-dial campaigns", "حملات اتصال تلقائي", "One customer per free agent, within calling hours", "عميل واحد لكل موظف متاح، ضمن ساعات الاتصال"],
+  ["Reports from one record", "تقارير من سجل واحد", "Queues, agents, breaks and busy hours", "قوائم الانتظار والموظفون والاستراحات وساعات الذروة"],
+];
+// [value, suffix, en, ar]
+export const CC_TESTS: [number, string, string, string][] = [
+  [504, "", "automated tests", "اختباراً آلياً"],
+  [99, "%", "code coverage, Odoo module", "تغطية كود وحدة Odoo"],
+  [97, "%", "code coverage, PBX bridge", "تغطية كود خدمة الربط"],
+  [10, "", "milestones, each tested first", "مراحل، اختُبرت كل منها قبل التالية"],
+];
+// [en, ar, detail en, detail ar, done]
+export const CC_ROAD: [string, string, string, string, boolean][] = [
+  ["Built", "البناء", "Odoo module and PBX bridge", "وحدة Odoo وخدمة الربط بالمقسم", true],
+  ["Tested", "الاختبار", "On a copy of the test database", "على نسخة من قاعدة بيانات الاختبار", true],
+  ["Real calls", "مكالمات حقيقية", "Next, once the PBX outside lines are fixed", "التالي، بعد إصلاح الخطوط الخارجية للمقسم", false],
+  ["Go-live", "التشغيل", "After real-call testing passes", "بعد نجاح الاختبار بمكالمات حقيقية", false],
+];
+
+/* NASHAAT report redesign · [en, ar, pages, detail en, detail ar] */
+export const BI_AREAS: [string, string, number, string, string][] = [
+  ["Sales", "المبيعات", 5, "Monthly · sales vs collection · salesmen · products · yearly", "الشهري · المبيعات مقابل التحصيل · المندوبون · المنتجات · السنوي"],
+  ["Channels", "القنوات", 7, "PET · gallon · glass sales and SKU · export", "PET · الجالون · الزجاج · التصدير"],
+  ["Customers", "العملاء", 3, "Customers · customer sales · collection details", "العملاء · مبيعات العملاء · تفاصيل التحصيل"],
+  ["Warehouses", "المستودعات", 4, "All · main · factory · sales and collection", "الكل · الرئيسي · المصنع · المبيعات والتحصيل"],
+  ["Orders", "الطلبات", 3, "Open orders · orders · orders vs returns", "الطلبات المفتوحة · الطلبات · الطلبات مقابل المرتجعات"],
+  ["Aging", "أعمار الديون", 5, "Overview · all · HORECA · modern · traditional", "نظرة عامة · الكل · HORECA · الحديثة · التقليدية"],
+];
+
+/* GID Exams · data/README1.md */
+export const EX_FLOW: [string, string, string, string][] = [
+  ["HR refers a candidate", "الموارد البشرية تحيل المرشح", "Earlier attempts appear by national ID", "تظهر المحاولات السابقة برقم الهوية"],
+  ["An exam is drawn for the job", "اختبار يُسحب حسب الوظيفة", "Random questions, Basic to Expert", "أسئلة عشوائية من الأساسي إلى الخبير"],
+  ["A one-time link opens it", "رابط لمرة واحدة", "Works once, expires in 48 hours", "يعمل مرة واحدة وينتهي خلال 48 ساعة"],
+  ["Real work in real tools", "عمل حقيقي بأدوات حقيقية", "Excel tasks are checked by the system", "مهام Excel يصححها النظام"],
+  ["The examiner decides", "المُختبِر يقرر", "Accept or reject, stored and audited", "قبول أو رفض، محفوظ ومسجل"],
+];
+// [value, prefix, en, ar]
+export const EX_NUMS: [number, string, string, string][] = [
+  [9, "", "skill fields", "مجالات مهارات"],
+  [200, "~", "starter questions", "سؤال أولي"],
+  [6, "", "question types", "أنواع من الأسئلة"],
+  [4, "", "ready job templates", "نماذج وظائف جاهزة"],
+];
+export const EX_TRUST: [string, string, string, string][] = [
+  ["Answers never reach the browser", "الإجابات لا تصل إلى المتصفح", "Grading and the timer run only on the server", "التصحيح والمؤقت على الخادم فقط"],
+  ["Personal data is encrypted", "البيانات الشخصية مشفرة", "National ID and phone, under Egypt's PDPL 151/2020", "الرقم القومي والهاتف، وفق قانون حماية البيانات 151/2020"],
+  ["Every action leaves a trace", "كل إجراء يترك أثراً", "Changes, viewed reports and revealed data are logged", "تُسجَّل التغييرات والتقارير المعروضة والبيانات المكشوفة"],
+  ["Experts own the questions", "الخبراء يملكون الأسئلة", "Only approved questions reach an exam", "الأسئلة المعتمدة فقط تدخل الاختبار"],
+  ["It runs on our own server", "يعمل على خادمنا", "Self-hosted, with no internet needed once installed", "استضافة ذاتية بلا حاجة للإنترنت بعد التثبيت"],
+  ["Results can't change later", "النتائج لا تتغير لاحقاً", "Each exam keeps a frozen copy of its questions", "يحتفظ كل اختبار بنسخة ثابتة من أسئلته"],
 ];
 
 /* next quarter · readme.md */
@@ -264,11 +329,11 @@ export const ROADMAP_N = ROADMAP.reduce((a, l) => a + l[3].length, 0);
 // [title en, title ar, color, items [en, ar][]]
 export const SUMMARY: [string, string, string, [string, string][]][] = [
   ["Built from scratch", "بُني من الصفر", "var(--gold)", [
-    ["Odoo CRM and helpdesk", "Odoo CRM ومكتب الدعم"], ["Issabel call center", "مركز اتصال Issabel"], ["ManageEngine service desk", "مكتب دعم ManageEngine"],
+    ["Odoo CRM and helpdesk", "Odoo CRM ومكتب الدعم"], ["Issabel call center", "مركز اتصال Issabel"], ["ManageEngine service desk", "مكتب دعم ManageEngine"], ["GID Exams skills assessment", "نظام GID Exams لتقييم المهارات"],
     ["Snipe-IT asset register", "سجل أصول Snipe-IT"], ["Alrayen system on Odoo", "نظام Alrayen على Odoo"],
   ]],
   ["Reporting and data", "التقارير والبيانات", "var(--teal)", [
-    ["72 Power BI reports", "72 تقرير Power BI"], ["13 new SalesBuzz static reports", "13 تقرير SalesBuzz ثابت جديد"], ["32 SalesBuzz reports reworked", "32 تقرير SalesBuzz مطوَّر"],
+    ["72 Power BI reports · NASHAAT suite redesigned", "72 تقرير Power BI · إعادة تصميم NASHAAT"], ["13 new SalesBuzz static reports", "13 تقرير SalesBuzz ثابت جديد"], ["32 SalesBuzz reports reworked", "32 تقرير SalesBuzz مطوَّر"],
     ["About 30 SalesBuzz views", "حوالي 30 عرض بيانات في SalesBuzz"], ["17 AX reports · 4 forms · 3 solutions", "17 تقرير AX · 4 نماذج · 3 حلول"], ["3 triggers · one stops reps changing customer coordinates", "3 مشغلات · أحدها يمنع المندوب من تعديل إحداثيات العملاء"],
   ]],
   ["Network and security", "الشبكة والأمن", "var(--amber)", [

@@ -1,170 +1,60 @@
-// Quiet classical score: Pachelbel's Canon in D (public domain), synthesized live with Web Audio,
-// so there are no audio files or licences and the deck stays one offline file.
-// Level 0 = strings on the ground bass, 1 = adds the violin melody, 2 = adds a soft harp arpeggio.
-// The deck drives it from low to high: level and volume both rise as the presentation moves forward.
+// Background song, inlined into the single-file build so the deck still runs offline.
+// Plays through an <audio> element, which also works in phone in-app browsers without Web Audio.
+// It loops, fading out and back in at the seam, and its volume rises as the deck moves forward.
+// iOS ignores audio.volume, so there the fades and the low-to-high rise don't apply.
 
-const hz = (midi: number) => 440 * Math.pow(2, (midi - 69) / 12);
-// the eight-chord ground: D – A – Bm – F#m – G – D – G – A  [bass, ...upper strings]
-const GROUND = [[38, 62, 66, 69], [45, 61, 64, 69], [47, 62, 66, 71], [42, 61, 66, 69], [43, 62, 67, 71], [38, 62, 66, 69], [43, 62, 67, 71], [45, 61, 64, 69]];
-// first-violin lines over the ground, one long note per chord, alternating each cycle
-const MELODIES = [[78, 76, 74, 73, 71, 69, 71, 73], [74, 73, 71, 69, 67, 66, 67, 64], [78, 76, 74, 78, 79, 78, 79, 76]];
-const STEP = 2.2; // seconds per chord: slow and calm
-const LOOKAHEAD = 1.2;
-const LOW = 0.09; // master level on the first scene: barely there
-const PEAK = 0.3; // master level at the finale: full, still under the speaker
+import song from "../assets/audio/song.mp3";
+
+const LOW = 0.2; // volume on the first scene
+const PEAK = 0.7; // volume at the finale: full, still under the speaker
+const FADE_IN = 4; // seconds at the start of each pass
+const FADE_OUT = 6; // seconds at the end of each pass
+const TICK = 100; // ms
+const STEP = 0.02; // largest volume change per tick, so scene changes glide over about 3 s
 
 export class Score {
-  private ctx?: AudioContext;
-  private master!: GainNode;
-  private bus!: GainNode;
+  private audio?: HTMLAudioElement;
   private timer?: ReturnType<typeof setInterval>;
-  private stopTimer?: ReturnType<typeof setTimeout>;
-  private next = 0;
-  private n = 0;
-  private level = 0;
   private progress = 0;
-  private get target() { return LOW + (PEAK - LOW) * this.progress; }
   playing = false;
 
-  private build() {
-    // older iOS Safari only has the prefixed constructor
-    const AC: typeof AudioContext = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-    const ctx = new AC();
-    this.ctx = ctx;
-    this.master = ctx.createGain();
-    this.master.gain.value = 0;
-    const comp = ctx.createDynamicsCompressor();
-    comp.threshold.value = -22;
-    comp.ratio.value = 2.5;
-    // soften the top end, like a hall
-    const tone = ctx.createBiquadFilter();
-    tone.type = "lowpass";
-    tone.frequency.value = 5200;
-    this.master.connect(tone).connect(comp).connect(ctx.destination);
-
-    this.bus = ctx.createGain();
-    this.bus.connect(this.master);
-    const verb = ctx.createConvolver();
-    const len = ctx.sampleRate * 4, ir = ctx.createBuffer(2, len, ctx.sampleRate);
-    for (let ch = 0; ch < 2; ch++) {
-      const d = ir.getChannelData(ch);
-      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
-    }
-    verb.buffer = ir;
-    const wet = ctx.createGain();
-    wet.gain.value = 0.6;
-    this.bus.connect(verb).connect(wet).connect(this.master);
+  private get target() {
+    const a = this.audio!;
+    if (!this.playing) return 0;
+    const left = Number.isFinite(a.duration) ? (a.duration - a.currentTime) / FADE_OUT : 1;
+    const fade = Math.max(0, Math.min(1, a.currentTime / FADE_IN, left));
+    return (LOW + (PEAK - LOW) * this.progress) * fade;
   }
 
-  /** bowed string: two detuned saws, filtered, with a slow swell and gentle vibrato */
-  private bow(midi: number, t: number, dur: number, gain: number, bright = 1600) {
-    const ctx = this.ctx!;
-    const g = ctx.createGain();
-    g.gain.setValueAtTime(0, t);
-    g.gain.linearRampToValueAtTime(gain, t + Math.min(0.7, dur * 0.35));
-    g.gain.setValueAtTime(gain, t + dur * 0.7);
-    g.gain.linearRampToValueAtTime(0, t + dur + 0.6);
-    const lp = ctx.createBiquadFilter();
-    lp.type = "lowpass";
-    lp.frequency.value = bright;
-    lp.Q.value = 0.5;
-    lp.connect(g).connect(this.bus);
-    const vib = ctx.createOscillator(), vibAmt = ctx.createGain();
-    vib.frequency.value = 5.2;
-    vibAmt.gain.value = 5; // cents
-    vib.connect(vibAmt);
-    for (const d of [-6, 6]) {
-      const o = ctx.createOscillator();
-      o.type = "sawtooth";
-      o.frequency.value = hz(midi);
-      o.detune.value = d;
-      vibAmt.connect(o.detune);
-      o.connect(lp);
-      o.start(t);
-      o.stop(t + dur + 0.7);
-    }
-    vib.start(t);
-    vib.stop(t + dur + 0.7);
-  }
+  private tick = () => {
+    const a = this.audio!;
+    const gap = this.target - a.volume;
+    a.volume = Math.max(0, Math.min(1, a.volume + Math.max(-STEP, Math.min(STEP, gap))));
+    if (!this.playing && a.volume === 0) this.halt();
+  };
 
-  /** plucked harp: sine with a quiet octave, fast attack, long natural decay */
-  private pluck(midi: number, t: number, gain: number) {
-    const ctx = this.ctx!;
-    for (const [mul, amt] of [[1, 1], [2, 0.25]] as const) {
-      const o = ctx.createOscillator(), g = ctx.createGain();
-      o.type = "sine";
-      o.frequency.value = hz(midi) * mul;
-      g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(gain * amt, t + 0.006);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + 1.8);
-      o.connect(g).connect(this.bus);
-      o.start(t);
-      o.stop(t + 1.9);
-    }
-  }
-
-  private scheduleChord(t: number) {
-    const i = this.n % 8, [bass, ...upper] = GROUND[i], lv = this.level;
-    this.bow(bass, t, STEP, 0.05, 900); // cello
-    this.bow(bass + 12, t, STEP, 0.02, 1100); // viola doubling
-    for (const u of upper) this.bow(u, t, STEP, 0.011, 1500); // second violins
-    if (lv >= 1) {
-      const line = MELODIES[Math.floor(this.n / 8) % MELODIES.length];
-      this.bow(line[i], t, STEP * 0.96, 0.024, 2600); // first violin
-    }
-    if (lv >= 2) {
-      // broken chord in eighths: bass, fifth, octave, third…
-      const notes = [bass + 12, upper[0], upper[1], upper[2], upper[1] + 12, upper[2], upper[1], upper[0]];
-      notes.forEach((m, k) => this.pluck(m, t + k * (STEP / 8), 0.03));
-    }
-    this.n++;
+  private halt() {
+    clearInterval(this.timer);
+    this.timer = undefined;
+    this.audio?.pause();
   }
 
   start() {
-    // some phone browsers and in-app webviews lack Web Audio; the deck must still open without music
-    try { this.play(); } catch { this.playing = false; }
-  }
-
-  private play() {
-    if (!this.ctx) this.build();
-    const ctx = this.ctx!;
-    clearTimeout(this.stopTimer);
-    ctx.resume().catch(() => {});
-    if (this.playing) return;
+    if (!this.audio) {
+      this.audio = new Audio(song);
+      this.audio.loop = true;
+      this.audio.volume = 0;
+    }
+    const a = this.audio;
     this.playing = true;
-    this.master.gain.cancelScheduledValues(ctx.currentTime);
-    this.master.gain.setValueAtTime(this.master.gain.value, ctx.currentTime);
-    this.master.gain.linearRampToValueAtTime(this.target, ctx.currentTime + 4);
-    this.next = Math.max(this.next, ctx.currentTime + 0.1);
-    this.timer = setInterval(() => {
-      while (this.next < ctx.currentTime + LOOKAHEAD) {
-        this.scheduleChord(this.next);
-        this.next += STEP;
-      }
-    }, 100);
+    this.timer ??= setInterval(this.tick, TICK);
+    // refused until the first gesture; App calls start() again on the first key or click
+    a.play().catch(() => { if (a.paused) { this.playing = false; this.halt(); } });
   }
 
-  stop() {
-    if (!this.ctx || !this.playing) return;
-    const ctx = this.ctx;
-    this.playing = false;
-    clearInterval(this.timer);
-    this.master.gain.cancelScheduledValues(ctx.currentTime);
-    this.master.gain.setValueAtTime(this.master.gain.value, ctx.currentTime);
-    this.master.gain.linearRampToValueAtTime(0, ctx.currentTime + 2);
-    this.stopTimer = setTimeout(() => { ctx.suspend().catch(() => {}); this.next = 0; }, 2200);
-  }
+  /** fades out, then pauses; start() resumes from the same place */
+  stop() { this.playing = false; }
 
-  /** 0 calm · 1 melody · 2 full; takes effect from the next chord */
-  setLevel(l: number) { this.level = l; }
-
-  /** 0 = first scene (quiet) … 1 = finale (loudest); glides to the new volume over 3 s */
-  setProgress(p: number) {
-    this.progress = Math.min(1, Math.max(0, p));
-    if (!this.ctx || !this.playing) return;
-    const t = this.ctx.currentTime;
-    this.master.gain.cancelScheduledValues(t);
-    this.master.gain.setValueAtTime(this.master.gain.value, t);
-    this.master.gain.linearRampToValueAtTime(this.target, t + 3);
-  }
+  /** 0 = first scene (quiet) … 1 = finale (loudest); glides to the new volume */
+  setProgress(p: number) { this.progress = Math.min(1, Math.max(0, p)); }
 }

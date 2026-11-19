@@ -129,7 +129,7 @@ export function Baseline({ step, active }: SlideProps) {
               ))}
             </div>
             <Rise delay={3} show={active}>
-              <div className="label" style={{ marginTop: 22 }}>{t("Audit references 1–39 · number 28 absent in the source sheet", "مراجع التقييم 1–39 · الرقم 28 غير موجود في المصدر")}</div>
+              <div className="label" style={{ marginTop: 22 }}>{t("Baseline audit · findings 1–38", "تقييم نقطة البداية · الملاحظات 1–38")}</div>
             </Rise>
           </div>
 

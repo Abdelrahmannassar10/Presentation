@@ -19,17 +19,17 @@ export const SEV_AR: Record<Sev, string> = { Critical: "حرج", High: "مرتف
 
 // [en, ar, severity, en risk, ar risk, audit refs]
 export const DOMAINS: [string, string, Sev, string, string, string][] = [
-  ["Business continuity", "استمرارية الأعمال", "Critical", "One cable, router or server fault stops invoicing, dispatch and the call center at once.", "عطل واحد في كابل أو راوتر أو خادم يوقف الفوترة والتوزيع ومركز الاتصال معاً.", "1 · 6 · 7 · 9 · 36 · 37"],
+  ["Business continuity", "استمرارية الأعمال", "Critical", "One cable, router or server fault stops invoicing, dispatch and the call center at once.", "عطل واحد في كابل أو راوتر أو خادم يوقف الفوترة والتوزيع ومركز الاتصال معاً.", "1 · 6 · 7 · 9 · 35 · 36"],
   ["Data protection", "حماية البيانات", "Critical", "No database or Azure backups: any failure means permanent loss.", "لا نسخ احتياطية لقواعد البيانات ولا لخوادم Azure: أي عطل يعني فقداناً دائماً.", "8 · 15"],
-  ["Cyber security", "الأمن السيبراني", "Critical", "Misconfigured firewall, every AX user an administrator, no SSL, e-commerce under attack.", "جدار ناري غير مضبوط، وجميع مستخدمي AX بصلاحية مدير، وبدون SSL، والمتجر الإلكتروني تحت الهجوم.", "10 · 18 · 22–25 · 27 · 29"],
-  ["Network architecture", "بنية الشبكة", "High", "One flat network, layer-2 switches, no core switch: one infected PC reaches everything.", "شبكة واحدة مسطحة بدون سويتش رئيسي: جهاز مصاب واحد يصل إلى كل شيء.", "16 · 17 · 33 · 34"],
-  ["ERP and sales systems", "ERP وأنظمة المبيعات", "High", "AX 2012 run by a freelancer, modules inactive, sales data errors, no test server.", "نظام AX يديره مستقل خارجي، ووحدات غير مفعلة، وأخطاء في بيانات المبيعات، وبدون خادم اختبار.", "4 · 5 · 30 · 31 · 35"],
-  ["Customer service", "خدمة العملاء", "High", "Personal mobiles, no queues, no recording, customers in Excel.", "هواتف شخصية، بلا قوائم انتظار ولا تسجيل، والعملاء في ملفات Excel.", "12 · 13 · 14 · 19 · 32"],
+  ["Cyber security", "الأمن السيبراني", "Critical", "Misconfigured firewall, every AX user an administrator, no SSL, e-commerce under attack.", "جدار ناري غير مضبوط، وجميع مستخدمي AX بصلاحية مدير، وبدون SSL، والمتجر الإلكتروني تحت الهجوم.", "10 · 18 · 22–25 · 27 · 28"],
+  ["Network architecture", "بنية الشبكة", "High", "One flat network, layer-2 switches, no core switch: one infected PC reaches everything.", "شبكة واحدة مسطحة بدون سويتش رئيسي: جهاز مصاب واحد يصل إلى كل شيء.", "16 · 17 · 32 · 33"],
+  ["ERP and sales systems", "ERP وأنظمة المبيعات", "High", "AX 2012 run by a freelancer, modules inactive, sales data errors, no test server.", "نظام AX يديره مستقل خارجي، ووحدات غير مفعلة، وأخطاء في بيانات المبيعات، وبدون خادم اختبار.", "4 · 5 · 29 · 30 · 34"],
+  ["Customer service", "خدمة العملاء", "High", "Personal mobiles, no queues, no recording, customers in Excel.", "هواتف شخصية، بلا قوائم انتظار ولا تسجيل، والعملاء في ملفات Excel.", "12 · 13 · 14 · 19 · 31"],
   ["People and capability", "الأفراد والقدرات", "High", "Two people. No one for applications, development, security or ERP work.", "شخصان فقط، ولا أحد للتطبيقات أو التطوير أو الأمن أو تشغيل ERP.", "20 · 21"],
-  ["Back-office governance", "الحوكمة الإدارية", "Medium", "No HR system, IT assets on paper, legacy devices, no device management.", "لا نظام للموارد البشرية، والأصول على الورق، وأجهزة قديمة، وبدون إدارة للأجهزة المحمولة.", "2 · 3 · 11 · 26 · 38 · 39"],
+  ["Back-office governance", "الحوكمة الإدارية", "Medium", "No HR system, IT assets on paper, legacy devices, no device management.", "لا نظام للموارد البشرية، والأصول على الورق، وأجهزة قديمة، وبدون إدارة للأجهزة المحمولة.", "2 · 3 · 11 · 26 · 37 · 38"],
 ];
-// audit numbers 1–39; number 28 is absent in the source sheet → 38 findings
-export const FINDINGS = Array.from({ length: 39 }, (_, i) => i + 1).filter((n) => n !== 28);
+// 38 findings, renumbered 1–38: the source sheet skipped 28, so its 29–39 are 28–38 here
+export const FINDINGS = Array.from({ length: 38 }, (_, i) => i + 1);
 
 // [area en, area ar, before en, before ar, after en, after ar]
 export const BA: [string, string, string, string, string, string][] = [

@@ -68,11 +68,8 @@ input { font: inherit; color: inherit; }
 .photo { position: absolute; inset: -4%; background-size: cover; background-position: center; will-change: transform; }
 .grade { position: absolute; inset: 0; pointer-events: none; }
 .vignette { position: absolute; inset: 0; pointer-events: none; z-index: 40; background: radial-gradient(ellipse 75% 70% at 50% 50%, transparent 68%, rgba(0, 0, 0, 0.22) 100%); }
-.grain { position: absolute; inset: -100%; pointer-events: none; z-index: 41; opacity: 0.035; mix-blend-mode: overlay; animation: grain 0.9s steps(6) infinite; background-repeat: repeat; }
-@keyframes grain {
-  0% { transform: translate(0, 0); } 17% { transform: translate(-3%, 2%); } 33% { transform: translate(2%, -4%); }
-  50% { transform: translate(-4%, -1%); } 67% { transform: translate(3%, 3%); } 83% { transform: translate(-1%, 4%); } 100% { transform: translate(0, 0); }
-}
+/* static: a moving grain layer, resampled by the fit-to-screen scale, made the whole frame tremble */
+.grain { position: absolute; inset: 0; pointer-events: none; z-index: 41; opacity: 0.035; mix-blend-mode: overlay; background-repeat: repeat; }
 .letterbox { position: absolute; left: 0; right: 0; height: 138px; background: #000; z-index: 45; pointer-events: none; }
 .letterbox.top { top: 0; transform-origin: top; }
 .letterbox.bot { bottom: 0; transform-origin: bottom; }
@@ -203,7 +200,6 @@ kbd { font: 500 13px/1 var(--mono); padding: 6px 9px; border: 1px solid var(--li
 .presenter .btns button:hover { border-color: var(--gold); }
 
 @media (prefers-reduced-motion: reduce) {
-  .grain { animation: none; }
   .sheen::before { animation: none; display: none; }
 }
 @media (max-height: 500px) {

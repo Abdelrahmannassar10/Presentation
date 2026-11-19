@@ -91,6 +91,9 @@ function Deck() {
   const [[idx, step], setPos] = useState<[number, number]>(readHash);
   const [dir, setDir] = useState(1);
   const [lang, setLang] = useState<Lang>(() => (store.get("gid-lang") === "ar" ? "ar" : "en"));
+  /* the stage swaps language only while it is faded out, so the RTL flip and text change never show mid-frame */
+  const [shownLang, setShownLang] = useState<Lang>(lang);
+  const swapping = shownLang !== lang;
   const [grain, setGrain] = useState(true);
   const [overlay, setOverlay] = useState<null | "overview" | "help" | "register">(null);
   const [notes, setNotes] = useState(false);
@@ -130,6 +133,12 @@ function Deck() {
     send({ type: "state", idx, step, lang });
   }, [idx, step, lang, send]);
   useEffect(() => { store.set("gid-lang", lang); }, [lang]);
+  // fallback in case the fade-out never reports completion (e.g. a hidden tab)
+  useEffect(() => {
+    if (lang === shownLang) return;
+    const to = setTimeout(() => setShownLang(lang), 1200);
+    return () => clearTimeout(to);
+  }, [lang, shownLang]);
   /* music: browsers only allow audio after a gesture, so it starts on the first key or click */
   useEffect(() => {
     store.set("gid-music", music ? "on" : "off");
@@ -226,7 +235,16 @@ function Deck() {
   return (
     <LangCtx.Provider value={lang}>
       <div className={`viewport ${idle && !overlay ? "cursor-hide" : ""}`} onWheel={onWheel} onPointerDown={onPointerDown} onPointerUp={onPointerUp}>
-        <div className="stage" dir={lang === "ar" ? "rtl" : "ltr"} lang={lang} style={{ transform: `scale(${scale})`, transformOrigin: "center", marginLeft: -960, marginTop: -540 }}>
+        <div className="stage" dir={shownLang === "ar" ? "rtl" : "ltr"} lang={shownLang} style={{ transform: `scale(${scale})`, transformOrigin: "center", marginLeft: -960, marginTop: -540 }}>
+          <LangCtx.Provider value={shownLang}>
+          <motion.div
+            // opacity only: a full-stage blur stalls heavy scenes (e.g. the map's 27 glowing pins) and flashes dark
+            style={{ position: "absolute", inset: 0, willChange: "opacity" }}
+            initial={false}
+            animate={{ opacity: swapping ? 0 : 1 }}
+            transition={swapping ? { duration: 0.28, ease: [0.4, 0, 1, 1] } : { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+            onAnimationComplete={() => { if (swapping) setShownLang(lang); }}
+          >
           <AnimatePresence mode="wait" custom={dir} initial={false}>
             <motion.div
               key={idx}
@@ -239,6 +257,8 @@ function Deck() {
               <C step={step} active />
             </motion.div>
           </AnimatePresence>
+          </motion.div>
+          </LangCtx.Provider>
 
           <div className="glow" />
           <div className="sheen" />
@@ -247,14 +267,14 @@ function Deck() {
 
           <AnimatePresence>
             {showChrome && (
-              <motion.div key="chrome" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }}>
-                <div className="chrome tl"><span className="mark">G</span><span>GID · {T(lang, ["IT & Call Center", "تقنية المعلومات ومركز الاتصال"])}</span></div>
+              <motion.div key="chrome" initial={{ opacity: 0 }} animate={{ opacity: swapping ? 0 : 1 }} exit={{ opacity: 0 }} transition={{ duration: swapping ? 0.3 : 0.8 }}>
+                <div className="chrome tl"><span className="mark">G</span><span>GID · {T(shownLang, ["IT & Call Center", "تقنية المعلومات ومركز الاتصال"])}</span></div>
                 <div className="chrome tr">
                   <AnimatePresence mode="wait">
-                    <motion.span key={idx + lang} initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} transition={{ duration: 0.4 }}>{T(lang, slide.chapter)}</motion.span>
+                    <motion.span key={idx + shownLang} initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }} transition={{ duration: 0.4 }}>{T(shownLang, slide.chapter)}</motion.span>
                   </AnimatePresence>
                 </div>
-                <div className="chrome bl"><span>{T(lang, ["Confidential · Board of Directors · October 2026", "سري · مجلس الإدارة · أكتوبر 2026"])}</span></div>
+                <div className="chrome bl"><span>{T(shownLang, ["Confidential · Board of Directors · October 2026", "سري · مجلس الإدارة · أكتوبر 2026"])}</span></div>
                 <div className="chrome br">
                   {slide.steps > 1 && <span className="stepdots">{Array.from({ length: slide.steps }, (_, i) => <i key={i} className={i <= step ? "on" : ""} />)}</span>}
                   <span className="ltr">{String(idx + 1).padStart(2, "0")} <span style={{ opacity: 0.5 }}>/ {DECK.length}</span></span>
